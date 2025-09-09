@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Backend\Auth;
 
+use App\Enums\UserSource;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,7 @@ class Register extends Component
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
+        $validated['source'] = UserSource::App;
 
         event(new Registered(($user = User::create($validated))));
 
