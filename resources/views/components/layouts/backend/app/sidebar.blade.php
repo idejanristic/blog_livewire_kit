@@ -17,7 +17,7 @@
             <flux:navlist.group :heading="__('Platform')" class="grid">
 
                 <flux:navlist.item icon="home" :href="route('backend.dashboard')"
-                    :current="request()->routeIs('backend.dashboard')">
+                    :current="request()->routeIs('backend.dashboard')" wire:navigate>
                     {{ __('Dashboard') }}
                 </flux:navlist.item>
 
@@ -65,7 +65,7 @@
                 <flux:menu.separator />
 
                 <flux:menu.radio.group>
-                    <flux:menu.item :href="route('backend.settings.profile')" icon="cog">
+                    <flux:menu.item :href="route('backend.settings.profile')" icon="cog" wire:navigate>
                         {{ __('Settings') }}
                     </flux:menu.item>
                 </flux:menu.radio.group>
@@ -113,7 +113,7 @@
                 <flux:menu.separator />
 
                 <flux:menu.radio.group>
-                    <flux:menu.item :href="route('backend.settings.profile')" icon="cog">
+                    <flux:menu.item :href="route('backend.settings.profile')" icon="cog" wire:navigate>
                         {{ __('Settings') }}
                     </flux:menu.item>
                 </flux:menu.radio.group>
