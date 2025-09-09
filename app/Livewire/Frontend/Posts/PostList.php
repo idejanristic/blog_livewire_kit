@@ -14,7 +14,7 @@ class PostList extends Component
 {
     use WithPagination;
 
-    protected int $perPage = 8;
+    protected int $perPage = 6;
 
     #[Url(as: 's', history: true)]
     public $search = '';
@@ -22,7 +22,8 @@ class PostList extends Component
     #[Computed()]
     public function posts(): Paginator
     {
-        return Post::latest()
+        return Post::with(relations: 'User')
+            ->latest()
             ->where(
                 column: 'title',
                 operator: 'like',
@@ -34,7 +35,8 @@ class PostList extends Component
     #[Computed()]
     public function total(): int
     {
-        return Post::latest()
+        return Post::with(relations: 'User')
+            ->latest()
             ->where(
                 column: 'title',
                 operator: 'like',

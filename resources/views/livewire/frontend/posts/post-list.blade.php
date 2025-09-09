@@ -13,10 +13,7 @@
         </div>
 
         @foreach ($posts as $post)
-            <div wire:key="{{ $post->id }}" class="mb-8">
-                <flux:heading>{{ $post->title }}</flux:heading>
-                <flux:text class="mt-2">{{ $post->excerpt }}</flux:text>
-            </div>
+            <x-posts.item :post="$post" />
         @endforeach
 
 
