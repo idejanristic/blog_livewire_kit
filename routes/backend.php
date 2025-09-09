@@ -5,14 +5,18 @@ use App\Livewire\Backend\Settings\Password;
 use App\Livewire\Backend\Settings\Profile;
 use Illuminate\Support\Facades\Route;
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
-Route::middleware(['auth'])->group(function () {
-    Route::redirect('settings', 'settings/profile');
+Route::prefix('backend')
+    ->name('backend.')
+    ->middleware(['auth'])
+    ->group(function () {
 
-    Route::get('settings/profile', Profile::class)->name('settings.profile');
-    Route::get('settings/password', Password::class)->name('settings.password');
-    Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
-});
+        Route::view('dashboard', 'pages.backend.dashboard')
+            ->middleware(['verified']) // dodaje se verified pored auth koji već važi za grupu
+            ->name('dashboard');
+
+        Route::redirect('settings', 'settings/profile');
+        Route::get('settings/profile', Profile::class)->name('settings.profile');
+        Route::get('settings/password', Password::class)->name('settings.password');
+        Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+    });
