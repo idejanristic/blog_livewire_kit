@@ -18,6 +18,17 @@
             <flux:navbar.item icon="home" :href="route('home')" :current="request()->routeIs('home')" wire:navigate>
                 Home
             </flux:navbar.item>
+            <flux:navbar.item icon="clipboard-document-list" :href="route('posts.index')"
+                :current="request()->routeIs('posts.index')" wire:navigate>
+                Blog
+            </flux:navbar.item>
+            <flux:navbar.item icon="user" :href="route('about')" :current="request()->routeIs('about')" wire:navigate>
+                About
+            </flux:navbar.item>
+            <flux:navbar.item icon="inbox" :href="route('contact')" :current="request()->routeIs('contact')"
+                wire:navigate>
+                Contact
+            </flux:navbar.item>
         </flux:navbar>
 
         <flux:spacer />
@@ -102,10 +113,26 @@
         </a>
 
         <flux:navlist variant="outline">
-            <flux:navlist.group :heading="__('Platform')">
-                <flux:navlist.item icon="home" :href="route('home')" :current="request()->routeIs('home')"
+            <flux:navlist.group :heading="__('Platform')" class="grid">
+
+                <flux:navlist.item icon="home" :href="route('backend.dashboard')" :current="request()->routeIs('home')"
                     wire:navigate>
-                    Home
+                    {{ __('Dashboard') }}
+                </flux:navlist.item>
+
+                <flux:navlist.item icon="clipboard-document-list" :href="route('posts.index')"
+                    :current="request()->routeIs('posts.index')" wire:navigate>
+                    Blog
+                </flux:navlist.item>
+
+                <flux:navlist.item icon="user" :href="route('about')" :current="request()->routeIs('about')"
+                    wire:navigate>
+                    About
+                </flux:navlist.item>
+
+                <flux:navlist.item icon="inbox" :href="route('contact')" :current="request()->routeIs('contact')"
+                    wire:navigate>
+                    Contact
                 </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>

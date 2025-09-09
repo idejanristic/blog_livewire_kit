@@ -51,8 +51,6 @@ class PostList extends Component
 
     public function render(): View
     {
-        sleep(2);
-
         return view(
             view: 'livewire.frontend.posts.post-list',
             data: [

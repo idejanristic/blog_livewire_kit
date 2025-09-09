@@ -1,5 +1,5 @@
 <div class="w-full h-full opacity-85 flex justify-center items-center bg-white dark:bg-zinc-900"">
-                                                        <svg width=" 40" height="10" viewBox="0 0 120 30"
+                                                        <svg width=" 60" height="15" viewBox="0 0 120 30"
     xmlns="http://www.w3.org/2000/svg" fill="#FF7042">
     <circle cx="15" cy="15" r="15">
         <animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear"
