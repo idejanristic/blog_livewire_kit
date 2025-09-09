@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Livewire\Settings;
+namespace App\Livewire\Backend\Settings;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('components.layouts.backend.app')]
 class Profile extends Component
 {
     public string $name = '';

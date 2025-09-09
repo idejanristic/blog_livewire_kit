@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Livewire\Auth;
+namespace App\Livewire\Backend\Auth;
+
+namespace App\Livewire\Backend\Auth;
 
 use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
@@ -8,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.auth')]
+#[Layout('components.layouts.backend.auth')]
 class VerifyEmail extends Component
 {
     /**

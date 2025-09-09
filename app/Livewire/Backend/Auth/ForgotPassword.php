@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Livewire\Auth;
+namespace App\Livewire\Backend\Auth;
 
 use Illuminate\Support\Facades\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.auth')]
+#[Layout('components.layouts.backend.auth')]
 class ForgotPassword extends Component
 {
     public string $email = '';
