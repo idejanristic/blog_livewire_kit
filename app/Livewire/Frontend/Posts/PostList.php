@@ -22,7 +22,7 @@ class PostList extends Component
     #[Computed()]
     public function posts(): Paginator
     {
-        return Post::with(relations: 'User')
+        return Post::with(relations: 'user')
             ->latest()
             ->where(
                 column: 'title',
@@ -35,7 +35,7 @@ class PostList extends Component
     #[Computed()]
     public function total(): int
     {
-        return Post::with(relations: 'User')
+        return Post::with(relations: 'user')
             ->latest()
             ->where(
                 column: 'title',

@@ -11,7 +11,7 @@ class PostList extends Component
 {
     public function posts(): Collection
     {
-        return Post::with(relations: 'User')
+        return Post::with(relations: 'user')
             ->latest()
             ->take(3)
             ->get();
