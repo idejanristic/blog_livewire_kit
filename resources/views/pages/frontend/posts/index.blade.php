@@ -1,4 +1,4 @@
-<x-layouts.frontend.app>
+<x-layouts.frontend.app title="Post" description="All posts published on demo blog">
     <x-pages.header title="Blog" subtitle="All posts from The Blog" />
 
     <flux:separator class="mb-6 mt-2" />

@@ -1,4 +1,4 @@
-<x-layouts.frontend.app.header :title="$title ?? null">
+<x-layouts.frontend.app.header :title="$title" :description="$description">
     <flux:main container>
         {{ $slot }}
 

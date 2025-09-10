@@ -2,7 +2,11 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
 
 <head>
-    @include('partials.frontend.head')
+    @include('partials.frontend.head', [
+        'author' => $author,
+        'title' => $title,
+        'description' => $description
+    ])
 </head>
 
 <body class="min-h-screen bg-white dark:bg-zinc-900">
@@ -19,7 +23,7 @@
                 Home
             </flux:navbar.item>
             <flux:navbar.item icon="clipboard-document-list" :href="route('posts.index')"
-                :current="request()->routeIs('posts.index')" wire:navigate>
+                :current="request()->routeIs('posts.*')" wire:navigate>
                 Blog
             </flux:navbar.item>
             <flux:navbar.item icon="user" :href="route('about')" :current="request()->routeIs('about')" wire:navigate>
