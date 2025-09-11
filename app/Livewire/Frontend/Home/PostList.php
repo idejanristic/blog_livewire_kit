@@ -3,6 +3,7 @@
 namespace App\Livewire\Frontend\Home;
 
 use App\Models\Post;
+use App\Repositories\PostRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
@@ -11,10 +12,9 @@ class PostList extends Component
 {
     public function posts(): Collection
     {
-        return Post::with(relations: 'user')
-            ->latest()
-            ->take(3)
-            ->get();
+        $postRepo = app(abstract: PostRepository::class);
+
+        return $postRepo->getFavorityPosts(perPage: 3);
     }
 
     public function render(): View

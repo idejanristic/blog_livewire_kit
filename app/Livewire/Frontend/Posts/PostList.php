@@ -3,6 +3,7 @@
 namespace App\Livewire\Frontend\Posts;
 
 use App\Models\Post;
+use App\Repositories\PostRepository;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Computed;
@@ -22,29 +23,18 @@ class PostList extends Component
     #[Computed()]
     public function posts(): Paginator
     {
-        return Post::with(relations: 'user')
-            ->latest()
-            ->whereNotNull('published_at')
-            ->where(
-                column: 'title',
-                operator: 'like',
-                value: "%{$this->search}%"
-            )
-            ->simplePaginate(perPage: $this->perPage);
+        return PostRepository::getPublishedPosts(
+            perPage: $this->perPage,
+            search: $this->search
+        );
     }
 
     #[Computed()]
     public function total(): int
     {
-        return Post::with(relations: 'user')
-            ->latest()
-            ->whereNotNull('published_at')
-            ->where(
-                column: 'title',
-                operator: 'like',
-                value: "%{$this->search}%"
-            )
-            ->count();
+        return PostRepository::getTotalNumberPublishedPosts(
+            search: $this->search
+        );
     }
 
     // resetuje paginator kad se search menja

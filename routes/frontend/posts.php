@@ -9,9 +9,12 @@ Route::get(uri: '/posts', action: function (): View {
     return view(view: 'pages.frontend.posts.index');
 })->name(name: 'posts.index');
 
-Route::get(uri: '/posts/create', action: function (): View {
-    return View(view: 'pages.frontend.posts.create');
-})->name(name: 'posts.create');
+Route::middleware(['auth'])
+    ->group(function () {
+        Route::get(uri: '/posts/create', action: function (): View {
+            return View(view: 'pages.frontend.posts.create');
+        })->name(name: 'posts.create');
+    });
 
 
 Route::get(uri: '/posts/user/{user}', action: function (User $user): View {

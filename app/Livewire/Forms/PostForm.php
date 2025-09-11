@@ -33,6 +33,7 @@ class PostForm extends Form
     public function store(int $user_id): Post
     {
         $validated =  $this->validate();
+
         $postService = app(abstract: PostService::class);
 
         return $postService->create(

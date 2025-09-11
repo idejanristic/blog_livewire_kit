@@ -3,6 +3,7 @@
 namespace App\Livewire\Frontend\Posts;
 
 use App\Models\Post;
+use App\Repositories\PostRepository;
 use Livewire\Component;
 
 class Actions extends Component
@@ -11,7 +12,9 @@ class Actions extends Component
 
     public function delete()
     {
-        $this->post->delete();
+        $postRepo = app(abstract: PostRepository::class);
+
+        $postRepo->delete($this->post);
 
         $previous = url()->previous();
 
