@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
 {
@@ -40,6 +41,16 @@ class Post extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(related: User::class);
+    }
+
+    /**
+     *
+     * @return BelongsToMany<Tag, Post, \Illuminate\Database\Eloquent\Relations\Pivot>
+     */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(related: Tag::class)
+            ->withTimestamps();
     }
 
     /**
