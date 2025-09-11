@@ -15,6 +15,7 @@ class PostList extends Component
 {
     use WithPagination;
 
+    #[Url(as: 'tag', history: true)]
     public int $tag = 0;
 
     protected $queryString = ['tag'];
@@ -50,6 +51,12 @@ class PostList extends Component
 
     // resetuje paginator kad se search menja
     public function updatedSearch(): void
+    {
+        $this->resetPage(pageName: 'posts');
+    }
+
+    // resetuje paginator kad se tag menja
+    public function updatedTag(): void
     {
         $this->resetPage(pageName: 'posts');
     }
