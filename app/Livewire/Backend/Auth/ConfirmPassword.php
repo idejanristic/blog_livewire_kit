@@ -7,7 +7,13 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.backend.auth')]
+#[Layout(
+    name: 'components.layouts.backend.auth',
+    params: [
+        'title' => '',
+        'description' => ''
+    ]
+)]
 class ConfirmPassword extends Component
 {
     public string $password = '';

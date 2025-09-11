@@ -10,7 +10,13 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.backend.auth')]
+#[Layout(
+    name: 'components.layouts.backend.auth',
+    params: [
+        'title' => '',
+        'description' => ''
+    ]
+)]
 class VerifyEmail extends Component
 {
     /**

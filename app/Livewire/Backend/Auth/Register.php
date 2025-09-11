@@ -11,7 +11,13 @@ use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.backend.auth')]
+#[Layout(
+    name: 'components.layouts.backend.auth',
+    params: [
+        'title' => 'Register page',
+        'description' => ''
+    ]
+)]
 class Register extends Component
 {
     public string $name = '';

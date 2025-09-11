@@ -12,7 +12,13 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-#[Layout('components.layouts.backend.auth')]
+#[Layout(
+    name: 'components.layouts.backend.auth',
+    params: [
+        'title' => 'Login page',
+        'description' => ''
+    ]
+)]
 class Login extends Component
 {
     #[Validate('required|string|email')]

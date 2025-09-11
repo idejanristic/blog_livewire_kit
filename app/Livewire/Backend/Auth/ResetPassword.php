@@ -12,7 +12,13 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-#[Layout('components.layouts.backend.auth')]
+#[Layout(
+    name: 'components.layouts.backend.auth',
+    params: [
+        'title' => '',
+        'description' => ''
+    ]
+)]
 class ResetPassword extends Component
 {
     #[Locked]
