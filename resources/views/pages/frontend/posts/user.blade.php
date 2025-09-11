@@ -5,8 +5,8 @@
         <flux:separator class="mb-6 mt-2" />
 
         <flux:breadcrumbs class="mb-4">
-            <flux:breadcrumbs.item href="{{ route('home') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item href="{{ route('posts.index') }}">Blog</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item href="{{ route('home') }}" wire:navigate>Home</flux:breadcrumbs.item>
+            <flux:breadcrumbs.item href="{{ route('posts.index') }}" wire:navigate>Blog</flux:breadcrumbs.item>
             <flux:breadcrumbs.item>
                 <span class="dark:text-orange-400 text-orange-700">{{ $user->name }}</span>
             </flux:breadcrumbs.item>

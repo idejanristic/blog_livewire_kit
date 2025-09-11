@@ -1,10 +1,16 @@
 {{-- @var \App\Models\Post $post --}}
-@aware(['post'])
+@aware(['post', 'page'])
 
-<article wire:key="{{ $post->id }}" {{ $attributes->merge(['class' => 'mb-3']) }}>
-    <flux:link variant="subtle" class="hover:opacity-80" :href="route('posts.show', ['post' => $post->id])"
-        wire:navigate>
-        <flux:heading size="xl" level="2">{{ $post->title }}</flux:heading>
-    </flux:link>
+<article {{ $attributes->merge(['class' => 'mb-3 w-full']) }}>
+    <div class="flex justify-between items-start">
+        <flux:link variant="subtle" class="hover:opacity-80 flex-1" :href="route('posts.show', ['post' => $post->id])"
+            wire:navigate>
+            <flux:heading size="xl" level="2">
+                {{ $post->title }}
+            </flux:heading>
+        </flux:link>
+
+        @livewire('frontend.posts.actions', ['post' => $post], key('post_actions_' . $post->id . '_page_' . $page))
+    </div>
     <flux:text class="mt-2">{{ $post->excerpt }}</flux:text>
 </article>

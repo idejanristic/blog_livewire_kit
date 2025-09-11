@@ -24,6 +24,7 @@ class PostList extends Component
     {
         return Post::with(relations: 'user')
             ->latest()
+            ->whereNotNull('published_at')
             ->where(
                 column: 'title',
                 operator: 'like',
@@ -37,6 +38,7 @@ class PostList extends Component
     {
         return Post::with(relations: 'user')
             ->latest()
+            ->whereNotNull('published_at')
             ->where(
                 column: 'title',
                 operator: 'like',
@@ -49,6 +51,11 @@ class PostList extends Component
     public function updatedSearch(): void
     {
         $this->resetPage(pageName: 'posts');
+    }
+
+    public function delete()
+    {
+        dd('test');
     }
 
     public function render(): View

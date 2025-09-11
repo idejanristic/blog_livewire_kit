@@ -11,15 +11,19 @@
         <flux:separator class="mb-6 mt-2" />
 
 
-        <flux:breadcrumbs class="mb-4">
-            <flux:breadcrumbs.item href="{{ route('home') }}">Home</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item href="{{ route('posts.index') }}">Blog</flux:breadcrumbs.item>
-            <flux:breadcrumbs.item>
-                <span class="dark:text-orange-400 text-orange-700">Post</span>
-            </flux:breadcrumbs.item>
-        </flux:breadcrumbs>
+        <div class="flex justify-between items-center">
+            <flux:breadcrumbs class="mb-4 flex-1">
+                <flux:breadcrumbs.item href="{{ route('home') }}" wire:navigate>Home</flux:breadcrumbs.item>
+                <flux:breadcrumbs.item href="{{ route('posts.index') }}" wire:navigate>Blog</flux:breadcrumbs.item>
+                <flux:breadcrumbs.item>
+                    <span class="dark:text-orange-400 text-orange-700">Post</span>
+                </flux:breadcrumbs.item>
+            </flux:breadcrumbs>
 
-        <x-posts.meta :post=" $post" class="mb-4" />
+            @livewire('frontend.posts.actions', ['post' => $post])
+        </div>
+
+        <x-posts.meta :post="$post" class="mb-4" showUserLink="true" />
 
         {{ $post->body }}
     </div>

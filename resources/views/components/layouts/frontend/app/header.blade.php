@@ -72,6 +72,9 @@
                                 <flux:menu.item :href="route('backend.dashboard')" icon="layout-grid" wire:navigate>
                                     {{ __('Dashboard') }}
                                 </flux:menu.item>
+                                <flux:menu.item :href="route('posts.create')" icon="clipboard-document" wire:navigate>
+                                    New post
+                                </flux:menu.item>
                                 <flux:menu.item :href="route('backend.settings.profile')" icon="cog" wire:navigate>
                                     {{ __('Settings') }}
                                 </flux:menu.item>

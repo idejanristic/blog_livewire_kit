@@ -30,6 +30,7 @@ class UserPostList extends Component
                 column: 'user_id',
                 operator: $this->user->id
             )
+            ->whereNotNull('published_at')
             ->where(
                 column: 'title',
                 operator: 'like',
@@ -46,6 +47,7 @@ class UserPostList extends Component
                 column: 'user_id',
                 operator: $this->user->id
             )
+            ->whereNotNull('published_at')
             ->where(
                 column: 'title',
                 operator: 'like',

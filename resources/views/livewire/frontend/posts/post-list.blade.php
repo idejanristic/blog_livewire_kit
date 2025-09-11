@@ -13,7 +13,7 @@
         </div>
 
         @foreach ($posts as $post)
-            <x-posts.post :post="$post">
+            <x-posts.post wire:key="post_{{ $post->id }}" :page="$posts->currentPage()" :post="$post">
                 <x-posts.item />
                 <x-posts.meta :showUserLink="true" />
             </x-posts.post>
