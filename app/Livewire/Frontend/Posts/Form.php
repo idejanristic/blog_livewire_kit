@@ -21,6 +21,11 @@ class Form extends Component
 
     public function update()
     {
+        $this->authorize(
+            ability: "update",
+            arguments: $this->post
+        );
+
         $id = $this->post->id;
 
         $this->form->update($this->post);

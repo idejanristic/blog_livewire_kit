@@ -43,11 +43,6 @@ class PostList extends Component
         $this->resetPage(pageName: 'posts');
     }
 
-    public function delete()
-    {
-        dd('test');
-    }
-
     public function render(): View
     {
         return view(

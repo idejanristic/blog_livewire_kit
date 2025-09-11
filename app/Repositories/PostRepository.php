@@ -54,12 +54,11 @@ class PostRepository
         return $post->delete();
     }
 
-    public function getFavorityPosts(int $perPage = 3): Collection
+    public static function getFavorityPosts(int $perPage = 3): Collection
     {
         /* todo  favority flag */
         return Post::with(relations: 'user')
             ->published()
-            ->latest()
             ->take(value: $perPage)
             ->get();
     }

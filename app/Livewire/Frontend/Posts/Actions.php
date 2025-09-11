@@ -12,6 +12,11 @@ class Actions extends Component
 
     public function delete()
     {
+        $this->authorize(
+            ability: "delete",
+            arguments: $this->post
+        );
+
         $postRepo = app(abstract: PostRepository::class);
 
         $postRepo->delete($this->post);

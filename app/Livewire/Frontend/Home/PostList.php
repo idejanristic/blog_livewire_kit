@@ -12,9 +12,7 @@ class PostList extends Component
 {
     public function posts(): Collection
     {
-        $postRepo = app(abstract: PostRepository::class);
-
-        return $postRepo->getFavorityPosts(perPage: 3);
+        return PostRepository::getFavorityPosts(perPage: 3);
     }
 
     public function render(): View
