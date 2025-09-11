@@ -15,17 +15,27 @@ class PostList extends Component
 {
     use WithPagination;
 
+    public int $tag = 0;
+
+    protected $queryString = ['tag'];
+
     protected int $perPage = 6;
 
     #[Url(as: 's', history: true)]
     public $search = '';
+
+    public function mount(): void
+    {
+        // $tag = request()->query(key: 'tag');
+    }
 
     #[Computed()]
     public function posts(): Paginator
     {
         return PostRepository::getPublishedPosts(
             perPage: $this->perPage,
-            search: $this->search
+            search: $this->search,
+            tagId: $this->tag
         );
     }
 
@@ -33,7 +43,8 @@ class PostList extends Component
     public function total(): int
     {
         return PostRepository::getTotalNumberPublishedPosts(
-            search: $this->search
+            search: $this->search,
+            tagId: $this->tag
         );
     }
 
@@ -49,7 +60,8 @@ class PostList extends Component
             view: 'livewire.frontend.posts.post-list',
             data: [
                 'posts' => $this->posts(),
-                'total' => $this->total()
+                'total' => $this->total(),
+                'tagId' => $this->tag
             ]
         );
     }

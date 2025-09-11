@@ -15,7 +15,7 @@ class PostSeeder extends Seeder
     public function run(): void
     {
         Post::factory(count: 300)->create()->each(function ($post): void {
-            $tags = Tag::inRandomOrder()->take(value: rand(min: 1, max: 5))->pluck(column: 'id');
+            $tags = Tag::inRandomOrder()->take(value: rand(min: 1, max: 3))->pluck(column: 'id');
 
             $post->tags()->attach($tags);
         });

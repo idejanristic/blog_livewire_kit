@@ -4,7 +4,8 @@
             class="flex max-w-xl flex-col items-start justify-start">
 
             <x-posts.date />
-            <x-posts.item class="mb-6" />
+            <x-posts.item />
+            <x-pages.tags :tags="$post->tags" class="mb-6" />
             <x-posts.author :user="$post->user" />
 
         </x-posts.post>

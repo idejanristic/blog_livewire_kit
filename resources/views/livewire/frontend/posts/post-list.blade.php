@@ -15,7 +15,8 @@
         @foreach ($posts as $post)
             <x-posts.post wire:key="post_{{ $post->id }}" :page="$posts->currentPage()" :post="$post">
                 <x-posts.item />
-                <x-posts.meta :showUserLink="true" />
+                <x-posts.meta :showUserLink="true" class="mb-4" />
+                <x-pages.tags :tags="$post->tags" :tagId="$tagId" />
             </x-posts.post>
         @endforeach
 

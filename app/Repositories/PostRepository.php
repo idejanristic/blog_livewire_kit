@@ -57,7 +57,7 @@ class PostRepository
     public static function getFavorityPosts(int $perPage = 3): Collection
     {
         /* todo  favority flag */
-        return Post::with(relations: 'user')
+        return Post::with(relations: ['user', 'tags'])
             ->published()
             ->take(value: $perPage)
             ->get();
@@ -68,10 +68,10 @@ class PostRepository
      * @param string $search
      * @return Builder<Post>
      */
-    private static function getPostsQuery(string $search = '', int $userId = 0): Builder
+    private static function getPostsQuery(string $search = '', int $userId = 0, int $tagId = 0): Builder
     {
         return Post::query()
-            ->with(relations: 'user')
+            ->with(relations: ['user', 'tags'])
             ->published()
             ->when(
                 value: $search !== '',
@@ -89,18 +89,25 @@ class PostRepository
                     $query->where(column: 'user_id', operator: $userId);
                 }
             )
+            ->when(
+                value: $tagId !== 0,
+                callback: fn(Builder $query): Builder => $query->whereHas(
+                    relation: 'tags',
+                    callback: fn(Builder $tagQuery): Builder => $tagQuery->where(column: 'tags.id', operator: $tagId)
+                )
+            )
             ->orderBy(column: 'published_at', direction: 'desc');
     }
 
-    public static function getPublishedPosts($perPage = 6, string $search = '', int $userId = 0): Paginator
+    public static function getPublishedPosts($perPage = 6, string $search = '', int $userId = 0, int $tagId = 0): Paginator
     {
-        return  self::getPostsQuery(search: $search, userId: $userId)
+        return  self::getPostsQuery(search: $search, userId: $userId, tagId: $tagId)
             ->simplePaginate(perPage: $perPage);
     }
 
-    public static function getTotalNumberPublishedPosts(string $search = '', int $userId = 0): int
+    public static function getTotalNumberPublishedPosts(string $search = '', int $userId = 0, int $tagId = 0): int
     {
-        return  self::getPostsQuery(search: $search,  userId: $userId)
+        return  self::getPostsQuery(search: $search,  userId: $userId, tagId: $tagId)
             ->count();
     }
 }
