@@ -7,7 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.backend.app')]
+#[Layout(
+    name: 'components.layouts.backend.app',
+    params: [
+        'title' => 'Delete User From',
+        'description' => ''
+    ]
+)]
 class DeleteUserForm extends Component
 {
     public string $password = '';

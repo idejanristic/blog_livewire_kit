@@ -20,8 +20,9 @@
                         <span class="dark:text-orange-400 text-orange-700">Post</span>
                     </flux:breadcrumbs.item>
                 </flux:breadcrumbs>
-
-                @livewire('frontend.posts.actions', ['post' => $post])
+                @auth
+                    @livewire('frontend.posts.actions', ['post' => $post])
+                @endauth
             </div>
 
             <x-posts.meta :post="$post" class="mb-4" showUserLink="true" />

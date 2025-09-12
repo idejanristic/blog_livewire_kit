@@ -9,7 +9,13 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.backend.app')]
+#[Layout(
+    name: 'components.layouts.backend.app',
+    params: [
+        'title' => 'Password',
+        'description' => ''
+    ]
+)]
 class Password extends Component
 {
     public string $current_password = '';

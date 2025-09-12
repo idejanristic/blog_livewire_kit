@@ -28,6 +28,23 @@ class ContactUs extends Component
         $post = $this->form->store(user_id: $user_id);
 
         $this->reset();
+
+        // $this->dispatch(event: 'toast', title: 'Success!!!', message: 'Uspešno sačuvano!');
+
+        // Success poruka
+        // $this->dispatch('toast', [
+        //     'title' => 'Uspeh!',
+        //     'message' => 'Podaci su sačuvani.',
+        //     'type' => 'success'
+        // ]);
+
+        // // // Error poruka
+        // $this->dispatch('toast', [
+        //     'title' => 'Greška!',
+        //     'message' => 'Nešto nije u redu.',
+        //     'type' => 'error',
+        //     'duration' => 6000, // opcionalno, 6s
+        // ]);
     }
 
     public function render(): View

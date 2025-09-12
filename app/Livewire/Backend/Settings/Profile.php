@@ -9,7 +9,13 @@ use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
-#[Layout('components.layouts.backend.app')]
+#[Layout(
+    'components.layouts.backend.app',
+    params: [
+        'title' => 'Profile page',
+        'description' => ''
+    ]
+)]
 class Profile extends Component
 {
     public string $name = '';
