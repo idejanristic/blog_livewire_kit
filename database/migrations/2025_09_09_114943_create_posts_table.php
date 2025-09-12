@@ -26,6 +26,11 @@ return new class extends Migration
                 $table->string(column: 'source');
                 $table->timestamp(column: 'published_at')->nullable();
                 $table->timestamps();
+
+                $table->index('user_id');
+                $table->index('published_at');
+
+                $table->fullText(['title', 'body']);
             }
         );
     }

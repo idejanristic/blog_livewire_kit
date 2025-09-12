@@ -15,7 +15,7 @@ return new class extends Migration
             table: 'tags',
             callback: function (Blueprint $table): void {
                 $table->id();
-                $table->string(column: 'name');
+                $table->string(column: 'name')->unique();
                 $table->string(column: 'source');
                 $table->timestamps();
             }

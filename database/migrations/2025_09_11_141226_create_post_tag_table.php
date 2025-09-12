@@ -24,9 +24,14 @@ return new class extends Migration
                     ->onDelete(action: 'cascade')
                     ->onUpdate(action: 'cascade');
 
+                // Timestamps
                 $table->timestamps();
 
+                // Primary key (post_id, tag_id)
                 $table->primary(columns: ['post_id', 'tag_id']);
+
+                // Opcioni složeni indeks za brze upite po tag_id i sort po post_id
+                $table->index(columns: ['tag_id', 'post_id']);
             }
         );
     }
