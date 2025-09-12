@@ -3,10 +3,13 @@
 namespace App\Repositories;
 
 use App\Dtos\PostDto;
+use App\Dtos\PostFilterDto;
 use App\Models\Post;
+use App\Repositories\Filters\SearchFilter;
+use App\Repositories\Filters\TagFilter;
+use App\Repositories\Filters\UserFilter;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Builder;
 
 class PostRepository
 {
@@ -66,48 +69,39 @@ class PostRepository
     /**
      * Summary of getPostsQuery
      * @param string $search
-     * @return Builder<Post>
      */
-    private static function getPostsQuery(string $search = '', int $userId = 0, int $tagId = 0): Builder
+    private static function getPostsQuery(PostFilterDto $filters)
     {
+        if ($filters === null) {
+            $filters = new PostFilterDto();
+        }
+
         return Post::query()
             ->with(relations: ['user', 'tags'])
             ->published()
-            ->when(
-                value: $search !== '',
-                callback: function (Builder $query) use ($search): void {
-                    $query->where(
-                        column: 'title',
-                        operator: 'like',
-                        value: "%{$search}%"
-                    );
-                }
-            )
-            ->when(
-                value: $userId !== 0,
-                callback: function (Builder $query) use ($userId): void {
-                    $query->where(column: 'user_id', operator: $userId);
-                }
-            )
-            ->when(
-                value: $tagId !== 0,
-                callback: fn(Builder $query): Builder => $query->whereHas(
-                    relation: 'tags',
-                    callback: fn(Builder $tagQuery): Builder => $tagQuery->where(column: 'tags.id', operator: $tagId)
-                )
-            )
+            ->tap(callback: new SearchFilter(search: $filters->search))
+            ->tap(callback: new UserFilter(userId: $filters->userId))
+            ->tap(callback: new TagFilter(tagId: $filters->tagId))
             ->orderBy(column: 'published_at', direction: 'desc');
     }
 
-    public static function getPublishedPosts($perPage = 6, string $search = '', int $userId = 0, int $tagId = 0): Paginator
+    public static function getPublishedPosts($perPage = 6, PostFilterDto $filters): Paginator
     {
-        return  self::getPostsQuery(search: $search, userId: $userId, tagId: $tagId)
+        if ($filters === null) {
+            $filters = new PostFilterDto();
+        }
+
+        return  self::getPostsQuery(filters: $filters)
             ->simplePaginate(perPage: $perPage);
     }
 
-    public static function getTotalNumberPublishedPosts(string $search = '', int $userId = 0, int $tagId = 0): int
+    public static function getTotalNumberPublishedPosts(PostFilterDto $filters): int
     {
-        return  self::getPostsQuery(search: $search,  userId: $userId, tagId: $tagId)
+        if ($filters === null) {
+            $filters = new PostFilterDto();
+        }
+
+        return  self::getPostsQuery(filters: $filters)
             ->count();
     }
 }

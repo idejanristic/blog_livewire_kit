@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Frontend\Posts;
 
+use App\Dtos\PostFilterDto;
 use App\Models\User;
 use App\Repositories\PostRepository;
 use Illuminate\Contracts\Pagination\Paginator;
@@ -27,8 +28,12 @@ class UserPostList extends Component
     {
         return PostRepository::getPublishedPosts(
             perPage: $this->perPage,
-            search: $this->search,
-            userId: $this->user->id
+            filters: PostFilterDto::apply(
+                data: [
+                    'search' => $this->search,
+                    'userId' => $this->user->id
+                ]
+            )
         );
     }
 
@@ -36,8 +41,12 @@ class UserPostList extends Component
     public function total(): int
     {
         return PostRepository::getTotalNumberPublishedPosts(
-            search: $this->search,
-            userId: $this->user->id
+            filters: PostFilterDto::apply(
+                data: [
+                    'search' => $this->search,
+                    'userId' => $this->user->id
+                ]
+            )
         );
     }
 

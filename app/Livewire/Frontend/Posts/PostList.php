@@ -2,14 +2,14 @@
 
 namespace App\Livewire\Frontend\Posts;
 
-use App\Models\Post;
+use Livewire\Component;
+use App\Dtos\PostFilterDto;
+use Livewire\Attributes\Url;
+use Livewire\WithPagination;
+use Livewire\Attributes\Computed;
+use Illuminate\Contracts\View\View;
 use App\Repositories\PostRepository;
 use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Contracts\View\View;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Url;
-use Livewire\Component;
-use Livewire\WithPagination;
 
 class PostList extends Component
 {
@@ -35,8 +35,12 @@ class PostList extends Component
     {
         return PostRepository::getPublishedPosts(
             perPage: $this->perPage,
-            search: $this->search,
-            tagId: $this->tag
+            filters: PostFilterDto::apply(
+                data: [
+                    'search' => $this->search,
+                    'tagId' => $this->tag
+                ]
+            )
         );
     }
 
@@ -44,8 +48,12 @@ class PostList extends Component
     public function total(): int
     {
         return PostRepository::getTotalNumberPublishedPosts(
-            search: $this->search,
-            tagId: $this->tag
+            filters: PostFilterDto::apply(
+                data: [
+                    'search' => $this->search,
+                    'tagId' => $this->tag
+                ]
+            )
         );
     }
 

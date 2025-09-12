@@ -13,7 +13,7 @@ class PostDto
     public readonly Carbon $published_at;
     public readonly PostSource $source;
 
-    public function __construct(
+    private function __construct(
         string $title,
         string $excerpt,
         string $body,
