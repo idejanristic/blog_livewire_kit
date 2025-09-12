@@ -62,13 +62,23 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the articles for user
+     * Get the posts for user
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function articles(): HasMany
+    public function posts(): HasMany
     {
         return $this->hasMany(related: 'App\Models\Post');
+    }
+
+    /**
+     * Get the feedbacks for user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function feedbacks(): HasMany
+    {
+        return $this->hasMany(related: 'App\Models\Feedback');
     }
 
     /**
