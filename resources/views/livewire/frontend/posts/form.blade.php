@@ -7,7 +7,7 @@
 
     <flux:field>
         <flux:label>Excerpt</flux:label>
-        <flux:textarea wire:model.live.debounce.500ms="form.excerpt" />
+        <flux:textarea wire:model.live.debounce.500ms="form.excerpt" rows="2" />
         <flux:error name="form.excerpt" />
     </flux:field>
 
@@ -19,11 +19,13 @@
 
     <flux:field>
         <flux:label>Body:</flux:label>
-        <flux:textarea wire:model.live.debounce.500ms="form.body" />
+        <flux:textarea wire:model.live.debounce.500ms="form.body" rows="8" />
         <flux:error name="form.body" />
     </flux:field>
 
     <div class="flex items-center justify-end">
-        <flux:button variant="danger" type="submit" class="w-full">Add post</flux:button>
+        <flux:button variant="danger" type="submit" class="w-full">
+            {{ $post && $post->exists ? 'Edit post' : 'Add post' }}
+        </flux:button>
     </div>
 </form>
