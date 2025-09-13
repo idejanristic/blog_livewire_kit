@@ -3,5 +3,11 @@
         {{ $slot }}
 
         @include('partials.frontend.footer')
+
+        @if(session()->has('toast'))
+            <script>
+                window.dispatchEvent(new CustomEvent('toast', { detail: @json(session('toast')) }));
+            </script>
+        @endif
     </flux:main>
 </x-layouts.frontend.app.header>

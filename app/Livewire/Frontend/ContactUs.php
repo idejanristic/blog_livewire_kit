@@ -4,11 +4,14 @@ namespace App\Livewire\Frontend;
 
 use App\Livewire\Forms\ContactForm;
 use App\Models\User;
+use App\Traits\Toastable;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class ContactUs extends Component
 {
+    use Toastable;
+
     public ?User $user;
     public ContactForm $form;
 
@@ -29,22 +32,10 @@ class ContactUs extends Component
 
         $this->reset();
 
-        // $this->dispatch(event: 'toast', title: 'Success!!!', message: 'Uspešno sačuvano!');
-
-        // Success poruka
-        // $this->dispatch('toast', [
-        //     'title' => 'Uspeh!',
-        //     'message' => 'Podaci su sačuvani.',
-        //     'type' => 'success'
-        // ]);
-
-        // // // Error poruka
-        // $this->dispatch('toast', [
-        //     'title' => 'Greška!',
-        //     'message' => 'Nešto nije u redu.',
-        //     'type' => 'error',
-        //     'duration' => 6000, // opcionalno, 6s
-        // ]);
+        $this->toastSuccess(
+            withSession: false,
+            message: 'Message sent successfully'
+        );
     }
 
     public function render(): View

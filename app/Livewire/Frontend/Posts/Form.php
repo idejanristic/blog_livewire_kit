@@ -2,12 +2,15 @@
 
 namespace App\Livewire\Frontend\Posts;
 
+use App\Traits\Toastable;
 use Livewire\Component;
 use App\Livewire\Forms\PostForm;
 use App\Models\Post;
 
 class Form extends Component
 {
+    use Toastable;
+
     public Post $post;
     public PostForm $form;
 
@@ -26,30 +29,69 @@ class Form extends Component
             arguments: $this->post
         );
 
-        $id = $this->post->id;
+        try {
+            $id = $this->post->id;
 
-        $this->form->update($this->post);
+            $this->form->update($this->post);
 
-        $this->reset();
+            $this->reset();
 
-        return $this->redirect(
-            url: "/posts/{$id}",
-            navigate: true
-        );
+            $this->toastSuccess(
+                withSession: true,
+                message: 'Post edited successfully'
+            );
+
+            return $this->redirect(
+                url: "/posts/{$id}",
+                navigate: true
+            );
+        } catch (\Throwable $e) {
+
+            $this->toastError(
+                withSession: false,
+                message: $e->getMessage()
+            );
+
+
+            $this->resetErrorBag();
+        }
     }
 
     public function store()
     {
-        $user_id = auth()->user()->id;
+        try {
+            $user_id = auth()->user()->id;
 
-        $post = $this->form->store(user_id: $user_id);
+            $post = $this->form->store(user_id: $user_id);
 
-        $this->reset();
+            if (!$post) {
+                $this->toastError(
+                    withSession: false,
+                    message: 'Post not created'
+                );
+                return;
+            }
 
-        return $this->redirect(
-            url: '/posts/user/' . $user_id,
-            navigate: true
-        );
+            $this->reset();
+
+            $this->toastSuccess(
+                withSession: true,
+                message: 'Post added successfully'
+            );
+
+            return $this->redirect(
+                url: '/posts/user/' . $user_id,
+                navigate: true
+            );
+        } catch (\Throwable $e) {
+
+            $this->toastError(
+                withSession: false,
+                message: $e->getMessage()
+            );
+
+            $this->resetErrorBag();
+        }
     }
 
     public function render()

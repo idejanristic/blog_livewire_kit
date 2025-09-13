@@ -14,6 +14,12 @@ Route::middleware(['auth'])
         Route::get(uri: '/posts/create', action: function (): View {
             return View(view: 'pages.frontend.posts.create');
         })->name(name: 'posts.create');
+
+        Route::get(uri: '/posts/{post}/edit', action: function (Post $post): View {
+            return View(view: 'pages.frontend.posts.edit', data: [
+                'post' => $post
+            ]);
+        })->name(name: 'posts.edit');
     });
 
 
@@ -34,9 +40,3 @@ Route::get(uri: '/posts/{post}', action: function (Post $post): View {
         ]
     );
 })->name(name: 'posts.show');
-
-Route::get(uri: '/posts/{post}/edit', action: function (Post $post): View {
-    return View(view: 'pages.frontend.posts.edit', data: [
-        'post' => $post
-    ]);
-})->name(name: 'posts.edit');
