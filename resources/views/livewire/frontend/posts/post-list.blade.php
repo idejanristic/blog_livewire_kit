@@ -36,4 +36,6 @@
             <x-spinner />
         </div>
     @endempty
+
+    <x-posts.delete />
 </div>

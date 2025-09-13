@@ -26,19 +26,17 @@ class Actions extends Component
 
         $previous = url()->previous();
 
+        $this->toastSuccess(
+            withSession: true,
+            message: 'Post deleted successfully'
+        );
+
         if (str_contains(haystack: $previous, needle: "/posts/{$this->post->id}")) {
             return $this->redirectRoute(name: 'posts.index', navigate: true);
         }
 
-        $this->toastSuccess(
-            withSession: false,
-            message: 'Post deleted successfully'
-        );
-
         return $this->redirect(url: $previous, navigate: true);
     }
-
-
 
     public function render()
     {

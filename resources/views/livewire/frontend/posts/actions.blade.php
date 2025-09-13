@@ -10,8 +10,11 @@
                 icon="pencil-square" wire:navigate>Edit</flux:navmenu.item>
         @endcan
         @can(['delete'], $post)
-            <flux:navmenu.separator />
-            <flux:navmenu.item wire:click="delete" icon="trash" variant="danger">Delete</flux:navmenu.item>
+            <flux:navmenu.item x-data data-id="{{ $post->id }}" data-component-id="{{ $this->getId() }}" @click="window.dispatchEvent(
+                                        new CustomEvent('open-delete-confirmation', { detail: { id: $el.dataset.id, componentId: $el.dataset.componentId  }})
+                                    )" icon="trash" variant="danger">
+                Delete
+            </flux:navmenu.item>
         @endcan
     </flux:navmenu>
 

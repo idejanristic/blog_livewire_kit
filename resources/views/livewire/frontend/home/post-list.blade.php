@@ -10,4 +10,6 @@
 
         </x-posts.post>
     @endforeach
+
+    <x-posts.delete />
 </div>

@@ -34,4 +34,6 @@
             <x-pages.tags :tags="$allTags" :tagId="$tagId" />
         </div>
     </div>
+
+    <x-posts.delete />
 </x-layouts.frontend.app>
