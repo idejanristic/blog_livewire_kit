@@ -23,7 +23,7 @@ class Form extends Component
     {
         $this->form->selectedTags = array_column($stags, 'id');
     }
-    public function mount(Post $post)
+    public function mount(Post $post): void
     {
         if ($post->exists) {
             $this->form->setPost(post: $post);
@@ -39,9 +39,9 @@ class Form extends Component
         );
 
         try {
-            $id = $this->post->id;
+            $post = $this->post;
 
-            $this->form->update($this->post);
+            $this->form->update(post: $post);
 
             $this->reset();
 
@@ -51,14 +51,15 @@ class Form extends Component
             );
 
             UserActivityService::log(
-                model: $this->post,
+                model: $post,
                 type: UserAcivityType::Updated,
-                content: 'Post "' . $this->post->title . '" was updated',
+                content: 'Post "' . $post->title . '" was updated',
                 ip: request()->ip()
             );
 
-            return $this->redirect(
-                url: "/posts/{$id}",
+            return $this->redirectRoute(
+                name: 'user.posts.edit',
+                parameters: ['post' => $post->id],
                 navigate: true
             );
         } catch (\Throwable $e) {
@@ -102,8 +103,8 @@ class Form extends Component
                 ip: request()->ip()
             );
 
-            return $this->redirect(
-                url: '/posts/user/' . $user_id,
+            return $this->redirectRoute(
+                name: 'user.center.show',
                 navigate: true
             );
         } catch (\Throwable $e) {

@@ -1,8 +1,10 @@
 <x-layouts.frontend.app title="Create post" description="form for create post">
 
-    <x-pages.header title="Create a new post" />
+    <x-pages.header title="User Centar" subtitle="Create a new post" />
 
-    <flux:separator class="mb-6 mt-2" />
+    <flux:separator class="mb-3 mt-2" />
+
+    <x-pages.user-centar-nav />
 
     <div class="flex flex-col lg:flex-row gap-6">
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Frontend\Posts;
+namespace App\Livewire\Frontend\User;
 
 use App\Dtos\PostFilterDto;
 use App\Models\User;
@@ -12,7 +12,7 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class UserPostList extends Component
+class PostList extends Component
 {
     public User $user;
 
@@ -60,7 +60,7 @@ class UserPostList extends Component
     public function render(): View
     {
         return view(
-            view: 'livewire.frontend.posts.user-post-list',
+            view: 'livewire.frontend.user.post-list',
             data: [
                 'posts' => $this->posts(),
                 'total' => $this->total()

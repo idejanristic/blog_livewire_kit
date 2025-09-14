@@ -16,7 +16,8 @@ class UserSeeder extends Seeder
             'name' => env(key: 'ADMIN_NAME', default: 'Admin'),
             'email' => env(key: 'ADMIN_EMAIL', default: 'dejanr77@yahoo.com'),
             'password' => bcrypt(env(key: 'ADMIN_PASSWORD', default: '12345678')),
-            'email_verified_at' => now()
+            'email_verified_at' => now(),
+            'is_admin' => true
         ]);
 
         User::factory(count: 29)->create();

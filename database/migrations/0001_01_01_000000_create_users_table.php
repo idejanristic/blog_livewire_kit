@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string(column: 'source');
+            $table->boolean('is_admin')->default(false);
             $table->timestamps();
         });
 

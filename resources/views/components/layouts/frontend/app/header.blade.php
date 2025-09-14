@@ -69,15 +69,23 @@
                             <flux:menu.separator />
 
                             <flux:menu.radio.group>
+                                <flux:menu.item :href="route('user.center.show')" icon="building-office" wire:navigate>
+                                    User Centar
+                                </flux:menu.item>
+                                @if(auth()->user()->is_admin)
                                 <flux:menu.item :href="route('backend.dashboard')" icon="layout-grid" wire:navigate>
                                     {{ __('Dashboard') }}
                                 </flux:menu.item>
-                                <flux:menu.item :href="route('posts.create')" icon="clipboard-document" wire:navigate>
-                                    New post
-                                </flux:menu.item>
+                                @endif
+                                @if(auth()->user()->is_admin)
                                 <flux:menu.item :href="route('backend.settings.profile')" icon="cog" wire:navigate>
                                     {{ __('Settings') }}
                                 </flux:menu.item>
+                                @else
+                                <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>
+                                    {{ __('Settings') }}
+                                </flux:menu.item>
+                                 @endif
                             </flux:menu.radio.group>
 
                             <flux:menu.separator />

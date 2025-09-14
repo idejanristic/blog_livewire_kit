@@ -15,7 +15,7 @@
                 </flux:breadcrumbs.item>
             </flux:breadcrumbs>
 
-            @livewire(name: 'frontend.posts.user-post-list', params: ['user' => $user])
+            @livewire(name: 'frontend.user.post-list', params: ['user' => $user])
         </div>
 
         <div class="w-full lg:w-1/3">

@@ -6,7 +6,9 @@
             <x-posts.date />
             <x-posts.item />
             <x-pages.tags :tags="$post->tags" class="mb-6" />
-            <x-posts.author :user="$post->user" />
+            @if($post->user)
+                <x-posts.author :user="$post->user" />
+            @endif
 
         </x-posts.post>
     @endforeach
