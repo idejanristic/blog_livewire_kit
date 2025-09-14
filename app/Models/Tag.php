@@ -34,4 +34,15 @@ class Tag extends Model
         return $this->belongsToMany(related: Post::class)
             ->withTimestamps();
     }
+
+    public function getPostsCountAttribute(): int
+    {
+        // Ako je učitano preko withCount, koristi ga
+        if (array_key_exists('posts_count', $this->attributes)) {
+            return (int) $this->attributes['posts_count'];
+        }
+
+        // Inače uradi count na zahtev
+        return $this->posts()->count();
+    }
 }

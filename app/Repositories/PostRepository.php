@@ -91,7 +91,12 @@ class PostRepository
         }
 
         return Post::query()
-            ->with(relations: ['user', 'tags'])
+            ->with(relations: [
+                'user',
+                'tags' => function ($query) {
+                    $query->withCount('posts'); // svaki tag unutar posta ima posts_count
+                }
+            ])
             ->published()
             ->tap(callback: new SearchFilter(search: $filters->search))
             ->tap(callback: new UserFilter(userId: $filters->userId))

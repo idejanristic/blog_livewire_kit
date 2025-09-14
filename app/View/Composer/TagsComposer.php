@@ -11,7 +11,7 @@ class TagsComposer
     {
         $view->with(
             key: 'allTags',
-            value: Tag::all()
+            value: Tag::withCount(relations: 'posts')->get()
         );
 
         $view->with(
