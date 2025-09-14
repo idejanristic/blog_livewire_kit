@@ -8,6 +8,7 @@
         <div class="w-full min-h-150 lg:w-2/3">
             @livewire('frontend.posts.form', [
                 'post' => $post,
+                'tags' => $allTags->toArray(),
             ])
         </div>
 

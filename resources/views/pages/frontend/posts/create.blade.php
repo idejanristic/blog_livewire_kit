@@ -7,7 +7,7 @@
     <div class="flex flex-col lg:flex-row gap-6">
 
         <div class="w-full min-h-150 lg:w-2/3">
-            @livewire('frontend.posts.form')
+            @livewire('frontend.posts.form', ['tags' => $allTags->toArray()])
         </div>
 
         <div class="w-full lg:w-1/3">

@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
+use App\Models\Post;
 use App\Dtos\PostDto;
 use App\Dtos\PostFilterDto;
-use App\Models\Post;
-use App\Repositories\Filters\SearchFilter;
 use App\Repositories\Filters\TagFilter;
 use App\Repositories\Filters\UserFilter;
-use Illuminate\Contracts\Pagination\Paginator;
+use App\Repositories\Filters\SearchFilter;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class PostRepository
 {
@@ -57,6 +57,20 @@ class PostRepository
         return $post->delete();
     }
 
+    /**
+     * @param \App\Dtos\PostDto $dto
+     * @param \App\Models\Post $post
+     * @return void
+     */
+    public function tagsSync(PostDto $dto, Post $post): void
+    {
+        $post->tags()->sync(ids: $dto->tags);
+    }
+
+    /**
+     * @param int $perPage
+     * @return Collection<int, Post>
+     */
     public static function getFavorityPosts(int $perPage = 3): Collection
     {
         /* todo  favority flag */
@@ -85,6 +99,11 @@ class PostRepository
             ->orderBy(column: 'published_at', direction: 'desc');
     }
 
+    /**
+     * @param mixed $perPage
+     * @param \App\Dtos\PostFilterDto $filters
+     * @return Paginator
+     */
     public static function getPublishedPosts($perPage = 6, PostFilterDto $filters): Paginator
     {
         if ($filters === null) {
@@ -95,6 +114,10 @@ class PostRepository
             ->simplePaginate(perPage: $perPage);
     }
 
+    /**
+     * @param \App\Dtos\PostFilterDto $filters
+     * @return int
+     */
     public static function getTotalNumberPublishedPosts(PostFilterDto $filters): int
     {
         if ($filters === null) {

@@ -2,14 +2,18 @@
 
 namespace App\Livewire\Forms;
 
-use App\Dtos\PostDto;
+use Livewire\Form;
 use App\Models\Post;
+use App\Dtos\PostDto;
 use App\Services\PostService;
 use Livewire\Attributes\Validate;
-use Livewire\Form;
 
 class PostForm extends Form
 {
+    #[Validate('array')]                // mora biti niz
+    #[Validate('exists:tags,id')]
+    public array $selectedTags = [];
+
     #[Validate(rule: 'required|min:3|max:255')]
     public string $title;
 
@@ -28,6 +32,8 @@ class PostForm extends Form
         $this->excerpt = $post->excerpt;
         $this->published_at = $post->published_at ? $post->published_at->format('Y-m-d') : null;
         $this->body = $post->body;
+
+        $this->selectedTags = $post->tags()->pluck('id')->toArray();
     }
 
     public function store(int $user_id): Post

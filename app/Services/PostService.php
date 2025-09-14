@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Dtos\PostDto;
 use App\Models\Post;
+use App\Dtos\PostDto;
 use App\Repositories\PostRepository;
 
 class PostService
@@ -19,8 +19,15 @@ class PostService
      */
     public function create(PostDto $dto, int $userId): Post
     {
-        return $this->postRepository
+        $post =  $this->postRepository
             ->create(dto: $dto, userId: $userId);
+
+        if ($post && count(value: $dto->tags) > 0) {
+            $this->postRepository
+                ->tagsSync(dto: $dto, post: $post);
+        }
+
+        return $post;
     }
 
     /**
@@ -30,7 +37,14 @@ class PostService
      */
     public function update(PostDto $dto, Post $post): bool
     {
-        return $this->postRepository
+        $status =  $this->postRepository
             ->update(dto: $dto, post: $post);
+
+        if ($status && count(value: $dto->tags) > 0) {
+            $this->postRepository
+                ->tagsSync(dto: $dto, post: $post);
+        }
+
+        return $status;
     }
 }

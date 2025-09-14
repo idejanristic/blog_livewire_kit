@@ -27,6 +27,8 @@
 
             <x-posts.meta :post="$post" class="mb-4" showUserLink="true" />
 
+            <x-pages.tags :tags="$post->tags" class="mb-6" />
+
             {{ $post->body }}
         </div>
 

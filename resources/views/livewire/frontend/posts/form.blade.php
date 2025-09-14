@@ -1,3 +1,5 @@
+@props(['tags' => []])
+
 <form wire:submit="{{ $post && $post->exists ? 'update' : 'store' }}" class="flex flex-col gap-6">
     <flux:field>
         <flux:label>Title</flux:label>
@@ -16,6 +18,15 @@
         <flux:input wire:model="form.published_at" type="date" max="2999-12-31" />
         <flux:error name="form.published_at" />
     </flux:field>
+
+    @livewire('frontend.tags-select', [
+        'tags' => $tags,
+        'selected' =>  collect($form->selectedTags)
+            ->map(fn($id) => collect($tags)->firstWhere('id', $id))
+            ->filter()
+            ->values()
+            ->all()
+        ])
 
     <flux:field>
         <flux:label>Body:</flux:label>

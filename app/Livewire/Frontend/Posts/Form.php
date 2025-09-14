@@ -6,14 +6,21 @@ use App\Traits\Toastable;
 use Livewire\Component;
 use App\Livewire\Forms\PostForm;
 use App\Models\Post;
+use App\Models\Tag;
+use Livewire\Attributes\On;
 
 class Form extends Component
 {
     use Toastable;
-
+    public array $tags;
     public Post $post;
     public PostForm $form;
 
+    #[On('tagsSelected')]
+    public function updatedTags(array $stags = []): void
+    {
+        $this->form->selectedTags = array_column($stags, 'id');
+    }
     public function mount(Post $post)
     {
         if ($post->exists) {
