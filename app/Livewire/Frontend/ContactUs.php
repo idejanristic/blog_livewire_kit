@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Frontend;
 
+use App\Enums\UserAcivityType;
 use App\Livewire\Forms\ContactForm;
 use App\Models\User;
+use App\Services\UserActivityService;
 use App\Traits\Toastable;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
@@ -26,11 +28,18 @@ class ContactUs extends Component
 
     public function send()
     {
-        $user_id = auth()->user()->id ?? null;
+        $user = auth()->user() ?? null;
 
-        $post = $this->form->store(user_id: $user_id);
+        $feeeback = $this->form->store(user_id: $user->id);
 
         $this->reset();
+
+        UserActivityService::log(
+            model: $feeeback,
+            type: UserAcivityType::Sent,
+            content: 'User "' . $user->email . '" was sent',
+            ip: request()->ip()
+        );
 
         $this->toastSuccess(
             withSession: false,

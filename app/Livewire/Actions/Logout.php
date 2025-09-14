@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Actions;
 
+use App\Enums\UserAcivityType;
+use App\Services\UserActivityService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -12,6 +14,15 @@ class Logout
      */
     public function __invoke()
     {
+        $user = auth()->user();
+
+        UserActivityService::log(
+            model: $user,
+            type: UserAcivityType::Logout,
+            content: 'User "' . $user->email . '" was logout',
+            ip: request()->ip()
+        );
+
         Auth::guard('web')->logout();
 
         Session::invalidate();

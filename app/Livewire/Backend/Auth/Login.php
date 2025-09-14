@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Backend\Auth;
 
+use App\Enums\UserAcivityType;
+use App\Services\UserActivityService;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -48,6 +50,15 @@ class Login extends Component
 
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
+
+        $user = auth()->user();
+
+        UserActivityService::log(
+            model: $user,
+            type: UserAcivityType::Login,
+            content: 'User "' . $user->email . '" was login',
+            ip: request()->ip()
+        );
 
         $this->redirectIntended(default: route('backend.dashboard', absolute: false), navigate: true);
     }

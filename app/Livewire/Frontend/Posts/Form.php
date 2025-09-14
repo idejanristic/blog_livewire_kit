@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Frontend\Posts;
 
+use App\Enums\UserAcivityType;
 use App\Traits\Toastable;
 use Livewire\Component;
 use App\Livewire\Forms\PostForm;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Services\UserActivityService;
 use Livewire\Attributes\On;
 
 class Form extends Component
@@ -48,6 +50,13 @@ class Form extends Component
                 message: 'Post edited successfully'
             );
 
+            UserActivityService::log(
+                model: $this->post,
+                type: UserAcivityType::Updated,
+                content: 'Post "' . $this->post->title . '" was updated',
+                ip: request()->ip()
+            );
+
             return $this->redirect(
                 url: "/posts/{$id}",
                 navigate: true
@@ -84,6 +93,13 @@ class Form extends Component
             $this->toastSuccess(
                 withSession: true,
                 message: 'Post added successfully'
+            );
+
+            UserActivityService::log(
+                model: $post,
+                type: UserAcivityType::Created,
+                content: 'Post "' . $post->title . '" was created',
+                ip: request()->ip()
             );
 
             return $this->redirect(
