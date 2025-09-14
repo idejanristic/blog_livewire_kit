@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Enums\TagSource;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tag extends Model
@@ -37,12 +38,29 @@ class Tag extends Model
 
     public function getPostsCountAttribute(): int
     {
-        // Ako je učitano preko withCount, koristi ga
+        // If loaded via withCount, use it
         if (array_key_exists('posts_count', $this->attributes)) {
             return (int) $this->attributes['posts_count'];
         }
 
-        // Inače uradi count na zahtev
         return $this->posts()->count();
+    }
+
+    /**
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::saved(
+            callback: function ($post): void {
+                Cache::forget(key: 'tags_with_posts_count');
+            }
+        );
+
+        static::deleted(
+            callback: function ($post): void {
+                Cache::forget(key: 'tags_with_posts_count');
+            }
+        );
     }
 }

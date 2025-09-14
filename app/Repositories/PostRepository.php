@@ -74,7 +74,12 @@ class PostRepository
     public static function getFavorityPosts(int $perPage = 3): Collection
     {
         /* todo  favority flag */
-        return Post::with(relations: ['user', 'tags'])
+        return Post::with(relations: [
+            'user',
+            'tags' => function ($query): void {
+                $query->withCount('posts');
+            }
+        ])
             ->published()
             ->take(value: $perPage)
             ->get();
@@ -93,8 +98,8 @@ class PostRepository
         return Post::query()
             ->with(relations: [
                 'user',
-                'tags' => function ($query) {
-                    $query->withCount('posts'); // svaki tag unutar posta ima posts_count
+                'tags' => function ($query): void {
+                    $query->withCount('posts');
                 }
             ])
             ->published()

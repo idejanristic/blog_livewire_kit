@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Enums\PostSource;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
@@ -60,5 +61,23 @@ class Post extends Model
     protected function published(Builder $query): void
     {
         $query->where('published_at', '<', now());
+    }
+
+    /**
+     * @return void
+     */
+    protected static function booted(): void
+    {
+        static::saved(
+            callback: function ($post): void {
+                Cache::forget(key: 'tags_with_posts_count');
+            }
+        );
+
+        static::deleted(
+            callback: function ($post): void {
+                Cache::forget(key: 'tags_with_posts_count');
+            }
+        );
     }
 }
