@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Frontend\Posts;
 
+use App\Dtos\Activities\ActivityDto;
 use App\Enums\UserAcivityType;
 use App\Traits\Toastable;
 use Livewire\Component;
@@ -50,10 +51,14 @@ class Form extends Component
             );
 
             UserActivityService::log(
-                model: $post,
-                type: UserAcivityType::Updated,
-                content: 'Post "' . $post->title . '" was updated',
-                ip: request()->ip()
+                dto: ActivityDto::apply(
+                    data: [
+                        'model' =>  $post,
+                        'type' =>  UserAcivityType::Updated,
+                        'content' => 'Post "' . $post->title . '" was updated',
+                        'ip' => request()->ip()
+                    ]
+                )
             );
 
             return $this->redirectRoute(
@@ -96,10 +101,14 @@ class Form extends Component
             );
 
             UserActivityService::log(
-                model: $post,
-                type: UserAcivityType::Created,
-                content: 'Post "' . $post->title . '" was created',
-                ip: request()->ip()
+                dto: ActivityDto::apply(
+                    data: [
+                        'model' => $post,
+                        'type' =>  UserAcivityType::Created,
+                        'content' =>  'Post "' . $post->title . '" was created',
+                        'ip' =>  request()->ip()
+                    ]
+                )
             );
 
             return $this->redirectRoute(

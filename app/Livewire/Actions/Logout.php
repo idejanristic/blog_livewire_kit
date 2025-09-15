@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Actions;
 
+use App\Dtos\Activities\ActivityDto;
 use App\Enums\UserAcivityType;
 use App\Services\UserActivityService;
 use Illuminate\Support\Facades\Auth;
@@ -17,10 +18,14 @@ class Logout
         $user = auth()->user();
 
         UserActivityService::log(
-            model: $user,
-            type: UserAcivityType::Logout,
-            content: 'User "' . $user->email . '" was logout',
-            ip: request()->ip()
+            dto: ActivityDto::apply(
+                data: [
+                    'model' => $user,
+                    'type' => UserAcivityType::Logout,
+                    'content' => 'User "' . $user->email . '" was logout',
+                    'ip' => request()->ip()
+                ]
+            )
         );
 
         Auth::guard('web')->logout();

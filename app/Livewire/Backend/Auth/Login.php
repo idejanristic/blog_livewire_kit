@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Backend\Auth;
 
+use App\Dtos\Activities\ActivityDto;
 use App\Enums\UserAcivityType;
 use App\Services\UserActivityService;
 use Illuminate\Auth\Events\Lockout;
@@ -54,10 +55,14 @@ class Login extends Component
         $user = auth()->user();
 
         UserActivityService::log(
-            model: $user,
-            type: UserAcivityType::Login,
-            content: 'User "' . $user->email . '" was login',
-            ip: request()->ip()
+            dto: ActivityDto::apply(
+                data: [
+                    'model' => $user,
+                    'type' => UserAcivityType::Login,
+                    'content' => 'User "' . $user->email . '" was login',
+                    'ip' => request()->ip()
+                ]
+            )
         );
 
         $this->redirectIntended(default: route('backend.dashboard', absolute: false), navigate: true);

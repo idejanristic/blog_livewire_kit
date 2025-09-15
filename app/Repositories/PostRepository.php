@@ -7,7 +7,7 @@ use App\Dtos\Posts\PostDto;
 use App\Dtos\Posts\PostFilterDto;
 use App\Repositories\Filters\TagFilter;
 use App\Repositories\Filters\UserFilter;
-use App\Repositories\Filters\SearchFilter;
+use App\Repositories\Filters\Posts\SearchFilter;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\Paginator;
 

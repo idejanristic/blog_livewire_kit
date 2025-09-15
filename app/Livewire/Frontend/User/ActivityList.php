@@ -4,11 +4,12 @@ namespace App\Livewire\Frontend\User;
 
 use App\Models\User;
 use Livewire\Component;
-use App\Models\UserActivity;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Illuminate\Contracts\View\View;
+use App\Repositories\ActivityRepostitory;
+use App\Dtos\Activities\ActivityFilterDto;
 use Illuminate\Contracts\Pagination\Paginator;
 
 class ActivityList extends Component
@@ -25,29 +26,34 @@ class ActivityList extends Component
     #[Computed()]
     public function activities(): Paginator
     {
-        return UserActivity::where(
-            column: 'user_id',
-            operator: $this->user->id
-        )
-            ->latest()
-            ->paginate(
-                perPage: $this->perPage
-            );
+        return ActivityRepostitory::getActivities(
+            perPage: $this->perPage,
+            filters: ActivityFilterDto::apply(
+                data: [
+                    'search' => $this->search,
+                    'userId' => $this->user->id
+                ]
+            )
+        );
     }
 
     #[Computed()]
     public function total(): int
     {
-        return UserActivity::where(
-            column: 'user_id',
-            operator: $this->user->id
-        )->count();
+        return  ActivityRepostitory::getTotalNumberActivities(
+            filters: ActivityFilterDto::apply(
+                data: [
+                    'search' => $this->search,
+                    'userId' => $this->user->id
+                ]
+            )
+        );
     }
 
     // resetuje paginator kad se search menja
     public function updatedSearch(): void
     {
-        $this->resetPage(pageName: 'activities');
+        $this->resetPage();
     }
 
     public function render(): View

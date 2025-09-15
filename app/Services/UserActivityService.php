@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace  App\Services;
 
-use App\Enums\UserAcivityType;
-use App\Models\UserActivity;
+use App\Dtos\Activities\ActivityDto;
+use App\Repositories\ActivityRepostitory;
 
 class UserActivityService
 {
+    public function __construct(
+        private ActivityRepostitory $activityRepostitory
+    ) {}
 
     /**
      * Summary of log
@@ -15,17 +18,15 @@ class UserActivityService
      * @param string $ip
      * @return void
      */
-    public static function log(object $model, UserAcivityType $type, ?string $content, ?string $ip): void
+    public static function log(ActivityDto $dto): void
     {
         if (auth()->user()) {
-            UserActivity::create(attributes: [
-                'ip_address' => $ip ?? null,
-                'user_id' => auth()->user()->id,
-                'type' => $type,
-                'model' => class_basename(class: $model),
-                'model_id' => $model->id,
-                'content' => $content
-            ]);
+            $activityRepostitory = app(abstract: ActivityRepostitory::class);
+
+            $activityRepostitory->create(
+                dto: $dto,
+                userId: auth()->user()->id
+            );
         }
     }
 }

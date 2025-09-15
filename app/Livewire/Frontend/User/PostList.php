@@ -53,7 +53,7 @@ class PostList extends Component
     // resetuje paginator kad se search menja
     public function updatedSearch(): void
     {
-        $this->resetPage(pageName: 'posts');
+        $this->resetPage();
     }
 
 

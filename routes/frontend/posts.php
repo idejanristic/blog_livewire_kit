@@ -1,5 +1,6 @@
 <?php
 
+use App\Dtos\Activities\ActivityDto;
 use App\Models\Post;
 use App\Models\User;
 use App\Enums\UserAcivityType;
@@ -22,10 +23,14 @@ Route::get(uri: '/posts/user/{user}', action: function (User $user): View {
 
 Route::get(uri: '/posts/{post}', action: function (Post $post): View {
     UserActivityService::log(
-        model: $post,
-        type: UserAcivityType::Viewed,
-        content: 'Post "' . $post->title . '" was viewed',
-        ip: request()->ip()
+        dto: ActivityDto::apply(
+            data: [
+                'model' => $post,
+                'type' =>  UserAcivityType::Viewed,
+                'content' => 'Post "' . $post->title . '" was viewed',
+                'ip' => request()->ip()
+            ]
+        )
     );
 
     return view(

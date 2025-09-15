@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Frontend;
 
+use App\Dtos\Activities\ActivityDto;
 use App\Models\User;
 use Livewire\Component;
 use App\Traits\Toastable;
@@ -35,10 +36,14 @@ class ContactUs extends Component
         $this->reset();
 
         UserActivityService::log(
-            model: $feeeback,
-            type: UserAcivityType::Sent,
-            content: 'User "' . $user->email . '" was sent',
-            ip: request()->ip()
+            dto: ActivityDto::apply(
+                data: [
+                    'model' =>  $feeeback,
+                    'type' =>  UserAcivityType::Sent,
+                    'content' =>  'User "' . $user->email . '" was sent message',
+                    'ip' =>  request()->ip()
+                ]
+            )
         );
 
         $this->toastSuccess(

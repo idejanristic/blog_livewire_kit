@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Frontend\Posts;
 
+use App\Dtos\Activities\ActivityDto;
 use App\Enums\UserAcivityType;
 use App\Models\Post;
 use App\Repositories\PostRepository;
@@ -34,10 +35,14 @@ class Actions extends Component
         );
 
         UserActivityService::log(
-            model: $this->post,
-            type: UserAcivityType::Deleted,
-            content: 'Post "' . $this->post->title . '" was deleted',
-            ip: request()->ip()
+            dto: ActivityDto::apply(
+                data: [
+                    'model' => $this->post,
+                    'type' => UserAcivityType::Deleted,
+                    'content' => 'Post "' . $this->post->title . '" was deleted',
+                    'ip' =>  request()->ip()
+                ]
+            )
         );
 
         if (str_contains(haystack: $previous, needle: "/posts/{$this->post->id}")) {
