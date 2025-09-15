@@ -84,11 +84,11 @@ class User extends Authenticatable
     }
 
     /**
-     * @param \App\Models\Model $releted
+     * @param \App\Models\Post $releted
      * @return bool
      */
-    public function own(Model $releted): bool
+    public function own(Post $post): bool
     {
-        return $this->id === $releted->user_id;
+        return $this->id === $post->user_id;
     }
 }

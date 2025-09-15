@@ -3,7 +3,7 @@
 namespace App\Livewire\Frontend\Posts;
 
 use Livewire\Component;
-use App\Dtos\PostFilterDto;
+use App\Dtos\Posts\PostFilterDto;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
 use Livewire\Attributes\Computed;

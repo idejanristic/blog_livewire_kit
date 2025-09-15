@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Livewire\Frontend\User;
+namespace  App\Livewire\Frontend\Posts\User;
 
-use App\Models\User;
-use Livewire\Component;
-use Livewire\Attributes\Url;
-use Livewire\WithPagination;
 use App\Dtos\Posts\PostFilterDto;
-use Livewire\Attributes\Computed;
-use Illuminate\Contracts\View\View;
+use App\Models\User;
 use App\Repositories\PostRepository;
 use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Contracts\View\View;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Url;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class PostList extends Component
 {
@@ -26,7 +26,7 @@ class PostList extends Component
     #[Computed()]
     public function posts(): Paginator
     {
-        return PostRepository::getPosts(
+        return PostRepository::getPublishedPosts(
             perPage: $this->perPage,
             filters: PostFilterDto::apply(
                 data: [
@@ -60,7 +60,7 @@ class PostList extends Component
     public function render(): View
     {
         return view(
-            view: 'livewire.frontend.user.post-list',
+            view: 'livewire.frontend.posts.user.post-list',
             data: [
                 'posts' => $this->posts(),
                 'total' => $this->total()

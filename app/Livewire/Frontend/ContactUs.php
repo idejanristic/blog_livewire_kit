@@ -2,13 +2,13 @@
 
 namespace App\Livewire\Frontend;
 
+use App\Models\User;
+use Livewire\Component;
+use App\Traits\Toastable;
 use App\Enums\UserAcivityType;
 use App\Livewire\Forms\ContactForm;
-use App\Models\User;
-use App\Services\UserActivityService;
-use App\Traits\Toastable;
 use Illuminate\Contracts\View\View;
-use Livewire\Component;
+use App\Services\UserActivityService;
 
 class ContactUs extends Component
 {

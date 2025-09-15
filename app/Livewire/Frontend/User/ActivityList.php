@@ -3,13 +3,13 @@
 namespace App\Livewire\Frontend\User;
 
 use App\Models\User;
-use App\Models\UserActivity;
-use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Contracts\View\View;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Url;
 use Livewire\Component;
+use App\Models\UserActivity;
+use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use Livewire\Attributes\Computed;
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class ActivityList extends Component
 {

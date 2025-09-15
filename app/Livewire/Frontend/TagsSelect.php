@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Frontend;
 
-use Illuminate\Contracts\View\View;
 use Livewire\Component;
+use Illuminate\Contracts\View\View;
 
 class TagsSelect extends Component
 {

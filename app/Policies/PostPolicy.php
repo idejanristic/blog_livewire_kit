@@ -21,7 +21,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post): bool
     {
-        return $user->own(releted: $post);
+        return $user->own(post: $post);
     }
 
     /**
@@ -37,7 +37,18 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $user->own(releted: $post);
+        if (!$user->own(post: $post)) {
+            return false;
+        }
+
+        if (
+            $post->published_at !== null
+            && now()->greaterThanOrEqualTo($post->published_at)
+        ) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -45,7 +56,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->own(releted: $post);
+        return $user->own(post: $post);
     }
 
     /**
@@ -53,7 +64,7 @@ class PostPolicy
      */
     public function restore(User $user, Post $post): bool
     {
-        return $user->own(releted: $post);
+        return $user->own(post: $post);
     }
 
     /**
@@ -61,6 +72,6 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        return $user->own(releted: $post);
+        return $user->own(post: $post);
     }
 }

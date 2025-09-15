@@ -7,7 +7,6 @@ use App\Traits\Toastable;
 use Livewire\Component;
 use App\Livewire\Forms\PostForm;
 use App\Models\Post;
-use App\Models\Tag;
 use App\Services\UserActivityService;
 use Livewire\Attributes\On;
 

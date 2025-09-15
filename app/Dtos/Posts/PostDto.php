@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dtos;
+namespace App\Dtos\Posts;
 
 use Carbon\Carbon;
 use App\Enums\PostSource;

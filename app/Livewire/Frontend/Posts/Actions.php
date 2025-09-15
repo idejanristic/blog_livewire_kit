@@ -4,7 +4,6 @@ namespace App\Livewire\Frontend\Posts;
 
 use App\Enums\UserAcivityType;
 use App\Models\Post;
-use App\Models\UserActivity;
 use App\Repositories\PostRepository;
 use App\Services\UserActivityService;
 use App\Traits\Toastable;

@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Post;
-use App\Dtos\PostDto;
+use App\Dtos\Posts\PostDto;
 use App\Repositories\PostRepository;
 
 class PostService
@@ -13,7 +13,7 @@ class PostService
     ) {}
 
     /**
-     * @param \App\Dtos\PostDto $dto
+     * @param \App\Dtos\Posts\PostDto $dto
      * @param int $userId
      * @return Post
      */
@@ -31,7 +31,7 @@ class PostService
     }
 
     /**
-     * @param \App\Dtos\PostDto $dto
+     * @param \App\Dtos\Posts\PostDto $dto
      * @param \App\Models\Post $post
      * @return bool
      */

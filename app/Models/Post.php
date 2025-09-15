@@ -60,7 +60,7 @@ class Post extends Model
     #[Scope]
     protected function published(Builder $query): void
     {
-        $query->where('published_at', '<', now());
+        $query->where('published_at', '<=', now());
     }
 
     /**

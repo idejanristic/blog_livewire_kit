@@ -3,8 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Post;
-use App\Dtos\PostDto;
-use App\Dtos\PostFilterDto;
+use App\Dtos\Posts\PostDto;
+use App\Dtos\Posts\PostFilterDto;
 use App\Repositories\Filters\TagFilter;
 use App\Repositories\Filters\UserFilter;
 use App\Repositories\Filters\SearchFilter;
@@ -15,7 +15,7 @@ class PostRepository
 {
 
     /**
-     * @param \App\Dtos\PostDto $dto
+     * @param \App\Dtos\Posts\PostDto $dto
      * @param int $userId
      * @return Post
      */
@@ -34,7 +34,7 @@ class PostRepository
     }
 
     /**
-     * @param \App\Dtos\PostDto $dto
+     * @param \App\Dtos\Posts\PostDto $dto
      * @param \App\Models\Post $post
      * @return bool
      */
@@ -58,7 +58,7 @@ class PostRepository
     }
 
     /**
-     * @param \App\Dtos\PostDto $dto
+     * @param \App\Dtos\Posts\PostDto $dto
      * @param \App\Models\Post $post
      * @return void
      */
@@ -86,8 +86,8 @@ class PostRepository
     }
 
     /**
-     * Summary of getPostsQuery
-     * @param string $search
+     * @param \App\Dtos\Posts\PostFilterDto $filters
+     * @return \Illuminate\Database\Eloquent\Builder<Post>
      */
     private static function getPostsQuery(PostFilterDto $filters)
     {
@@ -102,7 +102,6 @@ class PostRepository
                     $query->withCount('posts');
                 }
             ])
-            ->published()
             ->tap(callback: new SearchFilter(search: $filters->search))
             ->tap(callback: new UserFilter(userId: $filters->userId))
             ->tap(callback: new TagFilter(tagId: $filters->tagId))
@@ -111,10 +110,41 @@ class PostRepository
 
     /**
      * @param mixed $perPage
-     * @param \App\Dtos\PostFilterDto $filters
+     * @param \App\Dtos\Posts\PostFilterDto $filters
      * @return Paginator
      */
     public static function getPublishedPosts($perPage = 6, PostFilterDto $filters): Paginator
+    {
+        if ($filters === null) {
+            $filters = new PostFilterDto();
+        }
+
+        return  self::getPostsQuery(filters: $filters)
+            ->published()
+            ->simplePaginate(perPage: $perPage);
+    }
+
+    /**
+     * @param \App\Dtos\Posts\PostFilterDto $filters
+     * @return int
+     */
+    public static function getTotalNumberPublishedPosts(PostFilterDto $filters): int
+    {
+        if ($filters === null) {
+            $filters = new PostFilterDto();
+        }
+
+        return  self::getPostsQuery(filters: $filters)
+            ->published()
+            ->count();
+    }
+
+    /**
+     * @param mixed $perPage
+     * @param \App\Dtos\Posts\PostFilterDto $filters
+     * @return Paginator
+     */
+    public static function getPosts($perPage = 6, PostFilterDto $filters): Paginator
     {
         if ($filters === null) {
             $filters = new PostFilterDto();
@@ -125,10 +155,10 @@ class PostRepository
     }
 
     /**
-     * @param \App\Dtos\PostFilterDto $filters
+     * @param \App\Dtos\Posts\PostFilterDto $filters
      * @return int
      */
-    public static function getTotalNumberPublishedPosts(PostFilterDto $filters): int
+    public static function getTotalNumberPosts(PostFilterDto $filters): int
     {
         if ($filters === null) {
             $filters = new PostFilterDto();

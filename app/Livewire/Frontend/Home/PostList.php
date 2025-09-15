@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Frontend\Home;
 
-use App\Models\Post;
 use App\Repositories\PostRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
