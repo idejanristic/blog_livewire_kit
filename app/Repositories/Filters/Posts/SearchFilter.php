@@ -17,10 +17,27 @@ class SearchFilter
         $query->when(
             value: $this->search !== '',
             callback: function (Builder $query): void {
+
+                $searchTerm = "%{$this->search}%";
+
                 $query->where(
-                    column: 'title',
-                    operator: 'like',
-                    value: "%{$this->search}%"
+                    column: function (Builder $query) use ($searchTerm): void {
+                        $query->where(
+                            column: 'title',
+                            operator: 'like',
+                            value: $searchTerm
+                        )
+                            ->orWhere(
+                                column: 'excerpt',
+                                operator: 'like',
+                                value: $searchTerm
+                            )
+                            ->orWhere(
+                                column: 'body',
+                                operator: 'like',
+                                value: $searchTerm
+                            );
+                    }
                 );
             }
         );
