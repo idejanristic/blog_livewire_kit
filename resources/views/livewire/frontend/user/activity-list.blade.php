@@ -16,9 +16,20 @@
             <table class="w-full text-sm text-left">
                 <thead class="text-xs uppercase border-b-4 dark:border-zinc-700 ">
                     <tr>
-                        <th scope="col" class="px-4 py-3">Type</th>
-                        <th scope="col" class="px-4 py-3">Activity</th>
-                        <th scope="col" class="px-4 py-3">Modified ad</th>
+                        @include('partials.frontend.table-sortable-th', [
+                                'name' => 'type',
+                                'displayName' => 'Type'
+                            ])
+
+                        @include('partials.frontend.table-sortable-th', [
+                                'name' => 'content',
+                                'displayName' => 'Content'
+                            ])
+                        @include('partials.frontend.table-sortable-th', [
+                                'name' => 'created_at',
+                                'displayName' => 'Modified ad'
+                            ])
+
                     </tr>
                 </thead>
                 <tbody>

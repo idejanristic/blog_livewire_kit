@@ -6,6 +6,7 @@ use App\Models\UserActivity;
 use App\Dtos\Activities\ActivityDto;
 use App\Repositories\Filters\UserFilter;
 use App\Dtos\Activities\ActivityFilterDto;
+use App\Dtos\SortDto;
 use Illuminate\Contracts\Pagination\Paginator;
 use App\Repositories\Filters\Activities\SearchFilter;
 
@@ -43,8 +44,7 @@ class ActivityRepostitory
                 'user'
             ])
             ->tap(callback: new SearchFilter(search: $filters->search))
-            ->tap(callback: new UserFilter(userId: $filters->userId))
-            ->orderBy(column: 'created_at', direction: 'desc');
+            ->tap(callback: new UserFilter(userId: $filters->userId));
     }
 
 
@@ -53,13 +53,21 @@ class ActivityRepostitory
      * @param \App\Dtos\Activities\ActivityFilterDto $filters
      * @return Paginator
      */
-    public static function getActivities($perPage = 6, ActivityFilterDto $filters): Paginator
+    public static function getActivities($perPage = 6, ActivityFilterDto $filters, SortDto $sortDto): Paginator
     {
         if ($filters === null) {
             $filters = new ActivityFilterDto();
         }
 
+        if ($sortDto === null) {
+            $sortDto = new $sortDto();
+        }
+
         return  self::getActivitiesQuery(filters: $filters)
+            ->orderBy(
+                column: $sortDto->sortBy,
+                direction: $sortDto->sortDir
+            )
             ->paginate(perPage: $perPage);
     }
 

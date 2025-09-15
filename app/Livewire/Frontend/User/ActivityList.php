@@ -10,6 +10,7 @@ use Livewire\Attributes\Computed;
 use Illuminate\Contracts\View\View;
 use App\Repositories\ActivityRepostitory;
 use App\Dtos\Activities\ActivityFilterDto;
+use App\Dtos\SortDto;
 use Illuminate\Contracts\Pagination\Paginator;
 
 class ActivityList extends Component
@@ -23,6 +24,9 @@ class ActivityList extends Component
     #[Url(as: 's', history: true)]
     public $search = '';
 
+    public $sortBy = 'created_at';
+    public $sortDir = 'DESC';
+
     #[Computed()]
     public function activities(): Paginator
     {
@@ -32,6 +36,12 @@ class ActivityList extends Component
                 data: [
                     'search' => $this->search,
                     'userId' => $this->user->id
+                ]
+            ),
+            sortDto: SortDto::apply(
+                data: [
+                    'sortBy' =>  $this->sortBy,
+                    'sortDir' => $this->sortDir
                 ]
             )
         );
@@ -54,6 +64,17 @@ class ActivityList extends Component
     public function updatedSearch(): void
     {
         $this->resetPage();
+    }
+
+    public function setSortBy(string $column): void
+    {
+        if ($this->sortBy == $column) {
+            $this->sortDir = ($this->sortDir == 'ASC') ? "DESC" : "ASC";
+            return;
+        }
+
+        $this->sortBy = $column;
+        $this->sortDir = "DESC";
     }
 
     public function render(): View
