@@ -6,6 +6,7 @@
 
         @if(session()->has('toast'))
             <script>
+                console.log('test toast')
                 window.dispatchEvent(new CustomEvent('toast', { detail: @json(session('toast')) }));
             </script>
         @endif

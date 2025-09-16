@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -20,6 +21,15 @@ class UserSeeder extends Seeder
             'is_admin' => true
         ]);
 
-        User::factory(count: 29)->create();
+        User::factory()
+            ->count(count: 29)
+            ->create()
+            ->each(
+                callback: function (User $user): void {
+                    if (fake()->boolean(chanceOfGettingTrue: 70)) {
+                        Profile::factory()->forUser($user)->create();
+                    }
+                }
+            );
     }
 }

@@ -1,4 +1,7 @@
 <flux:navbar class="mb-5">
+    <flux:navbar.item :href="route('settings.account')" :current="request()->routeIs('settings.account')" wire:navigate>
+        Account
+    </flux:navbar.item>
     <flux:navbar.item :href="route('settings.profile')" :current="request()->routeIs('settings.profile')" wire:navigate>
         Profile
     </flux:navbar.item>

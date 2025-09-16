@@ -1,9 +1,9 @@
 <?php
 
+use App\Livewire\Frontend\Settings\Account;
 use App\Livewire\Frontend\Settings\Appearance;
 use App\Livewire\Frontend\Settings\Password;
 use App\Livewire\Frontend\Settings\Profile;
-use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('settings')
@@ -12,6 +12,7 @@ Route::prefix('settings')
     ->group(function () {
         Route::redirect('/', 'settings/profile');
 
+        Route::get('account', Account::class)->name('account');
         Route::get('profile', Profile::class)->name('profile');
         Route::get('password', Password::class)->name('password');
         Route::get('appearance', Appearance::class)->name('appearance');

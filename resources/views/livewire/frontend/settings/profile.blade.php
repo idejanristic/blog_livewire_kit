@@ -1,9 +1,9 @@
 @php
-    $currentUser = auth()->user();
+    $profile = $this->user->profile;
 @endphp
+
 <section class="w-full">
-    <x-pages.header title="Settings"
-        subtitle="Update your name and email address - {{ $currentUser->name }} ({{ $currentUser->email }})" />
+    <x-pages.header title="Settings" subtitle="{{ $this->user->name }} ({{ $this->user->email }})" />
 
     <flux:separator class="mb-3 mt-2" />
 
@@ -12,49 +12,63 @@
     <div class="flex flex-col lg:flex-row gap-6">
 
         <div class="w-full min-h-150 lg:w-2/3">
-            <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
-                <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />
+            <div class="relative mb-5">
+                <flux:heading size="xl">Profile</flux:heading>
+            </div>
 
-                <div>
-                    <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
+            <form wire:submit="{{ $profile && $profile->exists ? 'update' : 'store' }}"
+                class="flex flex-col gap-6 mb-6">
+                <flux:field>
+                    <flux:label>First name</flux:label>
+                    <flux:input wire:model.live.debounce.500ms="form.first_name" type="text" />
+                    <flux:error name="form.first_name" />
+                </flux:field>
+                <flux:field>
+                    <flux:label>Last name</flux:label>
+                    <flux:input wire:model.live.debounce.500ms="form.last_name" type="text" />
+                    <flux:error name="form.last_name" />
+                </flux:field>
 
-                    @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
-                        <div>
-                            <flux:text class="mt-4">
-                                {{ __('Your email address is unverified.') }}
+                <flux:field>
+                    <flux:label>Title</flux:label>
+                    <flux:input wire:model.live.debounce.500ms="form.title" type="text" />
+                    <flux:error name="form.title" />
+                </flux:field>
 
-                                <flux:link class="text-sm cursor-pointer"
-                                    wire:click.prevent="resendVerificationNotification">
-                                    {{ __('Click here to re-send the verification email.') }}
-                                </flux:link>
-                            </flux:text>
-
-                            @if (session('status') === 'verification-link-sent')
-                                <flux:text class="mt-2 font-medium !dark:text-green-400 !text-green-600">
-                                    {{ __('A new verification link has been sent to your email address.') }}
-                                </flux:text>
-                            @endif
-                        </div>
-                    @endif
-                </div>
-
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center justify-end">
-                        <flux:button variant="primary" type="submit" class="w-full">{{ __('Save') }}</flux:button>
-                    </div>
-
-                    <x-action-message class="me-3" on="profile-updated">
-                        {{ __('Saved.') }}
-                    </x-action-message>
+                <div class="flex items-center justify-start">
+                    <flux:button variant="primary" type="submit">
+                        {{ $profile && $profile->exists ? 'Edit' : 'Save' }}
+                    </flux:button>
                 </div>
             </form>
 
-            <livewire:frontend.settings.delete-user-form />
-        </div>
-        <div class="w-full lg:w-1/3">
-            <x-pages.tags :tags="$allTags" :tagId="$tagId" />
+            @if ($profile && $profile->exists)
+                <div class="relative mb-5">
+                    <flux:heading>Delete profile</flux:heading>
+                </div>
+
+                <flux:modal.trigger name="confirm-profile-deletion">
+                    <flux:button variant="danger">
+                        Delete profile
+                    </flux:button>
+                </flux:modal.trigger>
+
+                <flux:modal name="confirm-profile-deletion" class="max-w-lg">
+                    <form method="POST" wire:submit="delete" class="space-y-6">
+                        <div>
+                            <flux:heading size="lg">Are you sure you want to delete your profile?</flux:heading>
+                        </div>
+
+                        <div class="flex justify-end space-x-2 rtl:space-x-reverse">
+                            <flux:modal.close>
+                                <flux:button variant="filled">Close</flux:button>
+                            </flux:modal.close>
+
+                            <flux:button variant="danger" type="submit">Delete</flux:button>
+                        </div>
+                    </form>
+                </flux:modal>
+            @endif
         </div>
     </div>
-
-
 </section>

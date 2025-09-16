@@ -40,12 +40,14 @@ class PostRepository
      */
     public function update(PostDto $dto, Post $post): bool
     {
-        return $post->update([
-            'title' => $dto->title,
-            'excerpt' => $dto->excerpt,
-            'body' => $dto->body,
-            'published_at' => $dto->published_at
-        ]);
+        return $post->update(
+            attributes: [
+                'title' => $dto->title,
+                'excerpt' => $dto->excerpt,
+                'body' => $dto->body,
+                'published_at' => $dto->published_at
+            ]
+        );
     }
 
     /**
@@ -75,7 +77,7 @@ class PostRepository
     {
         /* todo  favority flag */
         return Post::with(relations: [
-            'user',
+            'user.profile',
             'tags' => function ($query): void {
                 $query->withCount('posts');
             }
@@ -97,7 +99,7 @@ class PostRepository
 
         return Post::query()
             ->with(relations: [
-                'user',
+                'user.profile',
                 'tags' => function ($query): void {
                     $query->withCount('posts');
                 }

@@ -8,9 +8,9 @@
         <p class="font-semibold text-white">
             <a href="{{ route('posts.user', ['user' => $user->id]) }}" wire:navigate>
                 <span class="absolute inset-0"></span>
-                {{ $user->name }}
+                {{ $user->profile_title}} {{ $user->profile_name }}
             </a>
         </p>
-        <p class="text-gray-400">Co-Founder / CTO</p>
+        {{-- <p class="text-gray-400">Co-Founder / CTO</p> --}}
     </div>
 </div>

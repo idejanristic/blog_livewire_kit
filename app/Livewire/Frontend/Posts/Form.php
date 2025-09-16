@@ -23,6 +23,7 @@ class Form extends Component
     {
         $this->form->selectedTags = array_column($stags, 'id');
     }
+
     public function mount(Post $post): void
     {
         if ($post->exists) {
@@ -92,8 +93,6 @@ class Form extends Component
                 );
                 return;
             }
-
-            $this->reset();
 
             $this->toastSuccess(
                 withSession: true,

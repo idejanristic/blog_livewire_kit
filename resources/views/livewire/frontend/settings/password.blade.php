@@ -10,6 +10,9 @@
 
     <div class="flex flex-col lg:flex-row gap-6">
         <div class="w-full min-h-150 lg:w-2/3">
+            <div class="relative mb-5">
+                <flux:heading size="xl">Password</flux:heading>
+            </div>
             <form method="POST" wire:submit="updatePassword" class="mt-6 space-y-6">
                 <flux:input wire:model="current_password" :label="__('Current password')" type="password" required
                     autocomplete="current-password" />
@@ -28,9 +31,6 @@
                     </x-action-message>
                 </div>
             </form>
-        </div>
-        <div class="w-full lg:w-1/3">
-            <x-pages.tags :tags="$allTags" :tagId="$tagId" />
         </div>
     </div>
 </section>

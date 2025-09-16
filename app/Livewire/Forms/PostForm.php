@@ -4,7 +4,7 @@ namespace App\Livewire\Forms;
 
 use Livewire\Form;
 use App\Models\Post;
-use App\Dtos\PostDto;
+use App\Dtos\Posts\PostDto;
 use App\Services\PostService;
 use Livewire\Attributes\Validate;
 

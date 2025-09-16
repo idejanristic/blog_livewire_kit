@@ -1,5 +1,5 @@
 <x-layouts.frontend.app title="Post" description="All posts published on demo blog">
-    <x-pages.header title="Blog" subtitle="Posts was written by {{ $user->name }}" />
+    <x-pages.header title="Blog" subtitle="Posts was written by {{ $user->profile_name }}" />
 
     <flux:separator class="mb-6 mt-2" />
 
@@ -11,7 +11,7 @@
                 <flux:breadcrumbs.item href="{{ route('home') }}" wire:navigate>Home</flux:breadcrumbs.item>
                 <flux:breadcrumbs.item href="{{ route('posts.index') }}" wire:navigate>Blog</flux:breadcrumbs.item>
                 <flux:breadcrumbs.item>
-                    <span class="dark:text-orange-400 text-orange-700">{{ $user->name }}</span>
+                    <span class="dark:text-orange-400 text-orange-700">{{ $user->profile_name }}</span>
                 </flux:breadcrumbs.item>
             </flux:breadcrumbs>
 

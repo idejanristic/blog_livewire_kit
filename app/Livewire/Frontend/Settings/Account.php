@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Livewire\Backend\Settings;
+namespace App\Livewire\Frontend\Settings;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Livewire\Component;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
-use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 #[Layout(
-    'components.layouts.backend.app',
+    name: 'components.layouts.frontend.app',
     params: [
-        'title' => 'Profile page',
-        'description' => ''
+        'title' => 'Settings - account',
+        'description' => 'Update your name and email address'
     ]
 )]
-class Profile extends Component
+class Account extends Component
 {
     public string $name = '';
 
@@ -34,7 +34,7 @@ class Profile extends Component
     /**
      * Update the profile information for the currently authenticated user.
      */
-    public function updateProfileInformation(): void
+    public function updateProfileInformation()
     {
         $user = Auth::user();
 
@@ -47,19 +47,24 @@ class Profile extends Component
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class)->ignore($user->id),
+                Rule::unique(table: User::class)->ignore(id: $user->id),
             ],
         ]);
 
-        $user->fill($validated);
+        $user->fill(attributes: $validated);
 
-        if ($user->isDirty('email')) {
+        if ($user->isDirty(attributes: 'email')) {
             $user->email_verified_at = null;
         }
 
         $user->save();
 
-        $this->dispatch('profile-updated', name: $user->name);
+        $this->dispatch(event: 'profile-updated', name: $user->name);
+
+        return $this->redirectRoute(
+            name: 'settings.account',
+            navigate: true
+        );
     }
 
     /**
@@ -70,13 +75,13 @@ class Profile extends Component
         $user = Auth::user();
 
         if ($user->hasVerifiedEmail()) {
-            $this->redirectIntended(default: route('backend.dashboard', absolute: false));
+            $this->redirectIntended(default: route(name: 'user.center.show', absolute: false));
 
             return;
         }
 
         $user->sendEmailVerificationNotification();
 
-        Session::flash('status', 'verification-link-sent');
+        Session::flash(key: 'status', value: 'verification-link-sent');
     }
 }

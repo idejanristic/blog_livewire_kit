@@ -1,10 +1,9 @@
 @php
     $currentUser = auth()->user();
-
 @endphp
 <x-layouts.frontend.app title="User centar" description="">
     <x-pages.header title="User Centar"
-        subtitle="All activites by {{ $currentUser->name }} ({{ $currentUser->email }})" />
+        subtitle="All activites by {{ $currentUser->profile_name }} ({{ $currentUser->email }})" />
 
     <flux:separator class="mb-3 mt-2" />
 

@@ -59,7 +59,7 @@
                                         </span>
 
                                         <div class="grid flex-1 text-start text-sm leading-tight">
-                                            <span class="truncate font-semibold">{{ auth()->user()->name }}</span>
+                                            <span class="truncate font-semibold">{{ auth()->user()->profile_name }}</span>
                                             <span class="truncate text-xs">{{ auth()->user()->email }}</span>
                                         </div>
                                     </div>
@@ -78,11 +78,11 @@
                                 </flux:menu.item>
                                 @endif
                                 @if(auth()->user()->is_admin)
-                                <flux:menu.item :href="route('backend.settings.profile')" icon="cog" wire:navigate>
+                                <flux:menu.item :href="route('backend.settings.account')" icon="cog" wire:navigate>
                                     {{ __('Settings') }}
                                 </flux:menu.item>
                                 @else
-                                <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>
+                                <flux:menu.item :href="route('settings.account')" icon="cog" wire:navigate>
                                     {{ __('Settings') }}
                                 </flux:menu.item>
                                  @endif

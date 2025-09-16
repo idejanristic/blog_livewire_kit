@@ -2,88 +2,163 @@
 
 namespace App\Livewire\Frontend\Settings;
 
+use App\Dtos\Activities\ActivityDto;
+use App\Enums\UserAcivityType;
+use App\Livewire\Forms\ProfileForm;
 use App\Models\User;
-use App\Services\TagService;
 use Livewire\Component;
-use Illuminate\Validation\Rule;
-use Livewire\Attributes\Layout;
+use App\Services\UserActivityService;
+use App\Traits\Toastable;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Livewire\Attributes\Layout;
 
 #[Layout(
     name: 'components.layouts.frontend.app',
     params: [
         'title' => 'Settings - profile',
-        'description' => 'Update your name and email address'
+        'description' => ''
     ]
 )]
 class Profile extends Component
 {
-    public string $name = '';
+    use Toastable;
+    public User $user;
 
-    public string $email = '';
-
-    public $allTags = [];
-    public int $tagId = 0;
+    public ProfileForm $form;
 
     /**
      * Mount the component.
      */
-    public function mount(TagService $tagService): void
-    {
-        $this->name = Auth::user()->name;
-        $this->email = Auth::user()->email;
-
-        $this->allTags = $tagService->getAllTags();
-        $this->tagId = (int) request()->query('tag', 0);
-    }
-
-    /**
-     * Update the profile information for the currently authenticated user.
-     */
-    public function updateProfileInformation(): void
+    public function mount(): void
     {
         $user = Auth::user();
 
-        $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
+        $profile = $user->profile;
 
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(table: User::class)->ignore(id: $user->id),
-            ],
-        ]);
+        $this->user = $user;
 
-        $user->fill(attributes: $validated);
-
-        if ($user->isDirty(attributes: 'email')) {
-            $user->email_verified_at = null;
-        }
-
-        $user->save();
-
-        $this->dispatch(event: 'profile-updated', name: $user->name);
+        $this->form->setProfile(profile: $profile);
     }
 
-    /**
-     * Send an email verification notification to the current user.
-     */
-    public function resendVerificationNotification(): void
+    public function store()
     {
-        $user = Auth::user();
+        try {
+            $profile = $this->form->store(user_id: $this->user->id);
 
-        if ($user->hasVerifiedEmail()) {
-            $this->redirectIntended(default: route(name: 'user.center.show', absolute: false));
+            if (!$profile) {
+                $this->toastError(
+                    withSession: true,
+                    message: 'Profile not created'
+                );
 
-            return;
+                return $this->redirectRoute(
+                    name: 'settings.profile',
+                    navigate: true
+                );
+            }
+
+            $this->toastSuccess(
+                withSession: true,
+                message: 'Profile created successfully'
+            );
+
+            UserActivityService::log(
+                dto: ActivityDto::apply(
+                    data: [
+                        'model' => $profile,
+                        'type' =>  UserAcivityType::Created,
+                        'content' =>  'Profile for user "' . $this->user->email . '" was created',
+                        'ip' =>  request()->ip()
+                    ]
+                )
+            );
+
+            return $this->redirectRoute(
+                name: 'settings.profile',
+                navigate: true
+            );
+        } catch (\Throwable $e) {
+
+            $this->toastError(
+                withSession: false,
+                message: $e->getMessage()
+            );
+
+            $this->resetErrorBag();
         }
+    }
 
-        $user->sendEmailVerificationNotification();
+    public function update()
+    {
+        try {
+            $profile = $this->user->profile;
 
-        Session::flash(key: 'status', value: 'verification-link-sent');
+            $this->form->update(profile: $profile);
+
+            $this->toastSuccess(
+                withSession: true,
+                message: 'Post edited successfully'
+            );
+
+            UserActivityService::log(
+                dto: ActivityDto::apply(
+                    data: [
+                        'model' =>  $profile,
+                        'type' =>  UserAcivityType::Updated,
+                        'content' =>  'Profile for user "' . $this->user->email . '" was udpated',
+                        'ip' => request()->ip()
+                    ]
+                )
+            );
+
+            return $this->redirectRoute(
+                name: 'settings.profile',
+                navigate: true
+            );
+        } catch (\Throwable $e) {
+
+            $this->toastError(
+                withSession: false,
+                message: $e->getMessage()
+            );
+
+            $this->resetErrorBag();
+        }
+    }
+
+    public function delete()
+    {
+        if ($this->user->profile) {
+            $profile = $this->user->profile;
+
+            $this->form->delete(profile: $profile);
+
+            UserActivityService::log(
+                dto: ActivityDto::apply(
+                    data: [
+                        'model' =>  $profile,
+                        'type' =>  UserAcivityType::Deleted,
+                        'content' =>  'Profile for user "' . $this->user->email . '" was deleted',
+                        'ip' => request()->ip()
+                    ]
+                )
+            );
+
+            $this->toastSuccess(
+                withSession: true,
+                message: 'Post deleted successfully'
+            );
+
+            return $this->redirectRoute(
+                name: 'settings.profile',
+                navigate: true
+            );
+        }
+    }
+
+    public function render(): View
+    {
+        return view(view: 'livewire.frontend.settings.profile');
     }
 }
