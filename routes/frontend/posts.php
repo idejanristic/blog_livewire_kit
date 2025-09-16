@@ -33,6 +33,8 @@ Route::get(uri: '/posts/{post}', action: function (Post $post): View {
         )
     );
 
+    $post->increment(column: 'view_count');
+
     return view(
         view: 'pages.frontend.posts.show',
         data: [

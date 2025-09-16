@@ -24,6 +24,7 @@ return new class extends Migration
                 $table->text(column: 'excerpt');
                 $table->text(column: 'body');
                 $table->string(column: 'source');
+                $table->integer('view_count')->unsigned()->default(value: 0);
                 $table->timestamp(column: 'published_at')->nullable();
                 $table->timestamps();
 
