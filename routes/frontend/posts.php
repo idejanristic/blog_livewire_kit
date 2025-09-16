@@ -16,7 +16,7 @@ Route::get(uri: '/posts/user/{user}', action: function (User $user): View {
     return view(
         view: 'pages.frontend.posts.user',
         data: [
-            'user' => $user
+            'user' => $user->load('profile')
         ]
     );
 })->name(name: 'posts.user');
@@ -36,7 +36,7 @@ Route::get(uri: '/posts/{post}', action: function (Post $post): View {
     return view(
         view: 'pages.frontend.posts.show',
         data: [
-            'post' => $post
+            'post' =>  $post->load('user.profile', 'tags')
         ]
     );
 })->name(name: 'posts.show');

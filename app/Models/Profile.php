@@ -18,7 +18,8 @@ class Profile extends Model
         'first_name',
         'last_name',
         'title',
-        'user_id'
+        'user_id',
+        'img_path'
     ];
 
     /**

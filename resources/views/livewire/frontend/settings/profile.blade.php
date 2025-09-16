@@ -18,6 +18,10 @@
 
             <form wire:submit="{{ $profile && $profile->exists ? 'update' : 'store' }}"
                 class="flex flex-col gap-6 mb-6">
+
+
+                <flux:input type="file" wire:model="form.image" label="Logo" />
+
                 <flux:field>
                     <flux:label>First name</flux:label>
                     <flux:input wire:model.live.debounce.500ms="form.first_name" type="text" />
@@ -68,6 +72,15 @@
                         </div>
                     </form>
                 </flux:modal>
+            @endif
+        </div>
+        <div class="w-full lg:w-1/3">
+            @if($form->image || $profile && $profile->exists && $profile->img_path)
+                <div class="relative mb-5">
+                    <flux:heading size="xl">Profile image</flux:heading>
+                </div>
+                <img src="{{ isset($profile->img_path) ? Storage::url($profile->img_path) : $form->image->temporaryUrl() }}"
+                    alt='tmp' class="rounded w-1/4 mt-2 blosk" />
             @endif
         </div>
     </div>

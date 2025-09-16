@@ -9,6 +9,10 @@
     ])
 </head>
 
+@php
+    $currentUser = auth()->user();
+@endphp
+
 <body class="min-h-screen bg-white dark:bg-zinc-900">
     <flux:header container class="bg-zinc-50 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="bars-3" inset="left" />
@@ -45,7 +49,12 @@
                 @auth
                     <!-- Desktop User Menu -->
                     <flux:dropdown position="top" align="end">
-                        <flux:profile class="cursor-pointer" :initials="auth()->user()->initials()" />
+
+                        @if($currentUser->has_profile && $currentUser->profile->img_path)
+                            <flux:profile class="cursor-pointer" :initials="$currentUser->initials()" avatar="{{ Storage::url($currentUser->profile->img_path) }}" />
+                        @else
+                            <flux:profile class="cursor-pointer" :initials="$currentUser->initials()"  />
+                        @endif
 
                         <flux:menu>
                             <flux:menu.radio.group>
@@ -54,13 +63,13 @@
                                         <span class="relative flex h-8 w-8 shrink-0 overflow-hidden rounded-lg">
                                             <span
                                                 class="flex h-full w-full items-center justify-center rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                                                {{ auth()->user()->initials() }}
+                                                {{ $currentUser->initials() }}
                                             </span>
                                         </span>
 
                                         <div class="grid flex-1 text-start text-sm leading-tight">
-                                            <span class="truncate font-semibold">{{ auth()->user()->profile_name }}</span>
-                                            <span class="truncate text-xs">{{ auth()->user()->email }}</span>
+                                            <span class="truncate font-semibold">{{ $currentUser->profile_name }}</span>
+                                            <span class="truncate text-xs">{{ $currentUser->email }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -72,12 +81,12 @@
                                 <flux:menu.item :href="route('user.center.show')" icon="building-office" wire:navigate>
                                     User Centar
                                 </flux:menu.item>
-                                @if(auth()->user()->is_admin)
+                                @if($currentUser->is_admin)
                                 <flux:menu.item :href="route('backend.dashboard')" icon="layout-grid" wire:navigate>
                                     {{ __('Dashboard') }}
                                 </flux:menu.item>
                                 @endif
-                                @if(auth()->user()->is_admin)
+                                @if($currentUser->is_admin)
                                 <flux:menu.item :href="route('backend.settings.account')" icon="cog" wire:navigate>
                                     {{ __('Settings') }}
                                 </flux:menu.item>

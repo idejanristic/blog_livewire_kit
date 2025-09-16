@@ -19,6 +19,7 @@ return new class extends Migration
                 ->onUpdate(action: 'cascade');
             $table->string(column: 'first_name')->nullable();
             $table->string(column: 'last_name')->nullable();
+            $table->string(column: 'img_path')->nullable();
             $table->string(column: 'title', length: 9)->nullable();
             $table->timestamps();
         });

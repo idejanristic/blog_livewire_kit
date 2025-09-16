@@ -11,7 +11,8 @@
                 <flux:breadcrumbs.item href="{{ route('home') }}" wire:navigate>Home</flux:breadcrumbs.item>
                 <flux:breadcrumbs.item href="{{ route('posts.index') }}" wire:navigate>Blog</flux:breadcrumbs.item>
                 <flux:breadcrumbs.item>
-                    <span class="dark:text-orange-400 text-orange-700">{{ $user->profile_name }}</span>
+                    <span class="dark:text-orange-400 text-orange-700">{{ $user->profile_title }}
+                        {{ $user->profile_name }}</span>
                 </flux:breadcrumbs.item>
             </flux:breadcrumbs>
 

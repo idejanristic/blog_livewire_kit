@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Forms;
 
-use App\Dtos\Profiles\ProfileDto;
-use App\Models\Profile;
-use App\Services\ProfileService;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
+use App\Models\Profile;
+use Illuminate\Support\Str;
+use App\Services\ProfileService;
+use App\Dtos\Profiles\ProfileDto;
+use Illuminate\Http\UploadedFile;
+use Livewire\Attributes\Validate;
 
 class ProfileForm extends Form
 {
@@ -16,6 +18,8 @@ class ProfileForm extends Form
     public ?string $last_name = null;
     #[Validate(rule: 'nullable|string|max:9')]
     public ?string $title = null;
+    #[Validate(rule: 'nullable|sometimes|file|image|max:1024')]
+    public ?UploadedFile $image = null;
 
     public function setProfile(?Profile $profile = null)
     {
@@ -38,6 +42,15 @@ class ProfileForm extends Form
 
         $profileService = app(abstract: ProfileService::class);
 
+        $validated['img_path'] = null;
+
+        if ($this->image) {
+            $validated['img_path'] = $profileService->uploadImage(
+                uploadedFile: $this->image,
+                userId: $user_id
+            );
+        }
+
         return $profileService->create(
             dto: ProfileDto::fromAppRequest(data: $validated),
             userId: $user_id
@@ -58,6 +71,15 @@ class ProfileForm extends Form
 
         $profileService = app(abstract: ProfileService::class);
 
+        $validated['img_path'] = null;
+
+        if ($this->image) {
+            $validated['img_path'] = $profileService->uploadImage(
+                uploadedFile: $this->image,
+                userId: $profile->user_id
+            );
+        }
+
         return $profileService->update(
             dto: ProfileDto::fromAppRequest(data: $validated),
             profile: $profile
@@ -68,6 +90,6 @@ class ProfileForm extends Form
     {
         $profileService = app(abstract: ProfileService::class);
 
-        return $profileService->delete($profile);
+        return $profileService->delete(profile: $profile);
     }
 }

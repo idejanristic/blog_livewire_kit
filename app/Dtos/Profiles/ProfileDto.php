@@ -8,6 +8,7 @@ class ProfileDto
         public readonly ?string $first_name = null,
         public readonly ?string $last_name = null,
         public readonly ?string $title = null,
+        public readonly ?string $img_path = null,
     ) {}
 
     public static function fromAppRequest(array $data): self
@@ -15,7 +16,8 @@ class ProfileDto
         return new self(
             first_name: $data['first_name'],
             last_name: $data['last_name'],
-            title: $data['title']
+            title: $data['title'],
+            img_path: $data['img_path']
         );
     }
 }

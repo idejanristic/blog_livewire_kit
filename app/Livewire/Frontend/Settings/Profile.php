@@ -12,6 +12,7 @@ use App\Traits\Toastable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 #[Layout(
     name: 'components.layouts.frontend.app',
@@ -22,7 +23,7 @@ use Livewire\Attributes\Layout;
 )]
 class Profile extends Component
 {
-    use Toastable;
+    use Toastable, WithFileUploads;
     public User $user;
 
     public ProfileForm $form;

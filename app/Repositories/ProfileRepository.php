@@ -20,6 +20,7 @@ class ProfileRepository
                 'first_name' => ucfirst(string: strtolower(string: $dto->first_name)),
                 'last_name' => ucfirst(string: strtolower(string: $dto->last_name)),
                 'title' => strtolower(string: $dto->title),
+                'img_path' => $dto->img_path,
                 'user_id' => $userId
             ]
         );
@@ -36,7 +37,8 @@ class ProfileRepository
             attributes: [
                 'first_name' => ucfirst(string: strtolower(string: $dto->first_name)),
                 'last_name' => ucfirst(string: strtolower(string: $dto->last_name)),
-                'title' => strtolower(string: $dto->title)
+                'title' => strtolower(string: $dto->title),
+                'img_path' => $dto->img_path,
             ]
         );
     }
