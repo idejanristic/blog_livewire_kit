@@ -8,7 +8,7 @@
     @else
         <div class="mb-4">
             <flux:text class="mt-2">
-                Prikazano od {{ $posts->firstItem() }} do {{ $posts->lastItem() }}, ukupno {{ $total }}.
+                Showing {{ $posts->firstItem() }} to {{ $posts->lastItem() }} of {{ $total }} results
             </flux:text>
         </div>
 
@@ -26,7 +26,7 @@
 
         <div class="mb-4">
             <flux:text class="mt-2">
-                Prikazano od {{ $posts->firstItem() }} do {{ $posts->lastItem() }}, ukupno {{ $total }}.
+                Showing {{ $posts->firstItem() }} to {{ $posts->lastItem() }} of {{ $total }} results
             </flux:text>
         </div>
 

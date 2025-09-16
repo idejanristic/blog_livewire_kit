@@ -6,14 +6,8 @@
     @empty($activities)
         There are no activities.
     @else
-        <div class="mb-4">
-            <flux:text class="mt-2">
-                Prikazano od {{ $activities->firstItem() }} do {{ $activities->lastItem() }}, ukupno {{ $total }}.
-            </flux:text>
-        </div>
-
         <div class="shadow-2xl">
-            <table class="w-full text-sm text-left">
+            <table class="w-full text-sm text-left mb-4">
                 <thead class="text-xs uppercase border-b-4 dark:border-zinc-700 ">
                     <tr>
                         @include('partials.frontend.table-sortable-th', [
@@ -42,12 +36,6 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
-
-        <div class="mb-4">
-            <flux:text class="mt-2">
-                Prikazano od {{ $activities->firstItem() }} do {{ $activities->lastItem() }}, ukupno {{ $total }}.
-            </flux:text>
         </div>
 
         {{ $activities->links('pagination::tailwind') }}

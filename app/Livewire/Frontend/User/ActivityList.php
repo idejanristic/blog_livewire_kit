@@ -47,19 +47,6 @@ class ActivityList extends Component
         );
     }
 
-    #[Computed()]
-    public function total(): int
-    {
-        return  ActivityRepostitory::getTotalNumberActivities(
-            filters: ActivityFilterDto::apply(
-                data: [
-                    'search' => $this->search,
-                    'userId' => $this->user->id
-                ]
-            )
-        );
-    }
-
     // resetuje paginator kad se search menja
     public function updatedSearch(): void
     {
@@ -82,8 +69,7 @@ class ActivityList extends Component
         return view(
             view: 'livewire.frontend.user.activity-list',
             data: [
-                'activities' => $this->activities(),
-                'total' => $this->total()
+                'activities' => $this->activities()
             ]
         );
     }
