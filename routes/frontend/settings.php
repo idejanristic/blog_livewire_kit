@@ -3,12 +3,16 @@
 use App\Livewire\Frontend\Settings\Appearance;
 use App\Livewire\Frontend\Settings\Password;
 use App\Livewire\Frontend\Settings\Profile;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth'])
-    ->group(callback: function (): void {
-        Route::redirect(uri: 'settings', destination: 'settings/profile');
-        Route::get(uri: 'settings/profile', action: Profile::class)->name('settings.profile');
-        Route::get(uri: 'settings/password', action: Password::class)->name('settings.password');
-        Route::get(uri: 'settings/appearance', action: Appearance::class)->name('settings.appearance');
+Route::prefix('settings')
+    ->name('settings.')
+    ->middleware('auth')
+    ->group(function () {
+        Route::redirect('/', 'settings/profile');
+
+        Route::get('profile', Profile::class)->name('profile');
+        Route::get('password', Password::class)->name('password');
+        Route::get('appearance', Appearance::class)->name('appearance');
     });

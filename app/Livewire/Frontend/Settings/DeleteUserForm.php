@@ -3,6 +3,7 @@
 namespace  App\Livewire\Frontend\Settings;
 
 use App\Livewire\Actions\Logout;
+use App\Services\TagService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -17,6 +18,18 @@ use Livewire\Component;
 class DeleteUserForm extends Component
 {
     public string $password = '';
+
+    public $allTags = [];
+    public int $tagId = 0;
+
+    /**
+     * Mount the component.
+     */
+    public function mount(TagService $tagService): void
+    {
+        $this->allTags = $tagService->getAllTags();
+        $this->tagId = (int) request()->query('tag', 0);
+    }
 
     /**
      * Delete the currently authenticated user.

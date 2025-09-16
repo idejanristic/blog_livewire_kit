@@ -30,7 +30,7 @@
             </form>
         </div>
         <div class="w-full lg:w-1/3">
-
+            <x-pages.tags :tags="$allTags" :tagId="$tagId" />
         </div>
     </div>
 </section>

@@ -3,6 +3,7 @@
 namespace App\Livewire\Frontend\Settings;
 
 use App\Models\User;
+use App\Services\TagService;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
@@ -22,13 +23,19 @@ class Profile extends Component
 
     public string $email = '';
 
+    public $allTags = [];
+    public int $tagId = 0;
+
     /**
      * Mount the component.
      */
-    public function mount(): void
+    public function mount(TagService $tagService): void
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+
+        $this->allTags = $tagService->getAllTags();
+        $this->tagId = (int) request()->query('tag', 0);
     }
 
     /**

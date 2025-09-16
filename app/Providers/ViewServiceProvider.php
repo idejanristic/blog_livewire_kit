@@ -23,12 +23,15 @@ class ViewServiceProvider extends ServiceProvider
     public function boot(): void
     {
         View::composer(
-            views: '*',
+            views: 'components.layouts.*',
             callback: AuthorComposer::class
         );
 
         View::composer(
-            views: ['*'],
+            views: [
+                'pages.frontend.*',
+                'livewire.frontend.settings.*',
+            ],
             callback: TagsComposer::class
         );
     }

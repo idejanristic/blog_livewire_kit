@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Frontend\Settings;
 
+use App\Services\TagService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password as PasswordRule;
@@ -23,6 +24,18 @@ class Password extends Component
     public string $password = '';
 
     public string $password_confirmation = '';
+
+    public $allTags = [];
+    public int $tagId = 0;
+
+    /**
+     * Mount the component.
+     */
+    public function mount(TagService $tagService): void
+    {
+        $this->allTags = $tagService->getAllTags();
+        $this->tagId = (int) request()->query('tag', 0);
+    }
 
     /**
      * Update the password for the currently authenticated user.
