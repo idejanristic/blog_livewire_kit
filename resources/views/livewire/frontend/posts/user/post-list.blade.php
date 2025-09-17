@@ -15,7 +15,14 @@
         @foreach ($posts as $post)
             <x-posts.post wire:key="post_{{ $post->id }}" :post="$post" :page="$posts->currentPage()">
                 <x-posts.item />
-                <x-posts.meta />
+
+                @livewire(
+                    name: 'frontend.posts.meta',
+                    params: [
+                        'post' => $post,
+                    ]
+                )
+
                 <x-pages.tags :tags="$post->tags" class="mb-6" />
             </x-posts.post>
         @endforeach

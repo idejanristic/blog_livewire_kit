@@ -19,6 +19,12 @@
         <flux:error name="form.published_at" />
     </flux:field>
 
+    <flux:field variant="inline">
+        <flux:checkbox wire:model="form.status_comment" />
+        <flux:label>Post could have comments</flux:label>
+        <flux:error name="form.status_comment" />
+    </flux:field>
+
     @livewire('frontend.tags-select', [
         'tags' => $tags,
         'selected' =>  collect($form->selectedTags)

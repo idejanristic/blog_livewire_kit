@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
@@ -26,13 +27,24 @@ class Post extends Model
         'body',
         'published_at',
         'source',
+        'status_comment',
         'user_id'
     ];
 
     protected $casts = [
         'published_at' => 'datetime',
-        'source' => PostSource::class
+        'source' => PostSource::class,
+        'status_comment' => 'boolean'
     ];
+
+    public function getCommentsCountAttribute(): int
+    {
+        if (array_key_exists('comments_count', $this->attributes)) {
+            return (int) $this->attributes['comments_count'];
+        }
+
+        return $this->comments()->count();
+    }
 
     /**
      * A post is owned by a user.
@@ -52,6 +64,18 @@ class Post extends Model
     {
         return $this->belongsToMany(related: Tag::class)
             ->withTimestamps();
+    }
+
+    /**
+     *  @return HasMany<Comment, Post>
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(related: Comment::class)
+            ->orderBy(
+                column: 'created_at',
+                direction: 'desc'
+            );
     }
 
     /**

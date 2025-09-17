@@ -27,6 +27,7 @@ class PostRepository
                 'excerpt' => $dto->excerpt,
                 'body' => $dto->body,
                 'source' => $dto->source,
+                'status_comment' => $dto->status_comment,
                 'published_at' => $dto->published_at,
                 'user_id' => $userId
             ]
@@ -45,6 +46,7 @@ class PostRepository
                 'title' => $dto->title,
                 'excerpt' => $dto->excerpt,
                 'body' => $dto->body,
+                'status_comment' => $dto->status_comment,
                 'published_at' => $dto->published_at
             ]
         );
@@ -98,12 +100,11 @@ class PostRepository
         }
 
         return Post::query()
-            ->with(relations: [
+            ->with([
                 'user.profile',
-                'tags' => function ($query): void {
-                    $query->withCount('posts');
-                }
+                'tags' => fn($query) => $query->withCount('posts')
             ])
+            ->withCount(['comments'])
             ->tap(callback: new SearchFilter(search: $filters->search))
             ->tap(callback: new UserFilter(userId: $filters->userId))
             ->tap(callback: new TagFilter(tagId: $filters->tagId))

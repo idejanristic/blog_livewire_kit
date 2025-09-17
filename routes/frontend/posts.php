@@ -38,7 +38,7 @@ Route::get(uri: '/posts/{post}', action: function (Post $post): View {
     return view(
         view: 'pages.frontend.posts.show',
         data: [
-            'post' =>  $post->load('user.profile', 'tags')
+            'post' =>  $post->load('user.profile', 'comments.user.profile', 'tags')
         ]
     );
 })->name(name: 'posts.show');

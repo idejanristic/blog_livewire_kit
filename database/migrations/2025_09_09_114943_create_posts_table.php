@@ -23,9 +23,10 @@ return new class extends Migration
                 $table->string(column: 'title');
                 $table->text(column: 'excerpt');
                 $table->text(column: 'body');
-                $table->string(column: 'source');
-                $table->integer('view_count')->unsigned()->default(value: 0);
+                $table->boolean(column: 'status_comment')->nullable()->default(value: false);
+                $table->integer(column: 'view_count')->nullable()->unsigned()->default(value: 0);
                 $table->timestamp(column: 'published_at')->nullable();
+                $table->string(column: 'source');
                 $table->timestamps();
 
                 $table->index('user_id');

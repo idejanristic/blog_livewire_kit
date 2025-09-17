@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -140,13 +141,15 @@ class User extends Authenticatable
     }
 
     /**
-     * @param \App\Models\Post $releted
+     * @param \Illuminate\Database\Eloquent\Model $releted
      * @return bool
      */
-    public function own(Post $post): bool
+    public function own(Model $releted): bool
     {
-        return $this->id === $post->user_id;
+        return $this->id === $releted->user_id;
     }
+
+
 
     /**
      * @return HasOne<Profile, User>

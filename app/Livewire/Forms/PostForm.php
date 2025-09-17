@@ -26,6 +26,9 @@ class PostForm extends Form
     #[Validate(rule: 'required|min:3|max:2048')]
     public string $body;
 
+    #[Validate(rule: 'nullable|boolean')]
+    public bool $status_comment = false;
+
     public function setPost(Post $post): void
     {
         $this->title = $post->title;

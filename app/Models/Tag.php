@@ -36,9 +36,11 @@ class Tag extends Model
             ->withTimestamps();
     }
 
+    /**
+     * @return int
+     */
     public function getPostsCountAttribute(): int
     {
-        // If loaded via withCount, use it
         if (array_key_exists('posts_count', $this->attributes)) {
             return (int) $this->attributes['posts_count'];
         }

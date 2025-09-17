@@ -12,6 +12,7 @@ class PostDto
     public readonly string $body;
     public readonly ?Carbon $published_at;
     public readonly PostSource $source;
+    public readonly bool $status_comment;
     public readonly array $tags;
 
     private function __construct(
@@ -20,6 +21,7 @@ class PostDto
         string $body,
         ?string $published_at,
         PostSource $source,
+        ?bool $status_comment,
         array $tags
     ) {
         $this->title = $title;
@@ -27,6 +29,7 @@ class PostDto
         $this->body = $body;
         $this->published_at = $published_at ? Carbon::parse(time: $published_at) : null;
         $this->source = $source;
+        $this->status_comment = $status_comment;
         $this->tags = $tags ?? [];
     }
 
@@ -38,6 +41,7 @@ class PostDto
             body: $data['body'],
             published_at: $data['published_at'] ?? null,
             source: PostSource::App,
+            status_comment: $data['status_comment'] ?? false,
             tags: $data['selectedTags'] ?? []
         );
     }
