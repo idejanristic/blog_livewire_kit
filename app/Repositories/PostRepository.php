@@ -100,11 +100,11 @@ class PostRepository
         }
 
         return Post::query()
-            ->with([
+            ->with(relations: [
                 'user.profile',
-                'tags' => fn($query) => $query->withCount('posts')
+                'tags' => fn($query): mixed => $query->withCount('posts')
             ])
-            ->withCount(['comments'])
+            ->withCount(relations: ['comments'])
             ->tap(callback: new SearchFilter(search: $filters->search))
             ->tap(callback: new UserFilter(userId: $filters->userId))
             ->tap(callback: new TagFilter(tagId: $filters->tagId))

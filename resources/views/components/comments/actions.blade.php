@@ -13,7 +13,7 @@
     @endcan --}}
 
     @can(abilities: 'delete', arguments: $comment)
-        <button type="button" @click="Livewire.dispatch('comment_delete', {'id':  {{ $comment->id }}})"
+        <button type="button" @click="Livewire.dispatch('comment_delete_event', {'id':  {{ $comment->id }}})"
             class="flex items-center space-x-2 hover:opacity-90 text-red-500 cursor-pointer rounded-2xl transition">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="size-5">

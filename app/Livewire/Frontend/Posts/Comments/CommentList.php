@@ -18,7 +18,7 @@ class CommentList extends Component
 
     protected $listeners = [
         'comment_created' => 'refreshComments',
-        'comment_delete' => 'commentDeleted',
+        'comment_delete_event' => 'commentDeleted',
     ];
 
     public Collection $comments;
@@ -62,6 +62,8 @@ class CommentList extends Component
         );
 
         $this->loadComments();
+
+        $this->dispatch(event: 'comment_created');
     }
 
     private function loadComments(): void

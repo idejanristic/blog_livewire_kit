@@ -13,7 +13,7 @@ class Meta extends Component
 
      protected $listeners = [
         'comment_created' => 'refreshPost',
-        'comment_delete' => 'refreshPost',
+        'comment_deleted' => 'refreshPost',
     ];
 
     public function refreshPost(): void
