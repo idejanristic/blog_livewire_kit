@@ -35,7 +35,7 @@
                 ],
             )
 
-            <x-pages.tags :tags="$post->tags" class="mb-6" />
+            <x-pages.tags :tags="$post->tags" class="mb-2" />
 
             <div class="mb-4">
                 {{ $post->body }}
