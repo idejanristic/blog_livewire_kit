@@ -81,12 +81,12 @@
                                 <flux:menu.item :href="route('user.center.show')" icon="building-office" wire:navigate>
                                     User Centar
                                 </flux:menu.item>
-                                @if($currentUser->is_admin)
+                                @if($currentUser->isAdmin())
                                 <flux:menu.item :href="route('backend.dashboard')" icon="layout-grid" wire:navigate>
                                     {{ __('Dashboard') }}
                                 </flux:menu.item>
                                 @endif
-                                @if($currentUser->is_admin)
+                                @if($currentUser->isAdmin())
                                 <flux:menu.item :href="route('backend.settings.account')" icon="cog" wire:navigate>
                                     {{ __('Settings') }}
                                 </flux:menu.item>

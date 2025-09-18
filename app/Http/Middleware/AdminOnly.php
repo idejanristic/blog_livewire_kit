@@ -15,7 +15,7 @@ class AdminOnly
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !auth()->user()->is_admin) {
+        if (!auth()->check() || !auth()->user()->isAdmin()) {
             return redirect()->route(route: 'home');
         }
 

@@ -2,7 +2,9 @@
 
 namespace App\Livewire\Backend\Auth;
 
+use App\Enums\RoleType;
 use App\Enums\UserSource;
+use App\Models\Acl\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +45,10 @@ class Register extends Component
         $validated['source'] = UserSource::App;
 
         event(new Registered(($user = User::create($validated))));
+
+        $role = Role::where(column: 'name', operator: RoleType::Subscriber)->firstOrFail();
+
+        $user->assignRole($role->id);
 
         Auth::login($user);
 

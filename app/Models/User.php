@@ -4,9 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\UserSource;
+use App\Models\Acl\Permission;
+use App\Models\Acl\Role;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -27,7 +31,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin'
+        'source'
     ];
 
     /**
@@ -52,7 +56,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_admin' => 'boolean',
+            'source' => UserSource::class
         ];
     }
 
@@ -171,5 +175,79 @@ class User extends Authenticatable
     public function profile(): HasOne
     {
         return $this->hasOne(related: Profile::class);
+    }
+
+    /**
+     * Get all roles for the user
+     *
+     * @return BelongsToMany<Role, User, \Illuminate\Database\Eloquent\Relations\Pivot>
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(related: Role::class);
+    }
+
+    /**
+     * Checks does the user have role
+     *
+     * @param mixed $role
+     * @return mixed
+     */
+    public function hasRole($role): mixed
+    {
+        if (is_null(value: $role)) {
+            return false;
+        }
+        if (is_string(value: $role)) {
+            return $this->roles->contains('name', $role);
+        }
+        return !! $role->intersect($this->roles)->count();
+    }
+
+    /**
+     * @param mixed $permission
+     * @return bool
+     */
+    public function userCan($permission = null): bool
+    {
+        return !is_null(value: $permission) && $this->hasPermission(permission: $permission);
+    }
+
+    /**
+     * Checks does the user have permission
+     *
+     * @param mixed $permission
+     * @return mixed
+     */
+    public function hasPermission($permission): mixed
+    {
+        if (is_null($permission)) {
+            return false;
+        }
+        if (is_string($permission)) {
+            $permission = Permission::whereSlug($permission)->firstOrFail();
+        }
+        return $this->hasRole($permission->roles);
+    }
+
+    /**
+     * Assigns a new role.
+     *
+     * @param $role_id
+     * @return array
+     */
+    public function assignRole($role_id): array
+    {
+        return $this->roles()->sync(ids: [$role_id]);
+    }
+
+    /**
+     * Checks is the user admin.
+     *
+     * @return bool
+     */
+    public function isAdmin(): mixed
+    {
+        return $this->hasRole(role: 'admin');
     }
 }
