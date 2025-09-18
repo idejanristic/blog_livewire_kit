@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Post extends Model
 {
@@ -37,6 +38,9 @@ class Post extends Model
         'status_comment' => 'boolean'
     ];
 
+    /**
+     * @return int
+     */
     public function getCommentsCountAttribute(): int
     {
         if (array_key_exists('comments_count', $this->attributes)) {
@@ -76,6 +80,22 @@ class Post extends Model
                 column: 'created_at',
                 direction: 'desc'
             );
+    }
+
+    /**
+     * @return MorphMany<Like, Post>
+     */
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(related: Like::class, name: 'likeable');
+    }
+
+    /**
+     * @return MorphMany<DisLike, Post>
+     */
+    public function dislikes(): MorphMany
+    {
+        return $this->morphMany(related: Dislike::class, name: 'dislikeable');
     }
 
     /**

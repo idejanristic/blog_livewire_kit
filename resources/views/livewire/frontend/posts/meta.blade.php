@@ -11,24 +11,39 @@
         </flux:link> on
         {{ $post->published_at->toFormattedDateString() }}
     </flux:text>
-    <div class="flex gap-4">
-        <x-reaction />
+
+    <div class="flex items-center gap-4">
+        <button type="button" class="flex gap-1 items-center space-x-2 rounded-2xl transition" wire:click="like">
+            {{ $post->like_count }}
+            <x-icons.like />
+        </button>
+
+        <button type="button" class="flex gap-1 items-center space-x-2 rounded-2xl transition" wire:click="dislike">
+            {{ $post->dislike_count }}
+            <x-icons.dislike />
+        </button>
 
         <flux:text class="dark:text-white text-zinc-900 font-bold flex gap-1">
             {{ $post->comments_count }}
-           <x-icons.comment />
+            <x-icons.comment />
         </flux:text>
 
-        <flux:text class="dark:text-white text-zinc-900 font-bold">
-        {{ $post->view_count }} views
-            </flux:text>
+        <flux:text class="dark:text-white text-zinc-900 font-bold flex gap-1">
+            {{ $post->view_count }} views
+        </flux:text>
     </div>
 @else
     <flux:text>
         Posted on {{ $post->published_at->toFormattedDateString() }}
     </flux:text>
     <div class="flex gap-4">
-        <x-reaction />
+        <button type="button" class="flex items-center space-x-2 rounded-2xl transition">
+            <x-icons.like />
+        </button>
+
+        <button type="button" class="flex items-center space-x-2 rounded-2xl transition">
+            <x-icons.dislike />
+        </button>
 
         <flux:text class="dark:text-white text-zinc-900 font-bold flex gap-1">
             {{ $post->comments_count }}
@@ -44,14 +59,4 @@
 </div>
 
 
-{{-- <span class="article-meta-view"><i class="fa fa-eye" aria-hidden="true"></i> <span>{{ $article->view_count
-        }}</span>
-    views</span>
-@if($article->status_comment)
-<span class="article-meta-comments"><i class="fa fa-comments-o" aria-hidden="true"></i>
-    <span>{{ $article->comment_count }}</span> comments</span>
-@endif
-<span class="article-meta-like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-    <span>{{ $article->like_count }}</span> </span>
-<span class="article-meta-dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-    <span>{{ $article->dislike_count }}</span> </span> --}}
+

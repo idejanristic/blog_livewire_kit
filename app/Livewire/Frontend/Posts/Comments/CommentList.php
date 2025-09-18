@@ -10,6 +10,7 @@ use App\Services\UserActivityService;
 use App\Traits\Toastable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class CommentList extends Component
@@ -19,6 +20,8 @@ class CommentList extends Component
     protected $listeners = [
         'comment_created' => 'refreshComments',
         'comment_delete_event' => 'commentDeleted',
+        'comment_like' => 'like',
+        'comment_dislike' => 'dislike',
     ];
 
     public Collection $comments;
@@ -74,6 +77,42 @@ class CommentList extends Component
         )
             ->latest()
             ->get();
+    }
+
+    public function like(int $id): void
+    {
+        $user = Auth::user();
+        $comment = Comment::where(column: 'id', operator: $id)->first();
+
+        if (!$comment) {
+            return;
+        }
+
+        if ($user && $user->exists()) {
+            $commentService = app(abstract: CommentService::class);
+
+            $commentService->like(comment: $comment, userId: $user->id);
+
+            $this->loadComments();
+        }
+    }
+
+    public function dislike(int $id): void
+    {
+        $user = Auth::user();
+        $comment = Comment::where(column: 'id', operator: $id)->first();
+
+        if (!$comment) {
+            return;
+        }
+
+        if ($user && $user->exists()) {
+            $commentService = app(abstract: CommentService::class);
+
+            $commentService->dislike(comment: $comment, userId: $user->id);
+
+            $this->loadComments();
+        }
     }
 
     public function render(): View

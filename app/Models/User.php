@@ -149,7 +149,21 @@ class User extends Authenticatable
         return $this->id === $releted->user_id;
     }
 
+    /**
+     * @return HasMany<Like, User>
+     */
+    public function likes(): HasMany
+    {
+        return $this->hasMany(related: Like::class);
+    }
 
+    /**
+     * @return HasMany<Dislike, User>
+     */
+    public function dislikes(): HasMany
+    {
+        return $this->hasMany(related: Dislike::class);
+    }
 
     /**
      * @return HasOne<Profile, User>

@@ -9,7 +9,8 @@ use App\Repositories\CommentRepository;
 class CommentService
 {
     public function __construct(
-        private CommentRepository $commentRepository
+        private CommentRepository $commentRepository,
+        private ReactionService $reactionService
     ) {}
 
     /**
@@ -41,5 +42,25 @@ class CommentService
     {
         return $this->commentRepository
             ->delete(comment: $comment);
+    }
+
+    /**
+     * @param \App\Models\Comment $comment
+     * @param int $userId
+     * @return void
+     */
+    public function like(Comment $comment, int $userId): void
+    {
+        $this->reactionService->toggleLike(model: $comment, userId: $userId);
+    }
+
+    /**
+     * @param \App\Models\Comment $comment
+     * @param int $userId
+     * @return void
+     */
+    public function dislike(Comment $comment, int $userId): void
+    {
+        $this->reactionService->toggleDislike(model: $comment, userId: $userId);
     }
 }
