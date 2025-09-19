@@ -16,12 +16,9 @@
             <x-posts.post wire:key="post_{{ $post->id }}" :post="$post" :page="$posts->currentPage()">
                 <x-posts.item />
 
-                @livewire(
-                    name: 'frontend.posts.meta',
-                    params: [
+                @livewire('frontend.posts.meta',[
                         'post' => $post
-                    ]
-                )
+                    ],key('user_post_meta_' . $post->id . '_page_' . $posts->currentPage()))
 
                 <x-pages.tags :tags="$post->tags" class="mb-6" />
             </x-posts.post>

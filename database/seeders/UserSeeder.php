@@ -22,30 +22,38 @@ class UserSeeder extends Seeder
             $roleName = "{$roleType->value}Role";
 
             $$roleName = Role::create(attributes: [
-                'name' => $roleType->value
+                'name' => "{$roleType->label()} role",
+                'slug' => $roleType->value,
+                'description' => $roleType->description()
             ]);
         }
 
         foreach (PermissionType::cases() as $permissionType) {
             $permissonPostName = "{$permissionType->value}PostPermission";
             $$permissonPostName = Permission::create(attributes: [
-                'name' => "{$permissionType->value}.post"
+                'name' => "{$permissionType->label()} post persmission",
+                'slug' => "{$permissionType->value}.post",
+                'description' => "User can {$permissionType->Label()} a post"
             ]);
 
             $permissonTagName = "{$permissionType->value}TagPermission";
             $$permissonTagName = Permission::create(attributes: [
-                'name' => "{$permissionType->value}.tag"
+                'name' => "{$permissionType->label()} tag persmission",
+                'slug' => "{$permissionType->value}.tag",
+                'description' => "User can {$permissionType->Label()} a tag"
             ]);
 
             $permissonCommentName = "{$permissionType->value}CommentPermission";
             $$permissonCommentName = Permission::create(attributes: [
-                'name' => "{$permissionType->value}.comment"
+                'name' => "{$permissionType->label()} comment persmission",
+                'slug' => "{$permissionType->value}.comment",
+                'description' => "User can {$permissionType->Label()} a comment"
             ]);
         }
 
         $subscriberRole->assignPermission([
             $createCommentPermission->id,
-            $deleteCommentPermission->id
+            $deleteCommentPermission->id,
         ]);
 
         $authorRole->assignPermission([
@@ -58,29 +66,40 @@ class UserSeeder extends Seeder
         ]);
 
         $adminAccessPermission = Permission::create(attributes: [
-            'name' => 'admin.access'
+            'name' => 'Admin access',
+            'slug' => 'admin.access',
+            'description' => 'Access to admininistration part of application'
         ]);
 
         $trashArticlePermission = Permission::create(attributes: [
-            'name' => 'post.trash'
+            'name' => 'Post trash',
+            'slug' => 'post.trash',
+            'description' => 'Can access to trash of posts'
         ]);
 
         $trashCommentPermission = Permission::create(attributes: [
-            'name' => 'comment.trash',
+            'name' => 'Comment trash',
+            'slug' => 'comment.trash',
+            'description' => 'Can access to trash of comments'
         ]);
 
         $publishPostPermission = Permission::create(attributes: [
-            'name' => 'post.publish',
+            'name' => 'Post publish',
+            'slug' => 'post.publish',
+            'description' => 'User can publishing a post'
         ]);
 
         $restorePostPermission = Permission::create(attributes: [
-            'name' => 'post.restore',
+            'name' => 'Post restore',
+            'slug' => 'post.restore',
+            'description' => 'User can restore a post'
         ]);
 
         $restoreCommentPermission = Permission::create(attributes: [
-            'name' => 'comment.restore',
+            'name' => 'Comment restore',
+            'slug' => 'comment.restore',
+            'description' => 'User can restore a comment'
         ]);
-
 
         $adminRole->assignPermission([
             $createCommentPermission->id,

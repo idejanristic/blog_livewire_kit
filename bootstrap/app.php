@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Middleware\Acl\Role;
 use Illuminate\Foundation\Application;
+use App\Http\Middleware\Acl\Permission;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
@@ -13,7 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(callback: function (Middleware $middleware): void {
         $middleware->alias(
             aliases: [
-                'admin' => \App\Http\Middleware\AdminOnly::class,
+                'acl' => Permission::class,
+                'role' => Role::class
             ]
         );
     })

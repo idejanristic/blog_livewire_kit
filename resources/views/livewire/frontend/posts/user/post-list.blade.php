@@ -17,10 +17,11 @@
                 <x-posts.item />
 
                 @livewire(
-                    name: 'frontend.posts.meta',
-                    params: [
+                    'frontend.posts.meta',
+                    [
                         'post' => $post,
-                    ]
+                    ],
+                    key('user_post_meta_' . $post->id . '_page_' . $posts->currentPage()),
                 )
 
                 <x-pages.tags :tags="$post->tags" class="mb-6" />
@@ -29,11 +30,9 @@
 
 
         <flux:separator class="mb-2 mt-2" />
-
-
         <div class="mb-4">
             <flux:text class="mt-2">
-                Showing {{ $posts->firstItem() }} to {{ $posts->lastItem() }} of {{ $total }} results
+                    Showing {{ $posts->firstItem() }} to {{ $posts->lastItem() }} of {{ $total }} results
             </flux:text>
         </div>
 

@@ -48,6 +48,10 @@ class PostPolicy
             return false;
         }
 
+        if (!$user->hasPermission(permission: 'update.post')) {
+            return false;
+        }
+
         return true;
     }
 
@@ -56,7 +60,8 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        return $user->own(releted: $post);
+        return $user->own(releted: $post)
+            && $user->hasPermission(permission: 'delete.post');
     }
 
     /**
@@ -72,6 +77,7 @@ class PostPolicy
      */
     public function forceDelete(User $user, Post $post): bool
     {
-        return $user->own(releted: $post);
+        return $user->own(releted: $post)
+            && $user->hasPermission(permission: 'delete.post');
     }
 }

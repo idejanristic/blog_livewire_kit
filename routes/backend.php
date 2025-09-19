@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('backend')
     ->name('backend.')
-    ->middleware(['auth', 'admin'])
+    ->middleware(['auth', 'acl:admin.access'])
     ->group(function () {
 
         Route::view('dashboard', 'pages.backend.dashboard')

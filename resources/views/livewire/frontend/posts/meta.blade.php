@@ -52,7 +52,7 @@
 
         <flux:text class="dark:text-white text-zinc-900 font-bold">
             {{ $post->view_count }} views
-            </flux:text>
+        </flux:text>
     </div>
 @endif
 

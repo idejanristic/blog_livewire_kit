@@ -184,31 +184,31 @@ class User extends Authenticatable
      */
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(related: Role::class);
+        return $this->belongsToMany(related: Role::class)->withTimestamps();
     }
 
     /**
      * Checks does the user have role
      *
-     * @param mixed $role
-     * @return mixed
+     * @param string $role
+     * @return bool
      */
-    public function hasRole($role): mixed
+    public function hasRole(string $role): bool
     {
         if (is_null(value: $role)) {
             return false;
         }
-        if (is_string(value: $role)) {
-            return $this->roles->contains('name', $role);
-        }
-        return !! $role->intersect($this->roles)->count();
+
+        return $this->roles()
+            ->where(column: 'slug', operator: $role)
+            ->exists();
     }
 
     /**
      * @param mixed $permission
      * @return bool
      */
-    public function userCan($permission = null): bool
+    public function userCan(?string $permission = null): bool
     {
         return !is_null(value: $permission) && $this->hasPermission(permission: $permission);
     }
@@ -216,18 +216,22 @@ class User extends Authenticatable
     /**
      * Checks does the user have permission
      *
-     * @param mixed $permission
-     * @return mixed
+     * @param string $permission
+     * @return bool
      */
-    public function hasPermission($permission): mixed
+    public function hasPermission(string $permission): bool
     {
-        if (is_null($permission)) {
+        if (is_null(value: $permission)) {
             return false;
         }
-        if (is_string($permission)) {
-            $permission = Permission::whereSlug($permission)->firstOrFail();
+
+        if (is_string(value: $permission)) {
+            return $this->roles()
+                ->whereRelation(relation: 'permissions', column: 'slug', operator: $permission)
+                ->exists();
         }
-        return $this->hasRole($permission->roles);
+
+        return false;
     }
 
     /**
@@ -246,7 +250,7 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isAdmin(): mixed
+    public function isAdmin(): bool
     {
         return $this->hasRole(role: 'admin');
     }

@@ -41,14 +41,16 @@
                 {{ $post->body }}
             </div>
 
+            @can(abilities: 'create.comment')
+                @livewire(
+                    name: 'frontend.posts.comments.comment-form',
+                    params: [
+                        'post' => $post,
+                        'user' => auth()->user(),
+                    ],
+                )
+            @endcan
 
-            @livewire(
-                name: 'frontend.posts.comments.comment-form',
-                params: [
-                    'post' => $post,
-                    'user' => auth()->user(),
-                ],
-            )
 
             @livewire(
                 name: 'frontend.posts.comments.comment-list',

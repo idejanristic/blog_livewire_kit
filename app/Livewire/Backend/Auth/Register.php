@@ -46,7 +46,7 @@ class Register extends Component
 
         event(new Registered(($user = User::create($validated))));
 
-        $role = Role::where(column: 'name', operator: RoleType::Subscriber)->firstOrFail();
+        $role = Role::where(column: 'slug', operator: RoleType::Subscriber)->firstOrFail();
 
         $user->assignRole($role->id);
 

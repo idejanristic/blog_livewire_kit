@@ -41,7 +41,8 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment): bool
     {
-        return $user->own(releted: $comment);
+        return $user->own(releted: $comment)
+            && $user->hasPermission(permission: 'update.comment');
     }
 
     /**
@@ -49,7 +50,8 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment): bool
     {
-        return $user->own(releted: $comment);
+        return $user->own(releted: $comment)
+            && $user->hasPermission(permission: 'delete.comment');
     }
 
     /**
@@ -65,6 +67,7 @@ class CommentPolicy
      */
     public function forceDelete(User $user, Comment $comment): bool
     {
-        return $user->own(releted: $comment);
+        return $user->own(releted: $comment)
+            && $user->hasPermission(permission: 'delete.comment');
     }
 }

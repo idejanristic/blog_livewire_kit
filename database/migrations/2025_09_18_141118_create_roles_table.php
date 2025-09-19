@@ -16,6 +16,7 @@ return new class extends Migration
             callback: function (Blueprint $table): void {
                 $table->id();
                 $table->string(column: 'name');
+                $table->string(column: 'slug')->unique();
                 $table->string(column: 'description')->nullable();
                 $table->timestamps();
             }
@@ -44,7 +45,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(table: 'roles');
         Schema::dropIfExists(table: 'role_user');
+        Schema::dropIfExists(table: 'roles');
     }
 };

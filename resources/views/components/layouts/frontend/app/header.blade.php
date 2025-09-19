@@ -10,6 +10,8 @@
 </head>
 
 @php
+    use App\Enums\RoleType;
+
     $currentUser = auth()->user();
 @endphp
 
@@ -78,15 +80,21 @@
                             <flux:menu.separator />
 
                             <flux:menu.radio.group>
+                                @if($currentUser->hasRole(role: RoleType::Subscriber->name))
+                                <flux:menu.item :href="route('user.center.activity')" icon="building-office" wire:navigate>
+                                    User Centar
+                                </flux:menu.item>
+                                @else
                                 <flux:menu.item :href="route('user.center.show')" icon="building-office" wire:navigate>
                                     User Centar
                                 </flux:menu.item>
-                                @if($currentUser->isAdmin())
+                                @endif
+                                @can(abilities: 'admin.access')
                                 <flux:menu.item :href="route('backend.dashboard')" icon="layout-grid" wire:navigate>
                                     {{ __('Dashboard') }}
                                 </flux:menu.item>
-                                @endif
-                                @if($currentUser->isAdmin())
+                                @endcan
+                                @can(abilities: 'admin.access')
                                 <flux:menu.item :href="route('backend.settings.account')" icon="cog" wire:navigate>
                                     {{ __('Settings') }}
                                 </flux:menu.item>
@@ -94,7 +102,7 @@
                                 <flux:menu.item :href="route('settings.account')" icon="cog" wire:navigate>
                                     {{ __('Settings') }}
                                 </flux:menu.item>
-                                 @endif
+                               @endcan
                             </flux:menu.radio.group>
 
                             <flux:menu.separator />
