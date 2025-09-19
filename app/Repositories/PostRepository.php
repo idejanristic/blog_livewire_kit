@@ -75,9 +75,8 @@ class PostRepository
      * @param int $perPage
      * @return Collection<int, Post>
      */
-    public static function getFavorityPosts(int $perPage = 3): Collection
+    public static function getMostViewPosts(int $perPage = 3): Collection
     {
-        /* todo  favority flag */
         return Post::with(relations: [
             'user.profile',
             'tags' => function ($query): void {
@@ -85,6 +84,7 @@ class PostRepository
             }
         ])
             ->published()
+            ->orderBy(column: 'view_count', direction: 'desc')
             ->take(value: $perPage)
             ->get();
     }

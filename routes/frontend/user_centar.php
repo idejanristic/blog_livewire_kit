@@ -9,7 +9,7 @@ Route::middleware(['auth'])
         Route::get(uri: '/user/centar', action: function (): View {
             return View(view: 'pages.frontend.user-centar.show');
         })
-            ->middleware(middleware: 'acl:post.view')
+            ->middleware(middleware: 'acl:view.post')
             ->name(name: 'user.center.show');
 
         Route::get(uri: '/user/centar/activity', action: function (): View {
@@ -19,7 +19,7 @@ Route::middleware(['auth'])
         Route::get(uri: '/user/posts/create', action: function (): View {
             return View(view: 'pages.frontend.user-centar.create');
         })
-            ->middleware(middleware: 'acl:post.create')
+            ->middleware(middleware: 'acl:create.post')
             ->name(name: 'user.posts.create');
 
         Route::get(uri: '/user/posts/{post}/edit', action: function (Post $post): View {
@@ -27,6 +27,6 @@ Route::middleware(['auth'])
                 'post' => $post
             ]);
         })
-            ->middleware(middleware: 'acl:post.update')
+            ->middleware(middleware: 'acl:update.post')
             ->name(name: 'user.posts.edit');
     });

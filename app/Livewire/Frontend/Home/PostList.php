@@ -11,7 +11,7 @@ class PostList extends Component
 {
     public function posts(): Collection
     {
-        return PostRepository::getFavorityPosts(perPage: 3);
+        return PostRepository::getMostViewPosts(perPage: 3);
     }
 
     public function render(): View
