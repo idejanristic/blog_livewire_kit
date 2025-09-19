@@ -170,4 +170,12 @@ class PostRepository
         return  self::getPostsQuery(filters: $filters)
             ->count();
     }
+
+    /**
+     * @return int
+     */
+    public static function total(): int
+    {
+        return Post::count();
+    }
 }

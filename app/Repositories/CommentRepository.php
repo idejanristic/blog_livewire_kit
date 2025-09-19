@@ -46,4 +46,12 @@ class CommentRepository
     {
         return $comment->delete();
     }
+
+    /**
+     * @return int
+     */
+    public static function total(): int
+    {
+        return Comment::count();
+    }
 }
