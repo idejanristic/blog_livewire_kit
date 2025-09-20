@@ -16,7 +16,11 @@ class TagService
         return Cache::remember(
             key: 'tags_with_posts_count',
             ttl: 3600, // 1h cache
-            callback: fn() => Tag::withCount('posts')->get()
+            callback: fn(): Collection => Tag::withCount(relations: [
+                'posts' => function ($query): void {
+                    $query->published();
+                }
+            ])->get()
         );
     }
 }
