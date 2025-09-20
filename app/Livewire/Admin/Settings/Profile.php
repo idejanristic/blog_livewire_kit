@@ -1,13 +1,21 @@
 <?php
 
-namespace App\Livewire\Settings;
+namespace App\Livewire\Admin\Settings;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout(
+    name: 'components.layouts.admin',
+    params: [
+        'title' => 'Profile',
+        'description' => ''
+    ]
+)]
 class Profile extends Component
 {
     public string $name = '';
@@ -62,7 +70,7 @@ class Profile extends Component
         $user = Auth::user();
 
         if ($user->hasVerifiedEmail()) {
-            $this->redirectIntended(default: route('dashboard', absolute: false));
+            $this->redirectIntended(default: route('admin.dashboard', absolute: false));
 
             return;
         }

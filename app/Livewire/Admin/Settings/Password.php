@@ -1,13 +1,21 @@
 <?php
 
-namespace App\Livewire\Settings;
+namespace App\Livewire\Admin\Settings;
 
+use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password as PasswordRule;
 use Illuminate\Validation\ValidationException;
-use Livewire\Component;
+use Illuminate\Validation\Rules\Password as PasswordRule;
+use Livewire\Attributes\Layout;
 
+#[Layout(
+    name: 'components.layouts.admin',
+    params: [
+        'title' => 'Password',
+        'description' => ''
+    ]
+)]
 class Password extends Component
 {
     public string $current_password = '';
