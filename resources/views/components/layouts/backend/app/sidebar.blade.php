@@ -25,6 +25,11 @@
                     {{ __('Dashboard') }}
                 </flux:navlist.item>
 
+                <flux:navlist.item icon="users" :href="route('backend.users.index')"
+                    :current="request()->routeIs('backend.users.*')" wire:navigate>
+                    Users
+                </flux:navlist.item>
+
             </flux:navlist.group>
         </flux:navlist>
 

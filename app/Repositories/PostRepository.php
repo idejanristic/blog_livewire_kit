@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Post;
 use App\Dtos\Posts\PostDto;
 use App\Dtos\Posts\PostFilterDto;
+use App\Dtos\SortDto;
 use App\Repositories\Filters\TagFilter;
 use App\Repositories\Filters\UserFilter;
 use App\Repositories\Filters\Posts\SearchFilter;
@@ -93,10 +94,14 @@ class PostRepository
      * @param \App\Dtos\Posts\PostFilterDto $filters
      * @return \Illuminate\Database\Eloquent\Builder<Post>
      */
-    private static function getPostsQuery(PostFilterDto $filters)
+    private static function getPostsQuery(PostFilterDto $filters, ?SortDto $sortDto = null)
     {
         if ($filters === null) {
             $filters = new PostFilterDto();
+        }
+
+        if ($sortDto === null) {
+            $sortDto = new SortDto();
         }
 
         return Post::query()
@@ -108,7 +113,7 @@ class PostRepository
             ->tap(callback: new SearchFilter(search: $filters->search))
             ->tap(callback: new UserFilter(userId: $filters->userId))
             ->tap(callback: new TagFilter(tagId: $filters->tagId))
-            ->orderBy(column: 'published_at', direction: 'desc');
+            ->orderBy(column: $sortDto->sortBy, direction: $sortDto->sortDir);
     }
 
     /**
@@ -169,6 +174,25 @@ class PostRepository
 
         return  self::getPostsQuery(filters: $filters)
             ->count();
+    }
+
+    /**
+     * @param int $perPage
+     * @param \App\Dtos\Posts\PostFilterDto $filters
+     * @return Paginator
+     */
+    public static function getPostsAlt(int $perPage = 6, PostFilterDto $filters, ?SortDto $sortDto = null): Paginator
+    {
+        if ($filters === null) {
+            $filters = new PostFilterDto();
+        }
+
+        if ($sortDto === null) {
+            $sortDto = new SortDto();
+        }
+
+        return  self::getPostsQuery(filters: $filters, sortDto: $sortDto)
+            ->paginate(perPage: $perPage);
     }
 
     /**

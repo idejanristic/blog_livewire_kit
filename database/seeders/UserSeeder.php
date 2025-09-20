@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             $roleName = "{$roleType->value}Role";
 
             $$roleName = Role::create(attributes: [
-                'name' => "{$roleType->label()} role",
+                'name' => $roleType->label(),
                 'slug' => $roleType->value,
                 'description' => $roleType->description()
             ]);
@@ -31,21 +31,21 @@ class UserSeeder extends Seeder
         foreach (PermissionType::cases() as $permissionType) {
             $permissonPostName = "{$permissionType->value}PostPermission";
             $$permissonPostName = Permission::create(attributes: [
-                'name' => "{$permissionType->label()} post persmission",
+                'name' => "{$permissionType->label()} post",
                 'slug' => "{$permissionType->value}.post",
                 'description' => "User can {$permissionType->Label()} a post"
             ]);
 
             $permissonTagName = "{$permissionType->value}TagPermission";
             $$permissonTagName = Permission::create(attributes: [
-                'name' => "{$permissionType->label()} tag persmission",
+                'name' => "{$permissionType->label()} tag",
                 'slug' => "{$permissionType->value}.tag",
                 'description' => "User can {$permissionType->Label()} a tag"
             ]);
 
             $permissonCommentName = "{$permissionType->value}CommentPermission";
             $$permissonCommentName = Permission::create(attributes: [
-                'name' => "{$permissionType->label()} comment persmission",
+                'name' => "{$permissionType->label()} comment",
                 'slug' => "{$permissionType->value}.comment",
                 'description' => "User can {$permissionType->Label()} a comment"
             ]);
@@ -69,6 +69,12 @@ class UserSeeder extends Seeder
             'name' => 'Admin access',
             'slug' => 'admin.access',
             'description' => 'Access to admininistration part of application'
+        ]);
+
+        $manageUserPermission = Permission::create(attributes: [
+            'name' => 'User menage',
+            'slug' => 'user.menage',
+            'description' => 'Permission to manage users to add roles and delete users'
         ]);
 
         $trashArticlePermission = Permission::create(attributes: [
@@ -117,7 +123,8 @@ class UserSeeder extends Seeder
             $trashCommentPermission->id,
             $publishPostPermission->id,
             $restorePostPermission->id,
-            $restoreCommentPermission->id
+            $restoreCommentPermission->id,
+            $manageUserPermission->id
         ]);
 
         $admin = User::factory()->create(

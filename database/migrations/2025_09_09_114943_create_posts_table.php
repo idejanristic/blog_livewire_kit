@@ -27,6 +27,7 @@ return new class extends Migration
                 $table->integer(column: 'view_count')->nullable()->unsigned()->default(value: 0);
                 $table->integer(column: 'like_count')->nullable()->unsigned()->default(value: 0);
                 $table->integer(column: 'dislike_count')->nullable()->unsigned()->default(value: 0);
+                $table->boolean(column: 'active')->default(value: false);
                 $table->timestamp(column: 'published_at')->nullable();
                 $table->string(column: 'source');
                 $table->timestamps();

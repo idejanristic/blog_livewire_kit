@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\UserSource;
-use App\Models\Acl\Permission;
 use App\Models\Acl\Role;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class User extends Authenticatable
@@ -175,6 +175,19 @@ class User extends Authenticatable
     public function profile(): HasOne
     {
         return $this->hasOne(related: Profile::class);
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection<int, mixed>
+     */
+    public function permissions(): Collection
+    {
+        return $this->roles()
+            ->with(relations: 'permissions')
+            ->get()
+            ->pluck(value: 'permissions')
+            ->flatten()
+            ->unique('id');
     }
 
     /**

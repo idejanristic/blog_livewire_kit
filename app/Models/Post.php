@@ -108,6 +108,24 @@ class Post extends Model
     }
 
     /**
+     * Scope a query to only include acitve posts
+     */
+    #[Scope]
+    protected function active(Builder $query): void
+    {
+        $query->where(column: 'active', operator: true);
+    }
+
+    /**
+     * Scope a query to only include inacitve posts
+     */
+    #[Scope]
+    protected function inactive(Builder $query): void
+    {
+        $query->where(column: 'active', operator: false);
+    }
+
+    /**
      * @return void
      */
     protected static function booted(): void

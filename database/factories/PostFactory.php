@@ -29,6 +29,7 @@ class PostFactory extends Factory
             'excerpt' => $this->faker->paragraph,
             'body' => $this->faker->paragraphs(nb: 5, asText: true),
             'published_at' => $this->faker->dateTimeBetween('-1 month', '+1 month'),
+            'active' => true,
             'source' => PostSource::Seed,
             'created_at' => now(),
             'updated_at' => now(),
