@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict(shouldBeStrict: true);
 
         DB::prohibitDestructiveCommands(
-            prohibit: config(key: 'app.env') === 'local'
+            prohibit: config(key: 'app.env') === 'production'
         );
     }
 }
