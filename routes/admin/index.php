@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware(['auth'])
+    ->middleware(['auth', 'acl:admin.access'])
     ->group(function () {
 
         Route::get('dashboard', Dashboard::class)
