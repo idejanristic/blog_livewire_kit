@@ -9,6 +9,8 @@ use App\Acl\Enums\UserSource;
 use App\Acl\Models\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -16,7 +18,7 @@ use Illuminate\Support\Str;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -39,6 +41,8 @@ class User extends Authenticatable
         'password',
         'remember_token'
     ];
+
+    protected $appends = ['is_online'];
 
     /**
      * Get the attributes that should be cast.
@@ -137,5 +141,21 @@ class User extends Authenticatable
     {
         return $this->roles->pluck('slug')
             ->contains(key: RoleType::ADMIN->value);
+    }
+
+    /**
+     * @return HasMany<Session, User>
+     */
+    public function sessions(): HasMany
+    {
+        return $this->hasMany(related: Session::class, foreignKey: 'user_id');
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsOnlineAttribute(): bool
+    {
+        return $this->sessions->count() > 0;
     }
 }

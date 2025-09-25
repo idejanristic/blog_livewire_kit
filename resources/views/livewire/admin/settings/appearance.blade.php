@@ -1,5 +1,5 @@
 <section class="w-full">
-    @include('partials.admin.settings-heading')
+    <x-app.header title="Settings" subtitle="Manage your profile and account settings" />
 
     <x-layouts.admin.settings.layout :heading="__('Appearance')" :subheading=" __('Update the appearance settings for your account')">
         <flux:radio.group x-data variant="segmented" x-model="$flux.appearance">

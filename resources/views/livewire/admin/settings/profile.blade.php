@@ -1,5 +1,5 @@
 <section class="w-full">
-    @include('partials.admin.settings-heading')
+    <x-app.header title="Settings" subtitle="Manage your profile and account settings" />
 
     <x-layouts.admin.settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
         <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">

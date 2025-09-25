@@ -19,6 +19,11 @@
                 :current="request()->routeIs('admin.dashboard')" wire:navigate>
                 {{ __('Dashboard') }}
             </flux:navbar.item>
+
+            <flux:navbar.item icon="users" :href="route('admin.users.index')"
+                :current="request()->routeIs('admin.users.*')" wire:navigate>
+                Users
+            </flux:navbar.item>
         </flux:navbar>
 
         <flux:spacer />
@@ -95,6 +100,11 @@
                 <flux:navlist.item icon="layout-grid" :href="route('admin.dashboard')"
                     :current="request()->routeIs('admin.dashboard')" wire:navigate>
                     {{ __('Dashboard') }}
+                </flux:navlist.item>
+
+                <flux:navlist.item icon="users" :href="route('admin.users.index')"
+                    :current="request()->routeIs('admin.users.^')" wire:navigate>
+                    Users
                 </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
