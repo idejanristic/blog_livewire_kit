@@ -2,9 +2,12 @@
 
 namespace App\Livewire\Public;
 
-use Illuminate\Contracts\View\View;
-use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Computed;
+use Illuminate\Contracts\View\View;
+use App\Repositories\PostRepository;
+use Illuminate\Database\Eloquent\Collection;
 
 
 #[Layout(
@@ -16,10 +19,19 @@ use Livewire\Component;
 )]
 class Home extends Component
 {
+    #[Computed]
+    public function posts(): Collection
+    {
+        return PostRepository::getMostViewPosts(perPage: 3);
+    }
+
     public function render(): View
     {
         return view(
-            view: 'livewire.public.home'
+            view: 'livewire.public.home',
+            data: [
+                'posts' => $this->posts()
+            ]
         );
     }
 }
