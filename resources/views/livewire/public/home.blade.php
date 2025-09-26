@@ -23,4 +23,5 @@
             </x-posts.post>
         @endforeach
     </div>
+    <livewire:components.posts.delete-confirmation />
 </section>

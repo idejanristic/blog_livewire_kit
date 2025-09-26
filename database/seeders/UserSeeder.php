@@ -34,7 +34,9 @@ class UserSeeder extends Seeder
             ]);
         }
 
-        $subscriberRole->assignPermission([]);
+        $subscriberRole->assignPermission([
+            $viewPostPermission->id
+        ]);
 
         $authorRole->assignPermission([
             $createPostPermission->id,

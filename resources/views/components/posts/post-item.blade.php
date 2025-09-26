@@ -15,6 +15,12 @@
                 {{ $post->title }}
             </flux:heading>
         </flux:link>
+        @auth
+            <livewire:components.posts.actions
+                :post="$post"
+                :key="'post_actions_' . $post->id . '_page_' . $page"
+            />
+        @endauth
     </div>
     <flux:text class="mt-2">{{ $post->excerpt }}</flux:text>
 </article>

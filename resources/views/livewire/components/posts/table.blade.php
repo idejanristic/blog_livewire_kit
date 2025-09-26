@@ -13,6 +13,29 @@
         />
     </div>
 
+    @if ($showTabs)
+        <div class="mb-4 flex gap-2">
+            @foreach (PublishedType::cases() as $type)
+                @if ($type->isActive(publishedType: $publishedType))
+                    <flux:button
+                        variant="primary"
+                        wire:click="setPublishedType('{{ $type->value }}')"
+                        size="sm"
+                    >
+                        {{ $type->label() }}
+                    </flux:button>
+                @else
+                    <flux:button
+                        wire:click="setPublishedType('{{ $type->value }}')"
+                        size="sm"
+                    >
+                        {{ $type->label() }}
+                    </flux:button>
+                @endif
+            @endforeach
+        </div>
+    @endif
+
     @empty($posts && $posts->count() > 0)
         There are no posts.
     @else
@@ -21,30 +44,6 @@
             lastItem="{{ $posts->lastItem() }}"
             :total="$total"
         />
-
-
-        @if ($showTabs)
-            <div class="mb-4 flex gap-2">
-                @foreach (PublishedType::cases() as $type)
-                    @if ($type->isActive(publishedType: $publishedType))
-                        <flux:button
-                            variant="primary"
-                            wire:click="setPublishedType('{{ $type->value }}')"
-                            size="sm"
-                        >
-                            {{ $type->label() }}
-                        </flux:button>
-                    @else
-                        <flux:button
-                            wire:click="setPublishedType('{{ $type->value }}')"
-                            size="sm"
-                        >
-                            {{ $type->label() }}
-                        </flux:button>
-                    @endif
-                @endforeach
-            </div>
-        @endif
 
         @foreach ($posts as $post)
             <x-posts.post
@@ -79,5 +78,7 @@
         >
             <x-spinner />
         </div>
+
+        <livewire:components.posts.delete-confirmation />
     @endempty
 </div>

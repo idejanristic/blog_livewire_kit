@@ -27,10 +27,17 @@
                             Post</span>
                     </flux:breadcrumbs.item>
                 </flux:breadcrumbs>
-
+                @auth
+                    <livewire:components.posts.actions :post="$post" />
+                @endauth
             </div>
 
-            <div class="mb-4">
+            <livewire:components.posts.meta
+                :post="$post"
+                :show-user-link="true"
+            />
+
+            <div class="my-4">
                 {{ $post->body }}
             </div>
         </div>
@@ -38,5 +45,7 @@
         <div class="w-full lg:w-1/3">
 
         </div>
+
+        <livewire:components.posts.delete-confirmation />
     </div>
 </section>
