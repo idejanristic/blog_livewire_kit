@@ -21,6 +21,8 @@ class Table extends Component
     protected $queryString = [];
 
     public TrashedType $type = TrashedType::TRASHED;
+    public bool $authorRequest = false;
+
     public int $perPage = 10;
 
     public string $search = '';
@@ -64,7 +66,8 @@ class Table extends Component
             filters: UserFilterDto::apply(
                 data: [
                     'search' => $this->search,
-                    'trashedType' => $this->type
+                    'trashedType' => $this->type,
+                    'authorRequest' => $this->authorRequest
                 ]
             ),
             sortDto: SortDto::apply(

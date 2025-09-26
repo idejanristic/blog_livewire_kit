@@ -23,6 +23,19 @@
                     :current="request()->routeIs('admin.users.*')" wire:navigate>
                     Users
                 </flux:navlist.item>
+
+                @if($totalAuthroRequest > 0)
+                    <flux:navlist.item icon="bookmark" :href="route('admin.author.request')"
+                        badge="{{ $totalAuthroRequest }}" badge:color="orange"
+                        :current="request()->routeIs('admin.author.request')" wire:navigate>
+                        Author request
+                    </flux:navlist.item>
+                @else
+                    <flux:navlist.item icon="bookmark" :href="route('admin.author.request')"
+                        :current="request()->routeIs('admin.author.request')" wire:navigate>
+                        Author request
+                    </flux:navlist.item>
+                @endif
             </flux:navlist.group>
         </flux:navlist>
 

@@ -2,7 +2,10 @@
 
 namespace App\Livewire\Public\UserCentar;
 
+use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -15,6 +18,13 @@ use Livewire\Component;
 )]
 class Posts extends Component
 {
+    public User $user;
+
+    public function mount(): void
+    {
+        $this->user = UserRepository::find(id: Auth::user()->id);
+    }
+
     public function render(): View
     {
         return view(

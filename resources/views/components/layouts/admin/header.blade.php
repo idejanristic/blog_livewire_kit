@@ -24,6 +24,11 @@
                 :current="request()->routeIs('admin.users.*')" wire:navigate>
                 Users
             </flux:navbar.item>
+
+            <flux:navbar.item icon="bookmark" :href="route('admin.author.request')"
+                :current="request()->routeIs('admin.author.request')" wire:navigate>
+                Author request
+            </flux:navbar.item>
         </flux:navbar>
 
         <flux:spacer />
@@ -105,6 +110,11 @@
                 <flux:navlist.item icon="users" :href="route('admin.users.index')"
                     :current="request()->routeIs('admin.users.^')" wire:navigate>
                     Users
+                </flux:navlist.item>
+
+                <flux:navlist.item icon="bookmark" :href="route('admin.author.request')"
+                    :current="request()->routeIs('admin.author.request')" wire:navigate>
+                    Author request
                 </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>

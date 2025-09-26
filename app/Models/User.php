@@ -30,6 +30,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'author_request',
         'source'
     ];
 
@@ -57,7 +58,8 @@ class User extends Authenticatable
             'password' => 'hashed',
             'source' => UserSource::class,
             'created_at' => DatetimeCast::class,
-            'updated_at' => DatetimeCast::class
+            'updated_at' => DatetimeCast::class,
+            'author_request' => 'boolean'
         ];
     }
 

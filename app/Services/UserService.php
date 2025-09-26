@@ -19,6 +19,8 @@ class UserService
     public function updateRole(User $user, int $roleId): void
     {
         $user->assignRole(role_id: $roleId);
+
+        $this->removeAuthorRequest(user: $user);
     }
 
     /**
@@ -28,5 +30,18 @@ class UserService
     public function delete(User $user): bool|null
     {
         return $this->userRepository->delete(user: $user);
+    }
+
+    /**
+     * @param mixed $user
+     * @return bool
+     */
+    public function removeAuthorRequest($user): bool
+    {
+        return $user->update(
+            attributes: [
+                'author_request' => 0
+            ]
+        );
     }
 }

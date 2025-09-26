@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Dtos\PageDto;
 use App\Dtos\SortDto;
 use App\Dtos\Users\UserFilterDto;
+use App\Repositories\Filters\Users\AuthorRequestFilter;
 use App\Repositories\Filters\Users\SearchFilter;
 use App\Repositories\Filters\Users\TrashedTypeFilter;
 use Illuminate\Support\Facades\DB;
@@ -64,6 +65,7 @@ class UserRepository
         return self::getUserRelationQuery()
             ->tap(callback: new SearchFilter(search: $filters->search))
             ->tap(callback: new TrashedTypeFilter(trashedType: $filters->trashedType))
+            ->tap(callback: new AuthorRequestFilter(authorRequest: $filters->authorRequest))
             ->orderBy(
                 column: $sortDto->sortBy,
                 direction: $sortDto->sortDir
@@ -100,6 +102,16 @@ class UserRepository
             ->whereNotNull(columns: 'user_id')
             ->where(column: 'last_activity', operator: '>=', value: now()->subMinutes(value: 5)->timestamp)
             ->distinct('user_id')
+            ->count();
+    }
+
+    /**
+     * @return int
+     */
+    public static function totalAuthorRequest(): int
+    {
+        return DB::table(table: 'users')
+            ->where(column: 'author_request', operator: '=', value: 1)
             ->count();
     }
 }

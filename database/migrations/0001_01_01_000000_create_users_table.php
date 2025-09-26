@@ -21,6 +21,7 @@ return new class extends Migration
                 $table->string(column: 'password');
                 $table->rememberToken();
                 $table->string(column: 'source');
+                $table->boolean(column: 'author_request')->default(value: false);
                 $table->timestamps();
 
                 $table->softDeletes();
