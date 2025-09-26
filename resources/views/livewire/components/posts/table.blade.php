@@ -53,6 +53,12 @@
                 :post="$post"
             >
                 <x-posts.post-item />
+
+                <livewire:components.posts.meta
+                    :post="$post"
+                    showUserLink="{{ $user ? false : true }}"
+                    :key="'post_meta_' . $post->id . '_page_' . $posts->currentPage()"
+                />
             </x-posts.post>
         @endforeach
 
