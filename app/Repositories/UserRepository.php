@@ -32,6 +32,7 @@ class UserRepository
     {
         return self::getUserRelationQuery()
             ->where(column: 'id', operator: $id)
+            ->withTrashed()
             ->first();
     }
 

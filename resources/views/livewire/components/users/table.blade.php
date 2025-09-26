@@ -82,32 +82,7 @@
                     @endif
                 </td>
                 <td class="px-4 py-3">
-                    <flux:dropdown position="bottom" align="end">
-                        <flux:button icon="ellipsis-vertical" size="sm" />
-                            <flux:navmenu>
-                                <flux:navmenu.item href="{{ route('admin.users.show', ['id' => $user->id]) }}"  icon="book-open" wire:navigate>
-                                    Preview
-                                </flux:navmenu.item>
-
-                                @if($user->author_request)
-                                <flux:navmenu.item href="{{ route('admin.users.add.author.role', ['id' => $user->id]) }}"  icon="bookmark" wire:navigate>
-                                    add author role
-                                </flux:navmenu.item>
-
-                                <flux:navmenu.item href="{{ route('admin.users.remove.author.request', ['id' => $user->id]) }}"  icon="bookmark-slash" wire:navigate>
-                                    remove author request
-                                </flux:navmenu.item>
-                                @endif
-
-                                @unless ($user->isAdmin())
-                                <flux:menu.separator />
-
-                                <flux:navmenu.item type="button" wire:click="deleteItem({{ $user->id }})" icon="trash">
-                                    Delete
-                                </flux:navmenu.item>
-                                @endunless
-                        </flux:navmenu>
-                    </flux:dropdown>
+                    <livewire:components.users.actions :user="$user" />
                 </td>
             </tr>
         @endforeach
@@ -118,4 +93,5 @@
         'scrollTo' => false
     ]) }}
     @endempty
+    <livewire:components.users.delete-comfirmation />
 </div>

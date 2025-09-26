@@ -35,7 +35,7 @@ class Table extends Component
         $this->type = TrashedType::tryFrom(value: $trashedType);
     }
 
-    public function setPage($page, $pageName = 'page')
+    public function setPage($page, $pageName = 'page'): void
     {
         $this->page = $page;
     }
@@ -79,7 +79,7 @@ class Table extends Component
         );
     }
 
-    public function deleteItem(int $id)
+    public function deleteItem(int $id): void
     {
         $user = UserRepository::find(id: $id);
 

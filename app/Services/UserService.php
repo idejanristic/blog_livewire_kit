@@ -33,15 +33,24 @@ class UserService
     }
 
     /**
-     * @param mixed $user
+     * @param \App\Models\User $user
      * @return bool
      */
-    public function removeAuthorRequest($user): bool
+    public function removeAuthorRequest(User $user): bool
     {
         return $user->update(
             attributes: [
                 'author_request' => 0
             ]
         );
+    }
+
+    /**
+     * @param \App\Models\User $user
+     * @return bool
+     */
+    public function restore(User $user): bool
+    {
+        return $user->restore();
     }
 }

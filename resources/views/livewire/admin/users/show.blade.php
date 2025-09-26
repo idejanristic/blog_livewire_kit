@@ -4,7 +4,10 @@
     <div class="flex mt-6 w-full flex-col gap-6">
         <div class="w-full min-h-150 lg:w-1/3">
             <x-app.card>
-                <flux:heading size="lg">Account</flux:heading>
+                <x-app.card.row>
+                    <flux:heading size="lg">Account</flux:heading>
+                    <livewire:components.users.actions :user="$user" />
+                </x-app.card.row>
 
                 <flux:separator class="mt-2 mb-2" />
 
@@ -93,5 +96,7 @@
         <div class="w-full lg:w-2/3">
 
         </div>
+
+        <livewire:components.users.delete-comfirmation />
     </div>
 </section>
