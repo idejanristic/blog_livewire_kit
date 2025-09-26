@@ -6,8 +6,7 @@ class SortDto
 {
     public function __construct(
         public readonly ?string $sortBy = 'created_at',
-        public readonly ?string $sortDir = 'DESC',
-        public readonly ?int $page = 1
+        public readonly ?string $sortDir = 'DESC'
     ) {}
 
     public static function apply(array $data): self
