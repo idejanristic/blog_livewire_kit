@@ -62,7 +62,7 @@
                 <td class="px-4 py-3">
                     <flux:text color="blue">
                         <flux:link href="{{ route('admin.users.show', ['id' => $user->id]) }}" wire:navigate>
-                                {{ $user->email}}
+                            {{ $user->email}}
                         </flux:link>
                     </flux:text>
                 </td>
@@ -71,7 +71,7 @@
                         {{ $role->name }}
                     @endforeach
                 </td>
-                <td class="px-4 py-3">{{ $user->created_at->format('d M Y')}}</td>
+                <td class="px-4 py-3">{{ $user->created_at->date() }}</td>
                 <td class="px-4 py-3">
                     <flux:dropdown position="bottom" align="end">
                         <flux:button icon="ellipsis-vertical" size="sm" />

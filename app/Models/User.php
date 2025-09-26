@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Acl\Enums\RoleType;
 use App\Acl\Enums\UserSource;
 use App\Acl\Models\Role;
+use App\Casts\DatetimeCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -54,7 +55,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'source' => UserSource::class
+            'source' => UserSource::class,
+            'created_at' => DatetimeCast::class,
+            'updated_at' => DatetimeCast::class
         ];
     }
 
