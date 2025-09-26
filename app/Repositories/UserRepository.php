@@ -97,6 +97,15 @@ class UserRepository
     /**
      * @return int
      */
+    public static function totalActiveUsers(): int
+    {
+        return DB::table(table: 'users')
+            ->count();
+    }
+
+    /**
+     * @return int
+     */
     public static function totalOnlineUsers(): int
     {
         return DB::table(table: 'sessions')
