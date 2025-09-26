@@ -4,17 +4,18 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Acl\Enums\RoleType;
-use App\Acl\Enums\UserSource;
 use App\Acl\Models\Role;
+use App\Acl\Enums\RoleType;
 use App\Casts\DatetimeCast;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use App\Acl\Enums\UserSource;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -162,5 +163,24 @@ class User extends Authenticatable
     public function getIsOnlineAttribute(): bool
     {
         return $this->sessions->count() > 0;
+    }
+
+    /**
+     * Get the posts for user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function posts(): HasMany
+    {
+        return $this->hasMany(related: Post::class);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Model $releted
+     * @return bool
+     */
+    public function own(Model $releted): bool
+    {
+        return $this->id === $releted->user_id;
     }
 }

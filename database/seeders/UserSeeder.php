@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Acl\Enums\PermissionType;
 use App\Models\User;
 use App\Acl\Models\Role;
 use App\Acl\Enums\RoleType;
@@ -24,9 +25,23 @@ class UserSeeder extends Seeder
             ]);
         }
 
+        foreach (PermissionType::cases() as $permissionType) {
+            $permissonPostName = "{$permissionType->value}PostPermission";
+            $$permissonPostName = Permission::create(attributes: [
+                'name' => "{$permissionType->label()} post",
+                'slug' => "{$permissionType->value}.post",
+                'description' => "User can {$permissionType->Label()} a post"
+            ]);
+        }
+
         $subscriberRole->assignPermission([]);
 
-        $authorRole->assignPermission([]);
+        $authorRole->assignPermission([
+            $createPostPermission->id,
+            $updatePostPermission->id,
+            $deletePostPermission->id,
+            $viewPostPermission->id
+        ]);
 
         $adminAccessPermission = Permission::create(attributes: [
             'name' => 'Admin access',
@@ -40,9 +55,34 @@ class UserSeeder extends Seeder
             'description' => 'Permission to manage users to add roles and delete users'
         ]);
 
+        $trashPostPermission = Permission::create(attributes: [
+            'name' => 'Post trash',
+            'slug' => 'post.trash',
+            'description' => 'Can access to trash of posts'
+        ]);
+
+        $publishPostPermission = Permission::create(attributes: [
+            'name' => 'Post publish',
+            'slug' => 'post.publish',
+            'description' => 'User can publishing a post'
+        ]);
+
+        $restorePostPermission = Permission::create(attributes: [
+            'name' => 'Post restore',
+            'slug' => 'post.restore',
+            'description' => 'User can restore a post'
+        ]);
+
         $adminRole->assignPermission([
             $adminAccessPermission->id,
-            $manageUserPermission->id
+            $manageUserPermission->id,
+            $trashPostPermission->id,
+            $publishPostPermission->id,
+            $restorePostPermission->id,
+            $createPostPermission->id,
+            $updatePostPermission->id,
+            $deletePostPermission->id,
+            $viewPostPermission->id,
         ]);
 
         $admin = User::factory()->create(
