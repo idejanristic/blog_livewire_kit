@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Public\Posts;
 
+use App\Enums\PublishedType;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -10,7 +11,7 @@ use Livewire\Component;
     name: 'components.layouts.app',
     params: [
         'title' => 'Posts',
-        'description' => 'All posts from The Blog"'
+        'description' => 'All posts published on demo blog'
     ]
 )]
 class Posts extends Component
@@ -18,7 +19,10 @@ class Posts extends Component
     public function render(): View
     {
         return view(
-            view: 'livewire.public.posts.posts'
+            view: 'livewire.public.posts.posts',
+            data: [
+                'publishedType' => PublishedType::PUBLISHED->value
+            ]
         );
     }
 }
