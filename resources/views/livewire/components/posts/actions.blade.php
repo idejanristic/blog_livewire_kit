@@ -5,6 +5,7 @@
     <flux:button
         icon="ellipsis-vertical"
         size="sm"
+        class="ml-1"
     />
 
     <flux:navmenu>

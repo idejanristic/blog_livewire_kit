@@ -17,9 +17,7 @@ class SearchFilter
         $query->when(
             value: $this->search !== '',
             callback: function (Builder $query): void {
-
                 $searchTerm = "%{$this->search}%";
-
                 $query->where(
                     column: function (Builder $query) use ($searchTerm): void {
                         $query->where(

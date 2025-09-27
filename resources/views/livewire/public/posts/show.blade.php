@@ -48,6 +48,15 @@
             <div class="my-4">
                 {{ $post->body }}
             </div>
+
+            @can(abilities: 'create.comment')
+                <livewire:components.posts.comment-form :post="$post" />
+            @endcan
+
+            <livewire:components.posts.comments
+                :comments="$post->comments"
+                :postId="$post->id"
+            />
         </div>
 
         <div class="w-full lg:w-1/3">

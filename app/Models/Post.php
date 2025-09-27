@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
@@ -29,10 +30,12 @@ class Post extends Model
         'body',
         'published_at',
         'source',
+        'status_comment',
         'user_id'
     ];
 
     protected $casts = [
+        'status_comment' => 'boolean',
         'source' => PostSource::class,
         'created_at' => DatetimeCast::class,
         'updated_at' => DatetimeCast::class,
@@ -69,6 +72,18 @@ class Post extends Model
     {
         return $this->belongsToMany(related: Tag::class)
             ->withTimestamps();
+    }
+
+    /**
+     *  @return HasMany<Comment, Post>
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(related: Comment::class)
+            ->orderBy(
+                column: 'created_at',
+                direction: 'desc'
+            );
     }
 
     /**

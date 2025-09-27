@@ -18,6 +18,7 @@ Route::prefix('admin')
         Route::get(uri: 'author/request', action: AuthorRequest::class)->name(name: 'author.request');
     });
 
+require __DIR__ . '/comments.php';
 require __DIR__ . '/settings/index.php';
 require __DIR__ . '/feedbacks.php';
 require __DIR__ . '/tags.php';

@@ -1,28 +1,24 @@
 <?php
 
-namespace App\Repositories\Filters\Tags;
+namespace App\Repositories\Filters\Comments;
 
 use Illuminate\Database\Eloquent\Builder;
 
-class SearchFilter
+class PostFilter
 {
-
     public function __construct(
-        private string $search = ''
+        private int $postId = 0
     ) {}
-
 
     public function __invoke(Builder $query): void
     {
         $query->when(
-            value: $this->search !== '',
+            value: $this->postId > 0,
             callback: function (Builder $query): void {
-                $searchTerm = "%{$this->search}%";
-
                 $query->where(
-                    column: 'name',
-                    operator: 'like',
-                    value: $searchTerm
+                    column: 'post_id',
+                    operator: '=',
+                    value: $this->postId
                 );
             }
         );

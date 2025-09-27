@@ -78,6 +78,15 @@
             @endif
 
             <flux:navlist.item
+                icon="chat-bubble-left-right"
+                :href="route('admin.comments.index')"
+                :current="request()->routeIs('admin.comments.*')"
+                wire:navigate
+            >
+                Comments
+            </flux:navlist.item>
+
+            <flux:navlist.item
                 icon="document-text"
                 :href="route('admin.feedbacks.index')"
                 :current="request()->routeIs('admin.feedbacks.*')"
@@ -261,6 +270,15 @@
                         Author request
                     </flux:navlist.item>
                 @endif
+
+                <flux:navlist.item
+                    icon="chat-bubble-left-right"
+                    :href="route('admin.comments.index')"
+                    :current="request()->routeIs('admin.comments.*')"
+                    wire:navigate
+                >
+                    Comments
+                </flux:navlist.item>
 
                 <flux:navlist.item
                     icon="document-text"

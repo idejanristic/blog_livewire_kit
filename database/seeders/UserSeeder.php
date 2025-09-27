@@ -39,13 +39,24 @@ class UserSeeder extends Seeder
                 'slug' => "{$permissionType->value}.tag",
                 'description' => "User can {$permissionType->Label()} a tag"
             ]);
+
+            $permissonCommentName = "{$permissionType->value}CommentPermission";
+            $$permissonCommentName = Permission::create(attributes: [
+                'name' => "{$permissionType->label()} comment",
+                'slug' => "{$permissionType->value}.comment",
+                'description' => "User can {$permissionType->Label()} a comment"
+            ]);
         }
 
         $subscriberRole->assignPermission([
-            $viewPostPermission->id
+            $viewPostPermission->id,
+            $createCommentPermission->id,
+            $deleteCommentPermission->id,
         ]);
 
         $authorRole->assignPermission([
+            $createCommentPermission->id,
+            $deleteCommentPermission->id,
             $createPostPermission->id,
             $updatePostPermission->id,
             $deletePostPermission->id,
@@ -83,6 +94,8 @@ class UserSeeder extends Seeder
         ]);
 
         $adminRole->assignPermission([
+            $createCommentPermission->id,
+            $deleteCommentPermission->id,
             $adminAccessPermission->id,
             $manageUserPermission->id,
             $trashPostPermission->id,

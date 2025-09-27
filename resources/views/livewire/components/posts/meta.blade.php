@@ -14,17 +14,21 @@
                 {{ $post->published_at->date() }}
             @endif
         </flux:text>
-        <flux:text class="font-bold text-zinc-900 dark:text-white">
-            {{ $post->view_count }} views
-        </flux:text>
     @else
         <flux:text>
             @if ($post->published_at)
                 Posted on {{ $post->published_at->date() }}
             @endif
         </flux:text>
+    @endif
+    <div class="flex items-center gap-4">
+        <flux:text class="flex gap-1 font-bold text-zinc-900 dark:text-white">
+            {{ $post->comments_count }}
+            <x-icons.comment />
+        </flux:text>
+
         <flux:text class="font-bold text-zinc-900 dark:text-white">
             {{ $post->view_count }} views
         </flux:text>
-    @endif
+    </div>
 </div>

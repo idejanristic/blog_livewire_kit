@@ -43,6 +43,11 @@ class DatetimeVO
         return $this->datetime->format(format: $format);
     }
 
+    public function diffForHumans(): string
+    {
+        return $this->datetime->diffForHumans();
+    }
+
     public function isBefore(DatetimeVO $other): bool
     {
         return $this->datetime->lessThan(date: $other->toCarbon());

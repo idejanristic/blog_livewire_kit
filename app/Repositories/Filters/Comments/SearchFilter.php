@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Filters\Tags;
+namespace App\Repositories\Filters\Comments;
 
 use Illuminate\Database\Eloquent\Builder;
 
@@ -18,9 +18,8 @@ class SearchFilter
             value: $this->search !== '',
             callback: function (Builder $query): void {
                 $searchTerm = "%{$this->search}%";
-
                 $query->where(
-                    column: 'name',
+                    column: 'body',
                     operator: 'like',
                     value: $searchTerm
                 );
