@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Filters\Tags;
+namespace App\Repositories\Filters\Posts;
 
 use Illuminate\Database\Eloquent\Builder;
 

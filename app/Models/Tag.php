@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\DatetimeCast;
 use App\Enums\TagSource;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +25,9 @@ class Tag extends Model
     ];
 
     protected $casts = [
-        'source' => TagSource::class
+        'source' => TagSource::class,
+        'created_at' => DatetimeCast::class,
+        'updated_at' => DatetimeCast::class,
     ];
 
     /**

@@ -3,6 +3,7 @@
 namespace App\View\Composer;
 
 use App\Models\Tag;
+use App\Repositories\TagRepository;
 use Illuminate\View\View;
 use App\Services\TagService;
 use Illuminate\Support\Facades\Cache;
@@ -18,7 +19,7 @@ class TagsComposer
         $tags = Cache::remember(
             key: 'tags_with_posts_count',
             ttl: 3600, // 1 h, with null for indefinite
-            callback: fn() => Tag::withCount('posts')->get()
+            callback: fn() => TagRepository::all()
         );
 
         $view->with(

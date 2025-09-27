@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\PostSource;
 use App\Casts\DatetimeCast;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -54,7 +55,11 @@ class Post extends Model
     #[Scope]
     protected function published(Builder $query): void
     {
-        $query->where(column: 'published_at', operator: '>=', value: now());
+        $query->where(
+            column: 'published_at',
+            operator: '>=',
+            value: Carbon::now()->format('Y-m-d')
+        );
     }
 
     /**

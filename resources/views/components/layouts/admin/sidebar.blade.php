@@ -49,6 +49,15 @@
                     Users
                 </flux:navlist.item>
 
+                <flux:navlist.item
+                    icon="tag"
+                    :href="route('admin.tags.index')"
+                    :current="request()->routeIs('admin.tags.*')"
+                    wire:navigate
+                >
+                    Tags
+                </flux:navlist.item>
+
                 @if ($totalAuthroRequest > 0)
                     <flux:navlist.item
                         icon="bookmark"
@@ -171,7 +180,7 @@
     <flux:header class="lg:hidden">
         <flux:sidebar.toggle
             class="lg:hidden"
-            icon="bars-2"
+            icon="bars-3"
             inset="left"
         />
 

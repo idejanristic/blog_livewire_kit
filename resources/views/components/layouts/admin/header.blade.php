@@ -15,7 +15,7 @@
     >
         <flux:sidebar.toggle
             class="lg:hidden"
-            icon="bars-2"
+            icon="bars-3"
             inset="left"
         />
 
@@ -35,6 +35,24 @@
                 wire:navigate
             >
                 {{ __('Dashboard') }}
+            </flux:navbar.item>
+
+            <flux:navbar.item
+                icon="users"
+                :href="route('admin.users.index')"
+                :current="request()->routeIs('admin.users.*')"
+                wire:navigate
+            >
+                Users
+            </flux:navbar.item>
+
+            <flux:navbar.item
+                icon="tag"
+                :href="route('admin.tags.index')"
+                :current="request()->routeIs('admin.tags.*')"
+                wire:navigate
+            >
+                Tags
             </flux:navbar.item>
 
             @if ($totalAuthroRequest > 0)
@@ -58,15 +76,6 @@
                     Author request
                 </flux:navlist.item>
             @endif
-
-            <flux:navbar.item
-                icon="bookmark"
-                :href="route('admin.author.request')"
-                :current="request()->routeIs('admin.author.request')"
-                wire:navigate
-            >
-                Author request
-            </flux:navbar.item>
 
             <flux:navlist.item
                 icon="document-text"
@@ -92,6 +101,7 @@
                     :label="__('Search')"
                 />
             </flux:tooltip>
+
             <flux:tooltip
                 :content="__('Repository')"
                 position="bottom"
@@ -104,6 +114,7 @@
                     :label="__('Repository')"
                 />
             </flux:tooltip>
+
             <flux:tooltip
                 :content="__('Documentation')"
                 position="bottom"
@@ -218,6 +229,15 @@
                     wire:navigate
                 >
                     Users
+                </flux:navlist.item>
+
+                <flux:navlist.item
+                    icon="tag"
+                    :href="route('admin.tags.index')"
+                    :current="request()->routeIs('admin.tags.^')"
+                    wire:navigate
+                >
+                    Tags
                 </flux:navlist.item>
 
                 @if ($totalAuthroRequest > 0)

@@ -9,7 +9,7 @@ use App\Dtos\SortDto;
 use App\Models\Post;
 use App\Repositories\Filters\Posts\PublishedFilter;
 use App\Repositories\Filters\Posts\SearchFilter;
-use App\Repositories\Filters\Tags\TagFilter;
+use App\Repositories\Filters\Posts\TagFilter;
 use App\Repositories\Filters\UserFilter;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -91,7 +91,9 @@ class PostRepository
             ->with(relations: [
                 'user.roles',
                 'user.sessions',
-                'tags' => fn($query): mixed => $query->withCount('posts')
+                'tags' => fn($query): mixed => $query->withCount([
+                    'posts' => fn($q) => $q->published()
+                ])
             ]);
     }
 
