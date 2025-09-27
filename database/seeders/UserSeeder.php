@@ -32,6 +32,13 @@ class UserSeeder extends Seeder
                 'slug' => "{$permissionType->value}.post",
                 'description' => "User can {$permissionType->Label()} a post"
             ]);
+
+            $permissonTagName = "{$permissionType->value}TagPermission";
+            $$permissonTagName = Permission::create(attributes: [
+                'name' => "{$permissionType->label()} tag",
+                'slug' => "{$permissionType->value}.tag",
+                'description' => "User can {$permissionType->Label()} a tag"
+            ]);
         }
 
         $subscriberRole->assignPermission([
@@ -85,6 +92,10 @@ class UserSeeder extends Seeder
             $updatePostPermission->id,
             $deletePostPermission->id,
             $viewPostPermission->id,
+            $createTagPermission->id,
+            $updateTagPermission->id,
+            $deleteTagPermission->id,
+            $viewTagPermission->id,
         ]);
 
         $admin = User::factory()->create(

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
 {
@@ -53,5 +54,14 @@ class Post extends Model
     protected function published(Builder $query): void
     {
         $query->where(column: 'published_at', operator: '>=', value: now());
+    }
+
+    /**
+     * @return BelongsToMany<Tag, Post, \Illuminate\Database\Eloquent\Relations\Pivot>
+     */
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(related: Tag::class)
+            ->withTimestamps();
     }
 }
