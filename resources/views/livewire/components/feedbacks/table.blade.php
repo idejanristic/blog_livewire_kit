@@ -27,8 +27,8 @@
         </div>
     </div>
 
-    @if ($users->count() == 0)
-        There are no users.
+    @if ($feedbacks->count() == 0)
+        There are no feedbacks.
     @else
         <table class="mb-4 w-full text-left text-sm">
             <thead class="bg-zinc-900/5 text-xs uppercase dark:bg-white/5">
@@ -40,7 +40,7 @@
 
                     @include('partials.table.table-sortable-th', [
                         'name' => 'name',
-                        'displayName' => 'Username',
+                        'displayName' => 'Name',
                     ])
 
                     @include('partials.table.table-sortable-th', [
@@ -48,19 +48,14 @@
                         'displayName' => 'Email',
                     ])
 
-                    <th
-                        scope="col"
-                        class="w-[50px] px-4 py-3"
-                    >Role</th>
+                    @include('partials.table.table-sortable-th', [
+                        'name' => 'message',
+                        'displayName' => 'Massage',
+                    ])
 
                     @include('partials.table.table-sortable-th', [
                         'name' => 'created_at',
                         'displayName' => 'Created at',
-                    ])
-
-                    @include('partials.table.table-sortable-th', [
-                        'name' => 'author_request',
-                        'displayName' => 'Author request',
                     ])
 
                     <th
@@ -70,50 +65,36 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user)
+                @foreach ($feedbacks as $feedback)
                     <tr
-                        wire:key="{{ $user->id }}"
+                        wire:key="{{ $feedback->id }}"
                         class="border-b dark:border-zinc-700"
                     >
-                        <td class="px-4 py-3">{{ $user->id }}</td>
-                        <td class="flex items-center justify-start gap-4 px-4 py-3">
-                            {{ $user->name }}
-                            @if ($user->isOnline)
-                                <x-icons.online.on />
-                            @endif
-                        </td>
+                        <td class="px-4 py-3">{{ $feedback->id }}</td>
+                        <td class="px-4 py-3">{{ $feedback->name }}</td>
+                        <td class="px-4 py-3">{{ $feedback->email }}</td>
                         <td class="px-4 py-3">
                             <flux:text color="blue">
                                 <flux:link
-                                    href="{{ route('admin.users.show', ['id' => $user->id]) }}"
+                                    href="{{ route('admin.feedbacks.show', ['id' => $feedback->id]) }}"
                                     wire:navigate
                                 >
-                                    {{ $user->email }}
+                                    {{ Str::limit(value: $feedback->message, limit: 100, end: '...') }}
                                 </flux:link>
                             </flux:text>
                         </td>
+                        <td class="px-4 py-3">{{ $feedback->created_at->date() }}</td>
                         <td class="px-4 py-3">
-                            @foreach ($user->roles as $role)
-                                {{ $role->name }}
-                            @endforeach
-                        </td>
-                        <td class="px-4 py-3">{{ $user->created_at->date() }}</td>
-                        <td class="px-4 py-3">
-                            @if ($user->author_request)
-                                <x-icons.check class="text-green-500" />
-                            @endif
-                        </td>
-                        <td class="px-4 py-3">
-                            <livewire:components.users.actions :user="$user" />
+                            <livewire:components.feedbacks.actions :feedback="$feedback" />
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
 
-        {{ $users->links('livewire::tailwind', [
+        {{ $feedbacks->links('livewire::tailwind', [
             'scrollTo' => false,
         ]) }}
     @endempty
-    <livewire:components.delete-comfirmation title="user" />
+    <livewire:components.delete-comfirmation title="feedback" />
 </div>

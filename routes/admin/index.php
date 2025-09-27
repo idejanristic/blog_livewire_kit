@@ -19,4 +19,5 @@ Route::prefix('admin')
     });
 
 require __DIR__ . '/settings/index.php';
+require __DIR__ . '/feedbacks.php';
 require __DIR__ . '/users/index.php';

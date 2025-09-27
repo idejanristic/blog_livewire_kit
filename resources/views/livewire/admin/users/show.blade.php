@@ -1,15 +1,18 @@
 <section class="w-full">
-    <x-app.header title="User" subtitle="$user->name ($user->email)" />
+    <x-app.header
+        title="User"
+        subtitle="$user->name ($user->email)"
+    />
 
-    <div class="flex mt-6 w-full flex-col gap-6">
-        <div class="w-full min-h-150 lg:w-1/3">
+    <div class="mt-6 flex w-full flex-col gap-6">
+        <div class="min-h-150 w-full lg:w-1/3">
             <x-app.card>
                 <x-app.card.row>
                     <flux:heading size="lg">Account</flux:heading>
                     <livewire:components.users.actions :user="$user" />
                 </x-app.card.row>
 
-                <flux:separator class="mt-2 mb-2" />
+                <flux:separator class="mb-2 mt-2" />
 
                 <x-app.card.row>
                     <flux:heading>Online:</flux:heading>
@@ -34,15 +37,15 @@
 
                 <x-app.card.row>
                     <flux:heading>Registered at:</flux:heading>
-                    <flux:text>{{ $user->created_at->format('M d, Y')}}</flux:text>
+                    <flux:text>{{ $user->created_at->format('M d, Y') }}</flux:text>
                 </x-app.card.row>
 
                 <x-app.card.row>
                     <flux:heading>Modified at:</flux:heading>
-                    <flux:text>{{ $user->updated_at->format('M d, Y')}}</flux:text>
+                    <flux:text>{{ $user->updated_at->format('M d, Y') }}</flux:text>
                 </x-app.card.row>
 
-                <flux:separator class="mt-2 mb-2" />
+                <flux:separator class="mb-2 mt-2" />
 
                 <x-app.card.row>
                     <flux:heading>Role:</flux:heading>
@@ -58,13 +61,19 @@
                 <x-app.card>
                     <flux:heading size="lg">Manage roles</flux:heading>
 
-                    <flux:separator class="mt-2 mb-4" />
-                    @if($user->isAdmin())
+                    <flux:separator class="mb-4 mt-2" />
+                    @if ($user->isAdmin())
                         <flux:text color="yellow">A user with the administrator role cannot change roles.</flux:text>
                     @else
-                        <flux:select wire:model.live="selectedRole" placeholder="Choose industry...">
+                        <flux:select
+                            wire:model.live="selectedRole"
+                            placeholder="Choose industry..."
+                        >
                             @foreach ($roles as $role)
-                                <flux:select.option value="{{ $role->id }}" vire:key="{{ $role->id }}">{{ $role->name }}
+                                <flux:select.option
+                                    value="{{ $role->id }}"
+                                    vire:key="{{ $role->id }}"
+                                >{{ $role->name }}
                                 </flux:select.option>
                             @endforeach
                         </flux:select>
@@ -75,19 +84,19 @@
             <x-app.card>
                 <flux:heading size="lg">Profile</flux:heading>
 
-                <flux:separator class="mt-2 mb-4" />
+                <flux:separator class="mb-4 mt-2" />
 
-                <div class="flex justify-between items-center mb-2">
+                <div class="mb-2 flex items-center justify-between">
                     <flux:heading>First name:</flux:heading>
-                    <flux:text>{{ $user->profile->first_name ?? ''}}</flux:text>
+                    <flux:text>{{ $user->profile->first_name ?? '' }}</flux:text>
                 </div>
 
-                <div class="flex justify-between items-center mb-2">
+                <div class="mb-2 flex items-center justify-between">
                     <flux:heading>Last name:</flux:heading>
                     <flux:text>{{ $user->profile->last_name ?? '' }}</flux:text>
                 </div>
 
-                <div class="flex justify-between items-center mb-2">
+                <div class="mb-2 flex items-center justify-between">
                     <flux:heading>Title:</flux:heading>
                     <flux:text>{{ $user->profile->title ?? '' }}</flux:text>
                 </div>
@@ -97,6 +106,6 @@
 
         </div>
 
-        <livewire:components.users.delete-comfirmation />
+        <livewire:components.delete-comfirmation title="user" />
     </div>
 </section>

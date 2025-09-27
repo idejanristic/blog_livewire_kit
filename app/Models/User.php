@@ -183,4 +183,14 @@ class User extends Authenticatable
     {
         return $this->id === $releted->user_id;
     }
+
+    /**
+     * Get the feedbacks for user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function feedbacks(): HasMany
+    {
+        return $this->hasMany(related: Feedback::class);
+    }
 }
