@@ -9,7 +9,8 @@ class PostFilterDto
     private function __construct(
         public readonly ?string $search = '',
         public readonly ?int $userId = 0,
-        public ?PublishedType $publishedType = PublishedType::ALL
+        public ?PublishedType $publishedType = PublishedType::ALL,
+        public ?int $tagId = 0,
     ) {}
 
     /**
@@ -21,7 +22,8 @@ class PostFilterDto
         return new self(
             search: $data['search'] ?? '',
             userId: $data['userId'] ?? 0,
-            publishedType: $data['publishedType'] ?? PublishedType::ALL
+            publishedType: $data['publishedType'] ?? PublishedType::ALL,
+            tagId: $data['tagId'] ?? 0
         );
     }
 }

@@ -19,6 +19,9 @@ class Table extends Component
 {
     use WithPagination;
 
+    public int $tag = 0;
+    protected $queryString = ['tag'];
+
     public ?User $user = null;
     protected int $perPage = 6;
     #[Url(as: 's', history: true)]
@@ -54,7 +57,8 @@ class Table extends Component
                     'userId' => $this->user->id ?? null,
                     'publishedType' => PublishedType::tryFrom(
                         value: $this->publishedType
-                    )
+                    ),
+                    'tagId' => $this->tag
                 ]
             ),
             sortDto: SortDto::apply(data: [
@@ -74,7 +78,8 @@ class Table extends Component
                     'userId' => $this->user->id ?? null,
                     'publishedType' => PublishedType::tryFrom(
                         value: $this->publishedType
-                    )
+                    ),
+                    'tagId' =>  $this->tag
                 ]
             )
         );
@@ -85,13 +90,19 @@ class Table extends Component
         $this->resetPage();
     }
 
+    public function updatedTag(): void
+    {
+        $this->resetPage(pageName: 'posts');
+    }
+
     public function render(): View
     {
         return view(
             view: 'livewire.components.posts.table',
             data: [
                 'posts' => $this->posts(),
-                'total' => $this->total()
+                'total' => $this->total(),
+                'tagId' => $this->tag
             ]
         );
     }

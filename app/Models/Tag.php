@@ -34,4 +34,16 @@ class Tag extends Model
         return $this->belongsToMany(related: Post::class)
             ->withTimestamps();
     }
+
+    /**
+     * @return int
+     */
+    public function getPostsCountAttribute(): int
+    {
+        if (array_key_exists('posts_count', $this->attributes)) {
+            return (int) $this->attributes['posts_count'];
+        }
+
+        return $this->posts()->count();
+    }
 }

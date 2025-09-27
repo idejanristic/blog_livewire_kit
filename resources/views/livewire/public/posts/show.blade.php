@@ -40,13 +40,21 @@
                 :show-user-link="true"
             />
 
+            <x-tags
+                :tags="$post->tags"
+                class="mb-2"
+            />
+
             <div class="my-4">
                 {{ $post->body }}
             </div>
         </div>
 
         <div class="w-full lg:w-1/3">
-
+            <x-tags
+                :tags="$allTags"
+                :tagId="$tagId"
+            />
         </div>
 
         <livewire:components.posts.delete-confirmation />

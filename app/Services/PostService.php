@@ -24,6 +24,12 @@ class PostService
         $post = $this->postRepository
             ->create(dto: $dto, userId: $userId);
 
+        if ($post && count(value: $dto->tags) > 0) {
+            $this->postRepository
+                ->tagsSync(dto: $dto, post: $post);
+        }
+
+
         return $post;
     }
 
@@ -36,6 +42,11 @@ class PostService
     {
         $status =  $this->postRepository
             ->update(dto: $dto, post: $post);
+
+        if ($status && count(value: $dto->tags) > 0) {
+            $this->postRepository
+                ->tagsSync(dto: $dto, post: $post);
+        }
 
         return $status;
     }

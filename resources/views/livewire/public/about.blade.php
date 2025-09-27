@@ -1,8 +1,11 @@
 <section class="w-full">
-    <x-app.header title="About me" subtitle="This is what I do" />
+    <x-app.header
+        title="About me"
+        subtitle="This is what I do"
+    />
 
-    <div class="flex flex-col lg:flex-row gap-6 mt-4">
-        <div class="w-full min-h-150 lg:w-2/3">
+    <div class="mt-4 flex flex-col gap-6 lg:flex-row">
+        <div class="min-h-150 w-full lg:w-2/3">
             <div class="flex flex-col gap-3">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur
                     voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam
@@ -32,7 +35,10 @@
         </div>
 
         <div class="w-full lg:w-1/3">
-
+            <x-tags
+                :tags="$allTags"
+                :tagId="$tagId"
+            />
         </div>
     </div>
 </section>

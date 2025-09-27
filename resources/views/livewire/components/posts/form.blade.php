@@ -30,6 +30,15 @@
         <flux:error name="form.published_at" />
     </flux:field>
 
+    <livewire:public.tags-select
+        :tags="$tags"
+        :selected="collect($form->selectedTags)
+            ->map(fn($id) => collect($tags)->firstWhere('id', $id))
+            ->filter()
+            ->values()
+            ->all()"
+    />
+
     <flux:field>
         <flux:label>Body:</flux:label>
         <flux:textarea

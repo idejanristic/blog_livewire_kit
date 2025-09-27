@@ -12,19 +12,22 @@ class PostDto
     public readonly string $body;
     public readonly ?Carbon $published_at;
     public readonly PostSource $source;
+    public readonly array $tags;
 
     private function __construct(
         string $title,
         string $excerpt,
         string $body,
         ?string $published_at,
-        PostSource $source
+        PostSource $source,
+        array $tags
     ) {
         $this->title = $title;
         $this->excerpt = $excerpt;
         $this->body = $body;
         $this->published_at = $published_at ? Carbon::parse(time: $published_at) : null;
         $this->source = $source;
+        $this->tags = $tags ?? [];
     }
 
     public static function apply(array $data): PostDto
@@ -34,7 +37,8 @@ class PostDto
             excerpt: $data['excerpt'],
             body: $data['body'],
             published_at: $data['published_at'] ?? null,
-            source: PostSource::APP
+            source: PostSource::APP,
+            tags: $data['selectedTags'] ?? []
         );
     }
 }

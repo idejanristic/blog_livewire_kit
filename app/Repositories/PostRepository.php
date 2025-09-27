@@ -9,6 +9,7 @@ use App\Dtos\SortDto;
 use App\Models\Post;
 use App\Repositories\Filters\Posts\PublishedFilter;
 use App\Repositories\Filters\Posts\SearchFilter;
+use App\Repositories\Filters\Tags\TagFilter;
 use App\Repositories\Filters\UserFilter;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -61,6 +62,16 @@ class PostRepository
     }
 
     /**
+     * @param \App\Dtos\Posts\PostDto $dto
+     * @param \App\Models\Post $post
+     * @return void
+     */
+    public function tagsSync(PostDto $dto, Post $post): void
+    {
+        $post->tags()->sync(ids: $dto->tags);
+    }
+
+    /**
      * @param int $id
      * @return Post|null
      */
@@ -79,7 +90,8 @@ class PostRepository
         return Post::query()
             ->with(relations: [
                 'user.roles',
-                'user.sessions'
+                'user.sessions',
+                'tags' => fn($query): mixed => $query->withCount('posts')
             ]);
     }
 
@@ -101,6 +113,7 @@ class PostRepository
             ->tap(callback: new PublishedFilter(publishedType: $filters->publishedType))
             ->tap(callback: new SearchFilter(search: $filters->search))
             ->tap(callback: new UserFilter(userId: $filters->userId))
+            ->tap(callback: new TagFilter(tagId: $filters->tagId))
             ->orderBy(column: $sortDto->sortBy, direction: $sortDto->sortDir)
             ->orderBy(column: 'id', direction: $sortDto->sortDir);
     }

@@ -58,6 +58,11 @@
                     showUserLink="{{ $user ? false : true }}"
                     :key="'post_meta_' . $post->id . '_page_' . $posts->currentPage()"
                 />
+
+                <x-tags
+                    :tags="$post->tags"
+                    :tagId="$tagId"
+                />
             </x-posts.post>
         @endforeach
 

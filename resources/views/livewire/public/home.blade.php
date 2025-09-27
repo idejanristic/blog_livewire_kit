@@ -16,6 +16,11 @@
 
                 <x-posts.post-item />
 
+                <x-tags
+                    :tags="$post->tags"
+                    class="mb-6"
+                />
+
                 @if ($post->user)
                     <x-posts.post-author :user="$post->user" />
                 @endif

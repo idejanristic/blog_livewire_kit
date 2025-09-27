@@ -1,4 +1,4 @@
-<div class='flex items-center justify-between'>
+<div class='mb-2 flex items-center justify-between'>
     @if ($showUserLink)
         <flux:text>
             Posted by

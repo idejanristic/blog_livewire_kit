@@ -68,7 +68,10 @@
         </div>
 
         <div class="w-full lg:w-1/3">
-
+            <x-tags
+                :tags="$allTags"
+                :tagId="$tagId"
+            />
         </div>
     </div>
 </section>

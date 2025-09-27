@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\View;
 use App\View\Composer\AuthorComposer;
 use App\View\Composer\AuthorRequestCounterComposer;
+use App\View\Composer\TagsComposer;
 use Illuminate\Support\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
@@ -30,6 +31,11 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(
             views: ['components.layouts.admin.sidebar', 'components.layouts.admin.header'],
             callback: AuthorRequestCounterComposer::class
+        );
+
+        View::composer(
+            views: 'livewire.public.*',
+            callback: TagsComposer::class
         );
     }
 }
