@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TagSource;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -45,5 +46,23 @@ class Tag extends Model
         }
 
         return $this->posts()->count();
+    }
+
+    /**
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::saved(
+            callback: function ($post): void {
+                Cache::forget(key: 'tags_with_posts_count');
+            }
+        );
+
+        static::deleted(
+            callback: function ($post): void {
+                Cache::forget(key: 'tags_with_posts_count');
+            }
+        );
     }
 }

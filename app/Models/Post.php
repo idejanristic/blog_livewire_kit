@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\PostSource;
 use App\Casts\DatetimeCast;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -63,5 +64,23 @@ class Post extends Model
     {
         return $this->belongsToMany(related: Tag::class)
             ->withTimestamps();
+    }
+
+    /**
+     * @return void
+     */
+    protected static function booted(): void
+    {
+        static::saved(
+            callback: function ($post): void {
+                Cache::forget(key: 'tags_with_posts_count');
+            }
+        );
+
+        static::deleted(
+            callback: function ($post): void {
+                Cache::forget(key: 'tags_with_posts_count');
+            }
+        );
     }
 }
