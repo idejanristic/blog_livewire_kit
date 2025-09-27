@@ -85,7 +85,10 @@
                         </td>
                         <td class="px-4 py-3">{{ $feedback->created_at->date() }}</td>
                         <td class="px-4 py-3">
-                            <livewire:components.feedbacks.actions :feedback="$feedback" />
+                            <livewire:components.feedbacks.actions
+                                :feedback="$feedback"
+                                :key="'feedback_actions_' . $feedback->id . '_page_' . $feedbacks->currentPage()"
+                            />
                         </td>
                     </tr>
                 @endforeach

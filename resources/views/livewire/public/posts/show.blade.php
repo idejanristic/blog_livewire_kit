@@ -28,7 +28,10 @@
                     </flux:breadcrumbs.item>
                 </flux:breadcrumbs>
                 @auth
-                    <livewire:components.posts.actions :post="$post" />
+                    <livewire:components.posts.actions
+                        :post="$post"
+                        :key="'post_actions_' . $post->id . '_show'"
+                    />
                 @endauth
             </div>
 

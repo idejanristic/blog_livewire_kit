@@ -9,7 +9,10 @@
             <x-app.card>
                 <x-app.card.row>
                     <flux:heading size="lg">Account</flux:heading>
-                    <livewire:components.users.actions :user="$user" />
+                    <livewire:components.users.actions
+                        :user="$user"
+                        :key="'user_actions_' . $user->id . '_shwo'"
+                    />
                 </x-app.card.row>
 
                 <flux:separator class="mb-2 mt-2" />

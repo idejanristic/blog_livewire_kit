@@ -104,7 +104,10 @@
                             @endif
                         </td>
                         <td class="px-4 py-3">
-                            <livewire:components.users.actions :user="$user" />
+                            <livewire:components.users.actions
+                                :user="$user"
+                                :key="'user_actions_' . $user->id . '_page_' . $users->currentPage()"
+                            />
                         </td>
                     </tr>
                 @endforeach

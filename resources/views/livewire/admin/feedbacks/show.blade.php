@@ -9,7 +9,10 @@
             <x-app.card>
                 <x-app.card.row>
                     <flux:heading size="lg">Feedback</flux:heading>
-                    <livewire:components.feedbacks.actions :feedback="$feedback" />
+                    <livewire:components.feedbacks.actions
+                        :feedback="$feedback"
+                        :key="'feedback_actions_' . $feedback->id . '_show'"
+                    />
                 </x-app.card.row>
 
                 <flux:separator class="mb-2 mt-2" />
