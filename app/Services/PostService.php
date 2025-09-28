@@ -6,12 +6,12 @@ use App\Models\Post;
 use App\Dtos\Posts\PostDto;
 use App\Repositories\PostRepository;
 
-use function Pest\Laravel\post;
 
 class PostService
 {
     public function __construct(
-        private PostRepository $postRepository
+        private PostRepository $postRepository,
+        private ReactionService $reactionService
     ) {}
 
     /**
@@ -62,5 +62,25 @@ class PostService
                 'published_at' => now()
             ]
         );
+    }
+
+    /**
+     * @param \App\Models\Post $post
+     * @param int $userId
+     * @return void
+     */
+    public function like(Post $post, int $userId): void
+    {
+        $this->reactionService->toggleLike(model: $post, userId: $userId);
+    }
+
+    /**
+     * @param \App\Models\Post $post
+     * @param int $userId
+     * @return void
+     */
+    public function dislike(Post $post, int $userId): void
+    {
+        $this->reactionService->toggleDislike(model: $post, userId: $userId);
     }
 }

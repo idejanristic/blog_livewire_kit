@@ -12,23 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create(
-            table: 'comments',
+            table: 'dislikes',
             callback: function (Blueprint $table): void {
                 $table->id();
-                $table->foreignId(column: 'post_id')
-                    ->constrained(table: 'posts', column: 'id')
-                    ->onDelete(action: 'cascade')
-                    ->onUpdate(action: 'cascade');
-
                 $table->foreignId(column: 'user_id')
                     ->constrained(table: 'users', column: 'id')
                     ->onDelete(action: 'cascade')
                     ->onUpdate(action: 'cascade');
-
-                $table->integer(column: 'like_count')->nullable()->unsigned()->default(value: 0);
-                $table->integer(column: 'dislike_count')->nullable()->unsigned()->default(value: 0);
-
-                $table->text(column: 'body');
+                $table->integer(column: 'dislikeable_id');
+                $table->string(column: 'dislikeable_type');
                 $table->timestamps();
             }
         );
@@ -39,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(table: 'comments');
+        Schema::dropIfExists(table: 'dislikes');
     }
 };

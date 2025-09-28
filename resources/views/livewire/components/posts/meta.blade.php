@@ -22,6 +22,36 @@
         </flux:text>
     @endif
     <div class="flex items-center gap-4">
+        @auth
+            <button
+                type="button"
+                class="flex items-center gap-1 space-x-2 rounded-2xl transition"
+                wire:click="like"
+            >
+                {{ $post->like_count }}
+                <x-icons.like />
+            </button>
+
+            <button
+                type="button"
+                class="flex items-center gap-1 space-x-2 rounded-2xl transition"
+                wire:click="dislike"
+            >
+                {{ $post->dislike_count }}
+                <x-icons.dislike />
+            </button>
+        @else
+            <div class="flex items-center gap-1 space-x-2 rounded-2xl transition">
+                {{ $post->like_count }}
+                <x-icons.like />
+            </div>
+
+            <div class="flex items-center gap-1 space-x-2 rounded-2xl transition">
+                {{ $post->dislike_count }}
+                <x-icons.dislike />
+            </div>
+        @endauth
+
         <flux:text class="flex gap-1 font-bold text-zinc-900 dark:text-white">
             {{ $post->comments_count }}
             <x-icons.comment />
