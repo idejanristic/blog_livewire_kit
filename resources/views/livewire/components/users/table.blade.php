@@ -117,6 +117,6 @@
         {{ $users->links('livewire::tailwind', [
             'scrollTo' => false,
         ]) }}
-    @endempty
+    @endif
     <livewire:components.delete-comfirmation title="user" />
 </div>

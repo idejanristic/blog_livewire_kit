@@ -55,6 +55,24 @@
                 Tags
             </flux:navbar.item>
 
+            <flux:navlist.item
+                icon="chat-bubble-left-right"
+                :href="route('admin.comments.index')"
+                :current="request()->routeIs('admin.comments.*')"
+                wire:navigate
+            >
+                Comments
+            </flux:navlist.item>
+
+            <flux:navlist.item
+                icon="document-text"
+                :href="route('admin.feedbacks.index')"
+                :current="request()->routeIs('admin.feedbacks.*')"
+                wire:navigate
+            >
+                Feeebaks
+            </flux:navlist.item>
+
             @if ($totalAuthroRequest > 0)
                 <flux:navlist.item
                     icon="bookmark"
@@ -76,24 +94,6 @@
                     Author request
                 </flux:navlist.item>
             @endif
-
-            <flux:navlist.item
-                icon="chat-bubble-left-right"
-                :href="route('admin.comments.index')"
-                :current="request()->routeIs('admin.comments.*')"
-                wire:navigate
-            >
-                Comments
-            </flux:navlist.item>
-
-            <flux:navlist.item
-                icon="document-text"
-                :href="route('admin.feedbacks.index')"
-                :current="request()->routeIs('admin.feedbacks.*')"
-                wire:navigate
-            >
-                Feeebaks
-            </flux:navlist.item>
         </flux:navbar>
 
         <flux:spacer />
@@ -249,6 +249,25 @@
                     Tags
                 </flux:navlist.item>
 
+                <flux:navlist.item
+                    icon="chat-bubble-left-right"
+                    :href="route('admin.comments.index')"
+                    :current="request()->routeIs('admin.comments.*')"
+                    wire:navigate
+                >
+                    Comments
+                </flux:navlist.item>
+
+                <flux:navlist.item
+                    icon="document-text"
+                    :href="route('admin.feedbacks.index')"
+                    :current="request()->routeIs('admin.feedbacks.*')"
+                    wire:navigate
+                >
+                    Feeebaks
+                </flux:navlist.item>
+
+
                 @if ($totalAuthroRequest > 0)
                     <flux:navlist.item
                         icon="bookmark"
@@ -270,24 +289,6 @@
                         Author request
                     </flux:navlist.item>
                 @endif
-
-                <flux:navlist.item
-                    icon="chat-bubble-left-right"
-                    :href="route('admin.comments.index')"
-                    :current="request()->routeIs('admin.comments.*')"
-                    wire:navigate
-                >
-                    Comments
-                </flux:navlist.item>
-
-                <flux:navlist.item
-                    icon="document-text"
-                    :href="route('admin.feedbacks.index')"
-                    :current="request()->routeIs('admin.feedbacks.*')"
-                    wire:navigate
-                >
-                    Feeebaks
-                </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
 
