@@ -91,7 +91,9 @@ class PostRepository
             ->with(relations: [
                 'user.roles',
                 'user.sessions',
+                'user.profile',
                 'comments.user.sessions',
+                'comments.user.profile',
                 'tags' => fn($query): mixed => $query->withCount([
                     'posts' => fn($q) => $q->published()
                 ])

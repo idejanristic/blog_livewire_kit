@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Acl\Models\Role;
 use App\Acl\Enums\RoleType;
 use App\Acl\Models\Permission;
+use App\Models\Profile;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -132,6 +133,10 @@ class UserSeeder extends Seeder
             ->create()
             ->each(
                 callback: function (User $user) use ($subscriberRole): void {
+                    if (fake()->boolean(chanceOfGettingTrue: 70)) {
+                        Profile::factory()->forUser($user)->create();
+                    }
+
                     $user->assignRole(role_id: $subscriberRole->id);
                 }
             );

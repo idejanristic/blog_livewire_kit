@@ -12,6 +12,8 @@ use App\Acl\Enums\UserSource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -45,7 +47,7 @@ class User extends Authenticatable
         'remember_token'
     ];
 
-    protected $appends = ['is_online'];
+    protected $appends = ['is_online', 'has_profile', 'profile_name', 'profile_title'];
 
     /**
      * Get the attributes that should be cast.
@@ -69,12 +71,65 @@ class User extends Authenticatable
      */
     public function initials(): string
     {
-        return Str::of($this->name)
+        $name = $this->profile_name;
+
+        return Str::of($name)
             ->explode(' ')
             ->take(2)
             ->map(fn($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
+
+    /**
+     * Accessor for "has_profile".
+     */
+    protected function hasProfile(): Attribute
+    {
+        return Attribute::get(
+            get: function (): bool {
+                if ($this->relationLoaded('profile')) {
+                    return !is_null($this->getRelation(relation: 'profile'));
+                }
+
+                return $this->profile()->exists();
+            }
+        );
+    }
+
+    /**
+     * Accessor for "profile_name".
+     */
+    protected function profileName(): Attribute
+    {
+        return Attribute::get(
+            get: function (): mixed {
+                if ($this->relationLoaded(key: 'profile')) {
+                    return $this->profile ? $this->profile->full_name : $this->name;
+                }
+
+                // fallback ako lazy loading nije dozvoljen
+                return $this->name;
+            }
+        );
+    }
+
+    /**
+     * Accessor for "profile_name".
+     */
+    protected function profileTitle(): Attribute
+    {
+        return Attribute::get(
+            get: function (): mixed {
+                if ($this->relationLoaded(key: 'profile')) {
+                    return $this->profile ? $this->profile->title : '';
+                }
+
+                // fallback ako lazy loading nije dozvoljen
+                return "";
+            }
+        );
+    }
+
 
     /**
      * Get all roles for the user
@@ -216,5 +271,13 @@ class User extends Authenticatable
     public function dislikes(): HasMany
     {
         return $this->hasMany(related: Dislike::class);
+    }
+
+    /**
+     * @return HasOne<Profile, User>
+     */
+    public function profile(): HasOne
+    {
+        return $this->hasOne(related: Profile::class);
     }
 }

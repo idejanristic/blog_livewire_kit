@@ -44,7 +44,8 @@ class UserRepository
         return User::query()
             ->with(relations: [
                 'sessions',
-                'roles'
+                'roles',
+                'profile'
             ]);
     }
 

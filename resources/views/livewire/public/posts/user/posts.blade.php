@@ -1,7 +1,7 @@
 <section class="w-full">
     <x-app.header
         title="Blog"
-        subtitle="Posts was written by {{ $user->name }}"
+        subtitle="Posts was written by {{ $user->profile_title }} {{ $user->profile_name }}"
     />
 
     <div class="mt-4 flex flex-col gap-6 lg:flex-row">
@@ -23,7 +23,7 @@
 
                 <flux:breadcrumbs.item>
                     <span class="text-orange-700 dark:text-orange-400">
-                        {{ $user->name }}
+                        {{ $user->profile_title }} {{ $user->profile_name }}
                     </span>
                 </flux:breadcrumbs.item>
             </flux:breadcrumbs>

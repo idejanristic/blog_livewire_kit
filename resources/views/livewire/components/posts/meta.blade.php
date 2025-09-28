@@ -7,7 +7,8 @@
                 variant="subtle"
                 wire:navigate
             >
-                <strong class="text-orange-700 dark:text-orange-400">{{ $post->user->name }}</strong>
+                <strong class="text-orange-700 dark:text-orange-400">{{ $post->user->profile_title }}
+                    {{ $post->user->profile_name }}</strong>
             </flux:link>
             @if ($post->published_at)
                 on

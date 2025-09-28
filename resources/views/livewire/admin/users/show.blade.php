@@ -1,7 +1,7 @@
 <section class="w-full">
     <x-app.header
         title="User"
-        subtitle="$user->name ($user->email)"
+        subtitle="$user->title $user->profile_name ($user->email)"
     />
 
     <div class="mt-6 flex w-full flex-col gap-6">

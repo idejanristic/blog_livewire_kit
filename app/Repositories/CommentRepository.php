@@ -73,7 +73,7 @@ class CommentRepository
     {
         return Comment::query()
             ->with(relations: [
-                'user',
+                'user.profile',
                 'post'
             ]);
     }

@@ -9,7 +9,7 @@
                 class="mr-1"
                 href="{{ route(name: 'posts.user', parameters: ['id' => $comment->user->id]) }}"
             >
-                @ {{ $comment->user->name }}
+                @ {{ $comment->user->profile_title }} {{ $comment->user->profile_name }}
             </flux:link>
         </b>
         {{ $comment->created_at->diffForHumans() }}

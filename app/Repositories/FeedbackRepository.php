@@ -65,7 +65,8 @@ class FeedbackRepository
         return Feedback::query()
             ->with(relations: [
                 'user.roles',
-                'user.sessions'
+                'user.sessions',
+                'user.profile'
             ]);
     }
 

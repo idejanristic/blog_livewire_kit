@@ -77,7 +77,7 @@
                     >
                         <td class="px-4 py-3">{{ $user->id }}</td>
                         <td class="flex items-center justify-start gap-4 px-4 py-3">
-                            {{ $user->name }}
+                            {{ $user->profile_name }}
                             @if ($user->isOnline)
                                 <x-icons.online.on />
                             @endif
