@@ -60,6 +60,8 @@
                         variant="danger"
                         type="submit"
                         class="w-full"
+                        wire:loading.attr="disabled"
+                        wire:target="store,update"
                     >
                         Send
                     </flux:button>

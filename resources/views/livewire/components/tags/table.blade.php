@@ -81,6 +81,8 @@
                                 variant="danger"
                                 size='xs'
                                 wire:click="delete({{ $tag->id }})"
+                                wire:loading.attr="disabled"
+                                wire:target="store,update"
                             >Delete</flux:button>
                         </td>
                     </tr>

@@ -9,6 +9,8 @@
         <flux:button
             icon="plus"
             wire:click.prevent="createTag()"
+            wire:loading.attr="disabled"
+            wire:target="store,update"
         >
             New tag
         </flux:button>

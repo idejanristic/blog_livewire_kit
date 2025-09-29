@@ -99,6 +99,8 @@
                             <flux:button
                                 variant="danger"
                                 size='xs'
+                                wire:loading.attr="disabled"
+                                wire:target="store,update"
                                 wire:click="delete({{ $comment->id }})"
                             >Delete</flux:button>
                         </td>
