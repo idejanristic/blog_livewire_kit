@@ -5,6 +5,7 @@ namespace App\Livewire\Components\Comments;
 use App\Dtos\Comments\CommentFilterDto;
 use App\Dtos\PageDto;
 use App\Dtos\SortDto;
+use App\Models\User;
 use App\Repositories\CommentRepository;
 use App\Services\CommentService;
 use App\Traits\Toastable;
@@ -17,6 +18,8 @@ use Livewire\WithPagination;
 class Table extends Component
 {
     use WithPagination, Toastable;
+
+    public User $user;
 
     protected $queryString = [];
 
@@ -56,7 +59,8 @@ class Table extends Component
             ),
             filters: CommentFilterDto::apply(
                 data: [
-                    'search' => $this->search
+                    'search' => $this->search,
+                    'userId' => $this->user ? $this->user->id : 0
                 ]
             ),
             sortDto: SortDto::apply(

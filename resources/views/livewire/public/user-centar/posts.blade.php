@@ -1,7 +1,7 @@
 <section class="w-full">
     <x-app.header
         title="User Centar"
-        subtitle="Posts was written by {{ $user->name }}"
+        subtitle="Posts was written by {{ $user->profile_name }}"
     />
 
     @include('partials.public.user-centar.navbar')

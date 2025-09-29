@@ -48,10 +48,12 @@
                         'displayName' => 'Post',
                     ])
 
-                    @include('partials.table.table-sortable-th', [
-                        'name' => 'user_id',
-                        'displayName' => 'User',
-                    ])
+                    @unless ($user)
+                        @include('partials.table.table-sortable-th', [
+                            'name' => 'user_id',
+                            'displayName' => 'User',
+                        ])
+                    @endunless
 
                     @include('partials.table.table-sortable-th', [
                         'name' => 'created_at',
@@ -84,16 +86,18 @@
                                 </flux:link>
                             </flux:text>
                         </td>
-                        <td class="px-4 py-3">
-                            <flux:text color="blue">
-                                <flux:link
-                                    href="{{ route('admin.users.show', ['id' => $comment->user->id]) }}"
-                                    wire:navigate
-                                >
-                                    {{ $comment->user->name }}
-                                </flux:link>
-                            </flux:text>
-                        </td>
+                        @unless ($user)
+                            <td class="px-4 py-3">
+                                <flux:text color="blue">
+                                    <flux:link
+                                        href="{{ route('admin.users.show', ['id' => $comment->user->id]) }}"
+                                        wire:navigate
+                                    >
+                                        {{ $comment->user->name }}
+                                    </flux:link>
+                                </flux:text>
+                            </td>
+                        @endunless
                         <td class="px-4 py-3">{{ $comment->created_at->date() }}</td>
                         <td class="px-4 py-3">
                             <flux:button

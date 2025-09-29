@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Actions\AuthorRequest;
 use App\Livewire\Public\UserCentar\Posts;
+use App\Livewire\Public\UserCentar\Comments;
 use App\Livewire\Public\UserCentar\EditPost;
 use App\Livewire\Public\UserCentar\CreatePost;
 
@@ -12,6 +13,10 @@ Route::middleware(['auth'])
             Route::get(uri: '/user/centar', action: Posts::class)
                 ->middleware(middleware: 'acl:view.post')
                 ->name(name: 'user.center.index');
+
+            Route::get(uri: '/user/centar/comments', action: Comments::class)
+                ->middleware(middleware: 'acl:view.comment')
+                ->name(name: 'user.center.comments');
 
             Route::get(uri: '/user/posts/create', action: CreatePost::class)
                 ->middleware(middleware: 'acl:create.post')

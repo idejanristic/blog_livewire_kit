@@ -2,13 +2,12 @@
 
 namespace App\Livewire\Public\UserCentar;
 
-use App\Enums\PublishedType;
 use App\Models\User;
-use App\Repositories\UserRepository;
+use Livewire\Component;
 use Illuminate\Contracts\View\View;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
-use Livewire\Component;
 
 #[Layout(
     name: 'components.layouts.app',
@@ -17,11 +16,9 @@ use Livewire\Component;
         'description' => ''
     ]
 )]
-class Posts extends Component
+class Comments extends Component
 {
     public User $user;
-
-    public string $publishedType = PublishedType::ALL->value;
 
     public function mount(): void
     {
@@ -31,10 +28,7 @@ class Posts extends Component
     public function render(): View
     {
         return view(
-            view: 'livewire.public.user-centar.posts',
-            data: [
-                'publishedType' => $this->publishedType
-            ]
+            view: 'livewire.public.user-centar.comments'
         );
     }
 }

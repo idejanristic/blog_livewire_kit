@@ -53,11 +53,13 @@ class UserSeeder extends Seeder
             $viewPostPermission->id,
             $createCommentPermission->id,
             $deleteCommentPermission->id,
+            $viewCommentPermission->id,
         ]);
 
         $authorRole->assignPermission([
             $createCommentPermission->id,
             $deleteCommentPermission->id,
+            $viewCommentPermission->id,
             $createPostPermission->id,
             $updatePostPermission->id,
             $deletePostPermission->id,
@@ -97,6 +99,7 @@ class UserSeeder extends Seeder
         $adminRole->assignPermission([
             $createCommentPermission->id,
             $deleteCommentPermission->id,
+            $viewCommentPermission->id,
             $adminAccessPermission->id,
             $manageUserPermission->id,
             $trashPostPermission->id,
