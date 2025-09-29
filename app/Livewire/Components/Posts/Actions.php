@@ -2,16 +2,18 @@
 
 namespace App\Livewire\Components\Posts;
 
+use App\Enums\UserAcivityType;
 use App\Models\Post;
 use App\Repositories\PostRepository;
 use App\Traits\Toastable;
+use App\Traits\UserActivitiable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Actions extends Component
 {
-    use Toastable;
+    use Toastable, UserActivitiable;
 
     public Post $post;
     public array $actions = [
@@ -41,6 +43,12 @@ class Actions extends Component
         );
 
         $postRepository = app(abstract: PostRepository::class);
+
+        $this->activity(
+            model: $this->post,
+            type: UserAcivityType::DELETED,
+            content: "Post \'{$this->post->title}\' was deleted"
+        );
 
         $postRepository->delete(post: $this->post);
 

@@ -2,14 +2,16 @@
 
 namespace App\Livewire\Actions;
 
+use App\Enums\UserAcivityType;
 use App\Traits\Toastable;
+use App\Traits\UserActivitiable;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class AuthorRequest
 {
-    use Toastable;
+    use Toastable, UserActivitiable;
 
     /**
      * Log the current user out of the application.
@@ -25,6 +27,12 @@ class AuthorRequest
         $this->toastSuccess(
             withSession: true,
             message: 'User was sent request for author role'
+        );
+
+        $this->activity(
+            model: $user,
+            type: UserAcivityType::OTHER,
+            content: "User \'{$user->email}\' was sent request for author role"
         );
 
         return redirect()->back();

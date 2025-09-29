@@ -27,4 +27,12 @@
         >
             Comments</flux:navbar.item>
     @endcan
+
+    <flux:navbar.item
+        :href="route('user.center.activity')"
+        :current="request()->routeIs('user.center.activity')"
+        wire:navigate
+    >
+        Activity</flux:navbar.item>
+
 </flux:navbar>

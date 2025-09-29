@@ -4,9 +4,11 @@ namespace App\Livewire\Actions;
 
 use App\Acl\Enums\RoleType;
 use App\Acl\Models\Role;
+use App\Enums\UserAcivityType;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
 use App\Traits\Toastable;
+use App\Traits\UserActivitiable;
 use Illuminate\Http\RedirectResponse;
 
 class AddAuthorRole

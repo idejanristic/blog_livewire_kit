@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Public\UserCentar\Activities;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Actions\AuthorRequest;
 use App\Livewire\Public\UserCentar\Posts;
@@ -17,6 +18,9 @@ Route::middleware(['auth'])
             Route::get(uri: '/user/centar/comments', action: Comments::class)
                 ->middleware(middleware: 'acl:view.comment')
                 ->name(name: 'user.center.comments');
+
+            Route::get(uri: '/user/centar/activity', action: Activities::class)
+                ->name(name: 'user.center.activity');
 
             Route::get(uri: '/user/posts/create', action: CreatePost::class)
                 ->middleware(middleware: 'acl:create.post')

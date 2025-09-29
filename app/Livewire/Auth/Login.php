@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Auth;
 
+use App\Enums\UserAcivityType;
+use App\Traits\UserActivitiable;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -15,6 +17,8 @@ use Livewire\Component;
 #[Layout('components.layouts.auth')]
 class Login extends Component
 {
+    use UserActivitiable;
+
     #[Validate('required|string|email')]
     public string $email = '';
 
@@ -42,6 +46,14 @@ class Login extends Component
 
         RateLimiter::clear($this->throttleKey());
         Session::regenerate();
+
+        $user = Auth::user();
+
+        $this->activity(
+            model: $user,
+            type: UserAcivityType::LOGIN,
+            content: "User \'{$user->email}\' was login"
+        );
 
         $this->redirectIntended(default: route(name: 'admin.dashboard', absolute: false), navigate: true);
     }

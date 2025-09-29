@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Components\Posts;
 
+use App\Enums\UserAcivityType;
 use App\Livewire\Forms\PostForm;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Traits\Toastable;
+use App\Traits\UserActivitiable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -13,7 +15,7 @@ use Livewire\Component;
 
 class Form extends Component
 {
-    use Toastable;
+    use Toastable, UserActivitiable;
     public array $tags = [];
 
     public Post $post;
@@ -57,6 +59,12 @@ class Form extends Component
                 message: 'Post was created successfully'
             );
 
+            $this->activity(
+                model: $post,
+                type: UserAcivityType::CREATED,
+                content: "Post \'{$post->title}\' was created"
+            );
+
             return $this->redirectRoute(
                 name: 'user.center.index',
                 navigate: true
@@ -88,6 +96,12 @@ class Form extends Component
             $this->toastSuccess(
                 withSession: true,
                 message: 'Post was updated successfully'
+            );
+
+            $this->activity(
+                model: $post,
+                type: UserAcivityType::UPDATED,
+                content: "Post \'{$post->title}\' was update"
             );
 
             return $this->redirectRoute(

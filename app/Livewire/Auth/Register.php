@@ -3,10 +3,12 @@
 namespace App\Livewire\Auth;
 
 use App\Models\User;
+use App\Traits\UserActivitiable;
 use Livewire\Component;
 use App\Acl\Models\Role;
 use App\Acl\Enums\RoleType;
 use App\Acl\Enums\UserSource;
+use App\Enums\UserAcivityType;
 use Livewire\Attributes\Layout;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +18,8 @@ use Illuminate\Auth\Events\Registered;
 #[Layout('components.layouts.auth')]
 class Register extends Component
 {
+    use UserActivitiable;
+
     public string $name = '';
 
     public string $email = '';
@@ -43,6 +47,12 @@ class Register extends Component
         $role = Role::where(column: 'slug', operator: RoleType::SUBSCRIBER)->firstOrFail();
 
         $user->assignRole($role->id);
+
+        $this->activity(
+            model: $user,
+            type: UserAcivityType::CREATED,
+            content: "Post \'{$user->email}\' was registered"
+        );
 
         Auth::login($user);
 

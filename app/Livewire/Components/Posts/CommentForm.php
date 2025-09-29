@@ -4,9 +4,11 @@ namespace App\Livewire\Components\Posts;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Traits\UserActivitiable;
 use Livewire\Component;
 use App\Services\CommentService;
 use App\Dtos\Comments\CommentDto;
+use App\Enums\UserAcivityType;
 use App\Repositories\UserRepository;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Validate;
