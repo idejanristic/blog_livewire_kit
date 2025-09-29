@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Public\Settings;
 
+use App\Traits\Toastable;
 use Livewire\Component;
 use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
 
 class DeleteUserForm extends Component
 {
+    use Toastable;
     public string $password = '';
 
     /**
@@ -20,6 +22,11 @@ class DeleteUserForm extends Component
         ]);
 
         tap(Auth::user(), $logout(...))->delete();
+
+        $this->toastSuccess(
+            withSession: true,
+            message: 'Account was deleted'
+        );
 
         $this->redirect('/', navigate: true);
     }

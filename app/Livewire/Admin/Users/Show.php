@@ -6,6 +6,7 @@ use App\Acl\Models\Role;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
+use App\Traits\Toastable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Layout;
@@ -20,6 +21,8 @@ use Livewire\Component;
 )]
 class Show extends Component
 {
+    use Toastable;
+
     public User $user;
     public int $selectedRole;
     public Collection $roles;
@@ -38,6 +41,11 @@ class Show extends Component
         $userService = app(abstract: UserService::class);
 
         $userService->updateRole(user: $this->user, roleId: $roleId);
+
+        $this->toastSuccess(
+            withSession: false,
+            message: 'User role was changed'
+        );
     }
 
     public function render(): View

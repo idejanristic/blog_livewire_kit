@@ -1,5 +1,5 @@
 <form
-    wire:submit="{{ $post && $post->exists ? 'update' : 'store' }}"
+    wire:submit.prevent="{{ $post && $post->exists ? 'update' : 'store' }}"
     class="flex flex-col gap-6"
 >
     <flux:field>
@@ -53,6 +53,8 @@
             variant="danger"
             type="submit"
             class="w-full"
+            wire:loading.attr="disabled"
+            wire:target="store,update"
         >
             {{ $post && $post->exists ? 'Edit post' : 'Add post' }}
         </flux:button>

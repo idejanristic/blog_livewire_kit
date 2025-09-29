@@ -7,6 +7,7 @@ use App\Dtos\SortDto;
 use App\Dtos\Tags\TagFilterDto;
 use App\Repositories\TagRepository;
 use App\Services\TagService;
+use App\Traits\Toastable;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Computed;
@@ -15,7 +16,7 @@ use Livewire\WithPagination;
 
 class Table extends Component
 {
-    use WithPagination;
+    use WithPagination, Toastable;
 
     protected $queryString = [];
 
@@ -74,6 +75,11 @@ class Table extends Component
         $tag = TagRepository::find(id: $id);
 
         $tagService->delete(tag: $tag);
+
+        $this->toastSuccess(
+            withSession: false,
+            message: 'Tag was deleted'
+        );
     }
 
     public function render(): View

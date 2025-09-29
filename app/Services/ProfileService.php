@@ -36,7 +36,9 @@ class ProfileService
      */
     public function update(ProfileDto $dto, Profile $profile): bool
     {
-        $this->deleteImage(profile: $profile);
+        if ($dto->img_path) {
+            $this->deleteImage(profile: $profile);
+        }
 
         return $this->profileRepository
             ->update(dto: $dto, profile: $profile);
@@ -82,7 +84,7 @@ class ProfileService
      */
     private function deleteImage(Profile $profile): void
     {
-        if (Storage::disk('public')->exists($profile->img_path)) {
+        if ($profile->img_path && Storage::disk('public')->exists($profile->img_path)) {
             Storage::disk('public')->delete($profile->img_path);
         }
     }

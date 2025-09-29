@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Feedbacks;
 
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -14,8 +15,10 @@ use Livewire\Component;
 )]
 class Feedbacks extends Component
 {
-    public function render()
+    public function render(): View
     {
-        return view('livewire.admin.feedbacks.feedbacks');
+        return view(
+            view: 'livewire.admin.feedbacks.feedbacks'
+        );
     }
 }

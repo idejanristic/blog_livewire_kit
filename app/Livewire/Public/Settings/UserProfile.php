@@ -5,6 +5,7 @@ namespace App\Livewire\Public\Settings;
 use App\Livewire\Forms\ProfileForm;
 use App\Models\User;
 use App\Models\Profile;
+use App\Traits\Toastable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
@@ -20,7 +21,7 @@ use Livewire\Features\SupportFileUploads\WithFileUploads;
 )]
 class UserProfile extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, Toastable;
 
     public User $user;
     public ProfileForm $form;
@@ -43,44 +44,88 @@ class UserProfile extends Component
 
     public function store()
     {
-        $profile = $this->form->store(user_id: $this->user->id);
+        try {
+            $profile = $this->form->store(user_id: $this->user->id);
 
-        if (!$profile) {
+            if (!$profile) {
+                $this->toastError(
+                    withSession: true,
+                    message: 'Profile wasn\'t deleted'
+                );
+
+                return $this->redirectRoute(
+                    name: 'settings.profile',
+                    navigate: true
+                );
+            }
+
+            $this->toastSuccess(
+                withSession: true,
+                message: 'Profile was created'
+            );
+
             return $this->redirectRoute(
                 name: 'settings.profile',
                 navigate: true
             );
+        } catch (\Throwable $e) {
+            $this->toastError(
+                withSession: false,
+                message: 'Oops! Something went wrong',
+            );
+
+            $this->resetErrorBag();
         }
-
-
-        return $this->redirectRoute(
-            name: 'settings.profile',
-            navigate: true
-        );
     }
 
     public function update()
     {
-        $profile = $this->user->profile;
-
-        $this->form->update(profile: $profile);
-
-        return $this->redirectRoute(
-            name: 'settings.profile',
-            navigate: true
-        );
-    }
-
-    public function delete()
-    {
-        if ($this->user->profile) {
+        try {
             $profile = $this->user->profile;
 
-            $this->form->delete(profile: $profile);
+            $this->form->update(profile: $profile);
+
+            $this->toastSuccess(
+                withSession: true,
+                message: 'Profile was updated'
+            );
 
             return $this->redirectRoute(
                 name: 'settings.profile',
                 navigate: true
+            );
+        } catch (\Throwable $e) {
+            $this->toastError(
+                withSession: false,
+                message: 'Oops! Something went wrong',
+            );
+
+            $this->resetErrorBag();
+        }
+    }
+
+    public function delete()
+    {
+        try {
+            if ($this->user->profile) {
+                $profile = $this->user->profile;
+
+                $this->form->delete(profile: $profile);
+
+                $this->toastSuccess(
+                    withSession: true,
+                    message: 'Profile waw deleted'
+                );
+
+                return $this->redirectRoute(
+                    name: 'settings.profile',
+                    navigate: true
+                );
+            }
+        } catch (\Throwable $e) {
+            $this->toastError(
+                withSession: false,
+                message: 'Oops! Something went wrong',
             );
         }
     }

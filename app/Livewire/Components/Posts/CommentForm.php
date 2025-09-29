@@ -8,6 +8,7 @@ use Livewire\Component;
 use App\Services\CommentService;
 use App\Dtos\Comments\CommentDto;
 use App\Repositories\UserRepository;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Validate;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,16 +40,23 @@ class CommentForm extends Component
         );
 
         if (!$comment) {
+            $this->toastError(
+                withSession: false,
+                message: 'Oops! Something went wrong',
+            );
+
             return;
         }
 
         $this->dispatch(event: 'comment_created');
 
-        $this->reset('body');
+        $this->reset(properties: 'body');
     }
 
-    public function render()
+    public function render(): View
     {
-        return view('livewire.components.posts.comment-form');
+        return view(
+            view: 'livewire.components.posts.comment-form'
+        );
     }
 }

@@ -4,12 +4,15 @@ namespace App\Livewire\Components\Posts;
 
 use App\Models\Post;
 use App\Repositories\PostRepository;
+use App\Traits\Toastable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Actions extends Component
 {
+    use Toastable;
+
     public Post $post;
     public array $actions = [
         ['name' => 'preview', 'route' => 'posts.show', 'title' => 'Preview', 'ability' => null, 'icon' => 'book-open'],
@@ -42,6 +45,11 @@ class Actions extends Component
         $postRepository->delete(post: $this->post);
 
         $previous = url()->previous();
+
+        $this->toastSuccess(
+            withSession: true,
+            message: 'Post was deleted successfully'
+        );
 
         if (str_contains(haystack: $previous, needle: "/posts/{$this->post->id}")) {
             return $this->redirectRoute(name: 'posts.index', navigate: true);

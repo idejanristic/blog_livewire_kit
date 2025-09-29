@@ -11,12 +11,13 @@ use App\Enums\TrashedType;
 use Illuminate\Contracts\View\View;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
+use App\Traits\Toastable;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Livewire\Attributes\Computed;
 
 class Table extends Component
 {
-    use WithPagination;
+    use WithPagination, Toastable;
 
     protected $queryString = [];
 
@@ -86,6 +87,11 @@ class Table extends Component
         $userService = app(abstract: UserService::class);
 
         $userService->delete(user: $user);
+
+        $this->toastSuccess(
+            withSession: false,
+            message: 'User was deleted'
+        );
     }
 
     public function render(): View

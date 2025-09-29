@@ -7,6 +7,7 @@ use App\Dtos\PageDto;
 use App\Dtos\SortDto;
 use App\Repositories\CommentRepository;
 use App\Services\CommentService;
+use App\Traits\Toastable;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Computed;
@@ -15,7 +16,7 @@ use Livewire\WithPagination;
 
 class Table extends Component
 {
-    use WithPagination;
+    use WithPagination, Toastable;
 
     protected $queryString = [];
 
@@ -74,6 +75,11 @@ class Table extends Component
         $comment = CommentRepository::find(id: $id);
 
         $commentService->delete(comment: $comment);
+
+        $this->toastSuccess(
+            withSession: false,
+            message: 'Comment was deleted'
+        );
     }
 
 

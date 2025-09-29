@@ -4,11 +4,14 @@ namespace App\Livewire\Components\Feedbacks;
 
 use App\Models\Feedback;
 use App\Repositories\FeedbackRepository;
+use App\Traits\Toastable;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class Actions extends Component
 {
+    use Toastable;
+
     public Feedback $feedback;
     public array $actions = [
         ['name' => 'preview', 'route' => 'admin.feedbacks.show', 'title' => 'Preview', 'icon' => 'book-open'],
@@ -22,6 +25,11 @@ class Actions extends Component
         $feedbackRepository->delete(feedback: $this->feedback);
 
         $previous = url()->previous();
+
+        $this->toastSuccess(
+            withSession: true,
+            message: 'Feedback was deleted'
+        );
 
         if (str_contains(haystack: $previous, needle: "admin/feedbacks/{$this->feedback->id}")) {
             return $this->redirectRoute(name: 'admin.feedbacks.index', navigate: true);

@@ -3,6 +3,7 @@
 namespace App\Livewire\Public;
 
 use App\Models\User;
+use App\Traits\Toastable;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use App\Livewire\Forms\ContactForm;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Auth;
 )]
 class Contact extends Component
 {
+    use Toastable;
+
     public ?User $user;
     public ContactForm $form;
 
@@ -32,11 +35,25 @@ class Contact extends Component
 
     public function send()
     {
-        $user_id = Auth::user()->id ?? null;
+        try {
+            $user_id = Auth::user()->id ?? null;
 
-        $this->form->store(user_id: $user_id);
+            $this->form->store(user_id: $user_id);
 
-        $this->reset();
+            $this->reset();
+
+            $this->toastSuccess(
+                withSession: false,
+                message: 'Message sent successfully'
+            );
+        } catch (\Throwable $e) {
+            $this->toastError(
+                withSession: false,
+                message: 'Oops! Something went wrong',
+            );
+
+            $this->resetErrorBag();
+        }
     }
 
     public function render(): View

@@ -6,10 +6,12 @@ use App\Acl\Enums\RoleType;
 use App\Acl\Models\Role;
 use App\Repositories\UserRepository;
 use App\Services\UserService;
+use App\Traits\Toastable;
 use Illuminate\Http\RedirectResponse;
 
 class AddAuthorRole
 {
+    use Toastable;
 
     public function __construct(
         private UserService $userService
@@ -22,6 +24,11 @@ class AddAuthorRole
         $authorRole = Role::where(column: 'slug', operator: RoleType::AUTHOR)->firstOrFail();
 
         $this->userService->updateRole(user: $user, roleId: $authorRole->id);
+
+        $this->toastSuccess(
+            withSession: true,
+            message: 'User was changed role to author'
+        );
 
         return redirect()->back();
     }

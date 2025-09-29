@@ -4,12 +4,15 @@ namespace App\Livewire\Components\Users;
 
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Traits\Toastable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Actions extends Component
 {
+    use Toastable;
+
     public User $user;
 
     public function isAllowed(array $action): bool
@@ -34,6 +37,11 @@ class Actions extends Component
         $userRepository->delete(user: $this->user);
 
         $previous = url()->previous();
+
+        $this->toastSuccess(
+            withSession: true,
+            message: 'User was deleted'
+        );
 
         if (str_contains(haystack: $previous, needle: "admin/users/{$this->user->id}")) {
             return $this->redirectRoute(name: 'admin.users.index', navigate: true);

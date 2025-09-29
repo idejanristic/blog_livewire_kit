@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Settings;
 
+use App\Traits\Toastable;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,6 +19,8 @@ use Livewire\Attributes\Layout;
 )]
 class Password extends Component
 {
+    use Toastable;
+
     public string $current_password = '';
 
     public string $password = '';
@@ -27,7 +30,7 @@ class Password extends Component
     /**
      * Update the password for the currently authenticated user.
      */
-    public function updatePassword(): void
+    public function updatePassword()
     {
         try {
             $validated = $this->validate([
@@ -47,5 +50,15 @@ class Password extends Component
         $this->reset('current_password', 'password', 'password_confirmation');
 
         $this->dispatch('password-updated');
+
+        $this->toastSuccess(
+            withSession: true,
+            message: 'Password was chenaged'
+        );
+
+        return $this->redirectRoute(
+            name: 'admin.settings.password',
+            navigate: true
+        );
     }
 }

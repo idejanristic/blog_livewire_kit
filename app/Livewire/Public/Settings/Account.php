@@ -3,6 +3,7 @@
 namespace App\Livewire\Public\Settings;
 
 use App\Models\User;
+use App\Traits\Toastable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -18,6 +19,8 @@ use Livewire\Component;
 )]
 class Account extends Component
 {
+    use Toastable;
+
     public string $name = '';
 
     public string $email = '';
@@ -34,7 +37,7 @@ class Account extends Component
     /**
      * Update the account information for the currently authenticated user.
      */
-    public function updateAccountInformation(): void
+    public function updateAccountInformation()
     {
         $user = Auth::user();
 
@@ -60,6 +63,16 @@ class Account extends Component
         $user->save();
 
         $this->dispatch('profile-updated', name: $user->name);
+
+        $this->toastSuccess(
+            withSession: true,
+            message: 'Account was updated'
+        );
+
+        return $this->redirectRoute(
+            name: 'settings.account',
+            navigate: true
+        );
     }
 
     /**
