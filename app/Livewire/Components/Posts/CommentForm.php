@@ -52,7 +52,7 @@ class CommentForm extends Component
 
         $this->dispatch(event: 'comment_created');
 
-        $this->reset(properties: 'body');
+        $this->reset('body');
     }
 
     public function render(): View
