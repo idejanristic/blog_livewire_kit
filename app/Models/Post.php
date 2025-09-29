@@ -61,7 +61,7 @@ class Post extends Model
     {
         $query->where(
             column: 'published_at',
-            operator: '>=',
+            operator: '<=',
             value: Carbon::now()->format('Y-m-d')
         );
     }

@@ -23,7 +23,7 @@ class PublishedFilter
                     case PublishedType::PUBLISHED->value:
                         $query->where(
                             column: 'published_at',
-                            operator: '>=',
+                            operator: '<=',
                             value: Carbon::now()->format('Y-m-d')
                         );
                         break;
@@ -31,7 +31,7 @@ class PublishedFilter
                         $query->where(column: function (Builder $q): void {
                             $q->where(
                                 column: 'published_at',
-                                operator: '<',
+                                operator: '>',
                                 value: Carbon::now()->format('Y-m-d')
                             )
                                 ->orWhereNull(column: 'published_at');

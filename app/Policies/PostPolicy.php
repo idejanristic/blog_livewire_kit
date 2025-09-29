@@ -38,23 +38,21 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-
-        if (!$user->own(releted: $post)) {
-            return false;
-        }
-
         if (
             $post->published_at !== null
-            && Carbon::today()->lessThanOrEqualTo(date: $post->published_at)
+            && Carbon::today()->greaterThanOrEqualTo(date: $post->published_at)
         ) {
             return false;
         }
 
-        if (!$user->hasPermission(permission: 'update.post')) {
-            return false;
+        if (
+            $user->own(releted: $post)
+            && $user->hasPermission(permission: 'update.post')
+        ) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
 
@@ -62,7 +60,7 @@ class PostPolicy
     {
         if (
             $post->published_at !== null
-            && Carbon::today()->lessThanOrEqualTo(date: $post->published_at)
+            && Carbon::today()->greaterThanOrEqualTo(date: $post->published_at)
         ) {
             return false;
         }
