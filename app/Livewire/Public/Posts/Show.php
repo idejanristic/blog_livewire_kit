@@ -25,7 +25,11 @@ class Show extends Component
 
     public function mount(int $id): void
     {
-        $this->post = PostRepository::find(id: $id);
+        if (request()->routeIs('posts.trash')) {
+            $this->post = PostRepository::findWithTrash(id: $id);
+        } else {
+            $this->post = PostRepository::find(id: $id);
+        }
     }
 
     public function render(): View

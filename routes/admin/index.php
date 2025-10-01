@@ -19,6 +19,7 @@ Route::prefix('admin')
     });
 
 require __DIR__ . '/comments.php';
+require __DIR__ . '/posts.php';
 require __DIR__ . '/settings.php';
 require __DIR__ . '/feedbacks.php';
 require __DIR__ . '/tags.php';

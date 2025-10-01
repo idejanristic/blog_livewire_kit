@@ -53,6 +53,24 @@ class PostService
 
     /**
      * @param \App\Models\Post $post
+     * @return bool|null
+     */
+    public function delete(Post $post): bool|null
+    {
+        return $post->delete();
+    }
+
+    /**
+     * @param \App\Models\Post $post
+     * @return bool|null
+     */
+    public function restore(Post $post): bool|null
+    {
+        return $post->restore();
+    }
+
+    /**
+     * @param \App\Models\Post $post
      * @return bool
      */
     public function publishe(Post $post): bool

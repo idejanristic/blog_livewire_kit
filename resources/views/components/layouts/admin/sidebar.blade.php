@@ -41,6 +41,33 @@
                     {{ __('Dashboard') }}
                 </flux:navlist.item>
 
+                @canany(abilities: ['post.trash', 'post.restore'])
+                    <flux:navlist.group
+                        expandable
+                        heading="Posts"
+                        class="grid"
+                    >
+                        <flux:navlist.item
+                            icon="clipboard-document-list"
+                            :href="route('admin.posts.index')"
+                            :current="request()->routeIs('admin.posts.index')"
+                            wire:navigate
+                        >
+                            Posts
+                        </flux:navlist.item>
+                        @can(abilities: 'post.restore')
+                            <flux:navlist.item
+                                icon="trash"
+                                :href="route('admin.posts.trashed')"
+                                :current="request()->routeIs('admin.posts.trashed*')"
+                                wire:navigate
+                            >
+                                Trashed
+                            </flux:navlist.item>
+                        @endcan
+                    </flux:navlist.group>
+                @endcan
+
                 @can(abilities: 'user.menage')
                     <flux:navlist.group
                         expandable

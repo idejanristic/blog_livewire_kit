@@ -2,17 +2,19 @@
 
 namespace App\Repositories;
 
+use App\Models\Post;
 use App\Dtos\PageDto;
+use App\Dtos\SortDto;
 use App\Dtos\Posts\PostDto;
 use App\Dtos\Posts\PostFilterDto;
-use App\Dtos\SortDto;
-use App\Models\Post;
-use App\Repositories\Filters\Posts\PublishedFilter;
-use App\Repositories\Filters\Posts\SearchFilter;
-use App\Repositories\Filters\Posts\TagFilter;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\Filters\UserFilter;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
+use App\Repositories\Filters\Posts\TagFilter;
+use Illuminate\Contracts\Pagination\Paginator;
+use App\Repositories\Filters\Posts\SearchFilter;
+use App\Repositories\Filters\Posts\PublishedFilter;
+use App\Repositories\Filters\Users\TrashedTypeFilter;
 
 class PostRepository
 {
@@ -83,6 +85,18 @@ class PostRepository
     }
 
     /**
+     * @param int $id
+     * @return \Illuminate\Database\Eloquent\Builder<Post>|null
+     */
+    public static function findWithTrash(int $id): Post|null
+    {
+        return self::getPostRelationQuery()
+            ->withTrashed()
+            ->where(column: 'id', operator: $id)
+            ->first();
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Builder<Post>
      */
     private static function getPostRelationQuery()
@@ -122,6 +136,7 @@ class PostRepository
             ->tap(callback: new SearchFilter(search: $filters->search))
             ->tap(callback: new UserFilter(userId: $filters->userId))
             ->tap(callback: new TagFilter(tagId: $filters->tagId))
+            ->tap(callback: new TrashedTypeFilter(trashedType: $filters->trashedType))
             ->orderBy(column: $sortDto->sortBy, direction: $sortDto->sortDir)
             ->orderBy(column: 'id', direction: $sortDto->sortDir);
     }
@@ -202,5 +217,23 @@ class PostRepository
             ->orderBy(column: 'view_count', direction: 'desc')
             ->take(value: $perPage)
             ->get();
+    }
+
+    /**
+     * @return int
+     */
+    public static function totalPosts(): int
+    {
+        return DB::table(table: 'posts')
+            ->count();
+    }
+
+    /**
+     * @return int
+     */
+    public static function totalUnpublishedPosts(): int
+    {
+        return Post::published()
+            ->count();
     }
 }

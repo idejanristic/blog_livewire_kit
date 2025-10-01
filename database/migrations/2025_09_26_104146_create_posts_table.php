@@ -32,6 +32,8 @@ return new class extends Migration
                 $table->string(column: 'source');
                 $table->timestamps();
 
+                $table->softDeletes();
+
                 $table->index(columns: 'user_id');
                 $table->index(columns: 'published_at');
                 $table->fullText(columns: ['title', 'body']);
