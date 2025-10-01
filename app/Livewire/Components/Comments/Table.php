@@ -19,7 +19,7 @@ class Table extends Component
 {
     use WithPagination, Toastable;
 
-    public User $user;
+    public ?User $user = null;
 
     protected $queryString = [];
 
@@ -85,7 +85,6 @@ class Table extends Component
             message: 'Comment was deleted'
         );
     }
-
 
     public function render(): View
     {
