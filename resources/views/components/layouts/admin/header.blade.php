@@ -37,61 +37,66 @@
                 {{ __('Dashboard') }}
             </flux:navbar.item>
 
-            <flux:navlist.group
-                expandable
-                heading="Users"
-                class="grid"
-            >
-                <flux:navlist.item
-                    icon="users"
-                    :href="route('admin.users.index')"
-                    :current="request()->routeIs('admin.users.*')"
-                    wire:navigate
+            @can(abilities: 'user.menage')
+                <flux:navlist.group
+                    expandable
+                    heading="Users"
+                    class="grid"
                 >
-                    Users
-                </flux:navlist.item>
-
-                <flux:navlist.item
-                    icon="user-circle"
-                    :href="route('admin.users.roles')"
-                    :current="request()->routeIs('admin.users.roles*')"
-                    wire:navigate
-                >
-                    Roles
-                </flux:navlist.item>
-
-                @if ($totalAuthroRequest > 0)
                     <flux:navlist.item
-                        icon="arrow-path-rounded-square"
-                        :href="route('admin.author.request')"
-                        badge="{{ $totalAuthroRequest }}"
-                        badge:color="orange"
-                        :current="request()->routeIs('admin.author.request')"
+                        icon="users"
+                        :href="route('admin.users.index')"
+                        :current="request()->routeIs('admin.users.*')"
                         wire:navigate
                     >
-                        Author request
+                        Users
                     </flux:navlist.item>
-                @else
+
                     <flux:navlist.item
-                        icon="arrow-path-rounded-square"
-                        :href="route('admin.author.request')"
-                        :current="request()->routeIs('admin.author.request')"
+                        icon="user-circle"
+                        :href="route('admin.users.roles')"
+                        :current="request()->routeIs('admin.users.roles*')"
                         wire:navigate
                     >
-                        Author request
+                        Roles
                     </flux:navlist.item>
-                @endif
 
-            </flux:navlist.group>
+                    @can(abilities: 'post.publish')
+                        @if ($totalAuthroRequest > 0)
+                            <flux:navlist.item
+                                icon="arrow-path-rounded-square"
+                                :href="route('admin.author.request')"
+                                badge="{{ $totalAuthroRequest }}"
+                                badge:color="orange"
+                                :current="request()->routeIs('admin.author.request')"
+                                wire:navigate
+                            >
+                                Author request
+                            </flux:navlist.item>
+                        @else
+                            <flux:navlist.item
+                                icon="arrow-path-rounded-square"
+                                :href="route('admin.author.request')"
+                                :current="request()->routeIs('admin.author.request')"
+                                wire:navigate
+                            >
+                                Author request
+                            </flux:navlist.item>
+                        @endif
+                    @endcan
+                </flux:navlist.group>
+            @endcan
 
-            <flux:navbar.item
-                icon="tag"
-                :href="route('admin.tags.index')"
-                :current="request()->routeIs('admin.tags.*')"
-                wire:navigate
-            >
-                Tags
-            </flux:navbar.item>
+            @canany(abilities: ['create.tag', 'update.tag', 'view.tag'])
+                <flux:navbar.item
+                    icon="tag"
+                    :href="route('admin.tags.index')"
+                    :current="request()->routeIs('admin.tags.*')"
+                    wire:navigate
+                >
+                    Tags
+                </flux:navbar.item>
+            @endcanany
 
             <flux:navlist.item
                 icon="chat-bubble-left-right"
@@ -247,61 +252,66 @@
                     {{ __('Dashboard') }}
                 </flux:navlist.item>
 
-                <flux:navlist.group
-                    expandable
-                    heading="Users"
-                    class="grid"
-                >
-                    <flux:navlist.item
-                        icon="users"
-                        :href="route('admin.users.index')"
-                        :current="request()->routeIs('admin.users.*')"
-                        wire:navigate
+                @can(abilities: 'user.menage')
+                    <flux:navlist.group
+                        expandable
+                        heading="Users"
+                        class="grid"
                     >
-                        Users
-                    </flux:navlist.item>
-
-                    <flux:navlist.item
-                        icon="user-circle"
-                        :href="route('admin.users.roles')"
-                        :current="request()->routeIs('admin.users.roles*')"
-                        wire:navigate
-                    >
-                        Roles
-                    </flux:navlist.item>
-
-                    @if ($totalAuthroRequest > 0)
                         <flux:navlist.item
-                            icon="arrow-path-rounded-square"
-                            :href="route('admin.author.request')"
-                            badge="{{ $totalAuthroRequest }}"
-                            badge:color="orange"
-                            :current="request()->routeIs('admin.author.request')"
+                            icon="users"
+                            :href="route('admin.users.index')"
+                            :current="request()->routeIs('admin.users.*')"
                             wire:navigate
                         >
-                            Author request
+                            Users
                         </flux:navlist.item>
-                    @else
+
                         <flux:navlist.item
-                            icon="arrow-path-rounded-square"
-                            :href="route('admin.author.request')"
-                            :current="request()->routeIs('admin.author.request')"
+                            icon="user-circle"
+                            :href="route('admin.users.roles')"
+                            :current="request()->routeIs('admin.users.roles*')"
                             wire:navigate
                         >
-                            Author request
+                            Roles
                         </flux:navlist.item>
-                    @endif
 
-                </flux:navlist.group>
+                        @can(abilities: 'post.publish')
+                            @if ($totalAuthroRequest > 0)
+                                <flux:navlist.item
+                                    icon="arrow-path-rounded-square"
+                                    :href="route('admin.author.request')"
+                                    badge="{{ $totalAuthroRequest }}"
+                                    badge:color="orange"
+                                    :current="request()->routeIs('admin.author.request')"
+                                    wire:navigate
+                                >
+                                    Author request
+                                </flux:navlist.item>
+                            @else
+                                <flux:navlist.item
+                                    icon="arrow-path-rounded-square"
+                                    :href="route('admin.author.request')"
+                                    :current="request()->routeIs('admin.author.request')"
+                                    wire:navigate
+                                >
+                                    Author request
+                                </flux:navlist.item>
+                            @endif
+                        @endcan
+                    </flux:navlist.group>
+                @endcan
 
-                <flux:navlist.item
-                    icon="tag"
-                    :href="route('admin.tags.index')"
-                    :current="request()->routeIs('admin.tags.^')"
-                    wire:navigate
-                >
-                    Tags
-                </flux:navlist.item>
+                @canany(abilities: ['create.tag', 'update.tag', 'view.tag'])
+                    <flux:navlist.item
+                        icon="tag"
+                        :href="route('admin.tags.index')"
+                        :current="request()->routeIs('admin.tags.^')"
+                        wire:navigate
+                    >
+                        Tags
+                    </flux:navlist.item>
+                @endcanany
 
                 <flux:navlist.item
                     icon="chat-bubble-left-right"

@@ -36,7 +36,7 @@
             wire:model.live="form.permissions"
             label="Permissions"
         >
-            <div class="grid grid-cols-4 gap-4">
+            <div class="grid grid-cols-3 gap-4">
                 @foreach ($permissions as $permission)
                     <flux:checkbox
                         value="{{ $permission['id'] }}"

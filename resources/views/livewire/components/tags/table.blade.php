@@ -30,65 +30,69 @@
     @if ($tags->count() == 0)
         There are no tags.
     @else
-        <table class="mb-4 w-full text-left text-sm">
-            <thead class="bg-zinc-900/5 text-xs uppercase dark:bg-white/5">
-                <tr>
-                    @include('partials.table.table-sortable-th', [
-                        'name' => 'id',
-                        'displayName' => 'ID',
-                    ])
+        @canany(['view.tag', 'delete.tag'])
+            <table class="mb-4 w-full text-left text-sm">
+                <thead class="bg-zinc-900/5 text-xs uppercase dark:bg-white/5">
+                    <tr>
+                        @include('partials.table.table-sortable-th', [
+                            'name' => 'id',
+                            'displayName' => 'ID',
+                        ])
 
-                    @include('partials.table.table-sortable-th', [
-                        'name' => 'name',
-                        'displayName' => 'name',
-                    ])
+                        @include('partials.table.table-sortable-th', [
+                            'name' => 'name',
+                            'displayName' => 'name',
+                        ])
 
-                    @include('partials.table.table-sortable-th', [
-                        'name' => 'created_at',
-                        'displayName' => 'Created at',
-                    ])
+                        @include('partials.table.table-sortable-th', [
+                            'name' => 'created_at',
+                            'displayName' => 'Created at',
+                        ])
 
-                    <th
-                        scope="col"
-                        class="w-[50px] px-4 py-3"
-                    ></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($tags as $tag)
-                    <tr
-                        wire:key="{{ $tag->id }}"
-                        class="border-b dark:border-zinc-700"
-                    >
-                        <td class="px-4 py-3">{{ $tag->id }}</td>
-                        <td class="px-4 py-3">
-                            @if ($tag->posts_count > 0)
-                                <flux:text color="blue">
-                                    <flux:link
-                                        href="{{ route('posts.index', ['tag' => $tag->id]) }}"
-                                        target="_blank"
-                                    >
-                                        {{ $tag->name }} ({{ $tag->posts_count }})
-                                    </flux:link>
-                                </flux:text>
-                            @else
-                                {{ $tag->name }}
-                            @endif
-                        </td>
-                        <td class="px-4 py-3">{{ $tag->created_at->date() }}</td>
-                        <td class="px-4 py-3">
-                            <flux:button
-                                variant="danger"
-                                size='xs'
-                                wire:click="delete({{ $tag->id }})"
-                                wire:loading.attr="disabled"
-                                wire:target="store,update"
-                            >Delete</flux:button>
-                        </td>
+                        <th
+                            scope="col"
+                            class="w-[50px] px-4 py-3"
+                        ></th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($tags as $tag)
+                        <tr
+                            wire:key="{{ $tag->id }}"
+                            class="border-b dark:border-zinc-700"
+                        >
+                            <td class="px-4 py-3">{{ $tag->id }}</td>
+                            <td class="px-4 py-3">
+                                @if ($tag->posts_count > 0)
+                                    <flux:text color="blue">
+                                        <flux:link
+                                            href="{{ route('posts.index', ['tag' => $tag->id]) }}"
+                                            target="_blank"
+                                        >
+                                            {{ $tag->name }} ({{ $tag->posts_count }})
+                                        </flux:link>
+                                    </flux:text>
+                                @else
+                                    {{ $tag->name }}
+                                @endif
+                            </td>
+                            <td class="px-4 py-3">{{ $tag->created_at->date() }}</td>
+                            <td class="px-4 py-3">
+                                @can(abilities: 'delete.tag')
+                                    <flux:button
+                                        variant="danger"
+                                        size='xs'
+                                        wire:click="delete({{ $tag->id }})"
+                                        wire:loading.attr="disabled"
+                                        wire:target="store,update"
+                                    >Delete</flux:button>
+                                @endcan
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endcanany
 
         {{ $tags->links('livewire::tailwind', [
             'scrollTo' => false,

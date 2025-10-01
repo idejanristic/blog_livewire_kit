@@ -15,7 +15,7 @@ use App\Livewire\Admin\Users\Permissions\Show as PermissionsShow;
 
 Route::prefix('admin/users')
     ->name('admin.users.')
-    ->middleware(['auth', 'acl:admin.access'])
+    ->middleware(['auth', 'acl:admin.access', 'acl:user.menage'])
     ->group(
         callback: function (): void {
             Route::get(uri: '/', action: Index::class)->name(name: 'index');

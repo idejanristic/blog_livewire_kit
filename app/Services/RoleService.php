@@ -36,8 +36,15 @@ class RoleService
      */
     public function update(RoleDto $dto, Role $role): bool
     {
-        return $this->roleRepository
+        $status = $this->roleRepository
             ->update(dto: $dto, role: $role);
+
+        if ($role && count(value: $dto->permissions) > 0) {
+            $this->roleRepository
+                ->permissionSync(dto: $dto, role: $role);
+        }
+
+        return $status;
     }
 
     /**

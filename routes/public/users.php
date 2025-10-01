@@ -12,7 +12,6 @@ Route::middleware(['auth'])
     ->group(
         callback: function (): void {
             Route::get(uri: '/user/centar', action: Posts::class)
-                ->middleware(middleware: 'acl:view.post')
                 ->name(name: 'user.center.index');
 
             Route::get(uri: '/user/centar/comments', action: Comments::class)

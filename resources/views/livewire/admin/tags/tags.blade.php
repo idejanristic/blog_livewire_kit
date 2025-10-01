@@ -3,9 +3,9 @@
 
     <div class="mt-4 gap-6">
         <div class="min-h-150 mb-4 w-full">
-            @can(abilities: 'view.tag')
+            @canany(abilities: ['view.tag', 'delete.tag', 'create.tag'])
                 <livewire:components.tags.table />
-            @endcan
+            @endcanany
         </div>
 
         <div class="w-full lg:w-1/3">
