@@ -37,17 +37,56 @@
                     :href="route('admin.dashboard')"
                     :current="request()->routeIs('admin.dashboard')"
                     wire:navigate
-                >{{ __('Dashboard') }}
+                >
+                    {{ __('Dashboard') }}
                 </flux:navlist.item>
 
-                <flux:navlist.item
-                    icon="users"
-                    :href="route('admin.users.index')"
-                    :current="request()->routeIs('admin.users.*')"
-                    wire:navigate
+                <flux:navlist.group
+                    expandable
+                    heading="Users"
+                    class="grid"
                 >
-                    Users
-                </flux:navlist.item>
+                    <flux:navlist.item
+                        icon="users"
+                        :href="route('admin.users.index')"
+                        :current="request()->routeIs('admin.users.index')"
+                        wire:navigate
+                    >
+                        Users
+                    </flux:navlist.item>
+
+                    <flux:navlist.item
+                        icon="user-circle"
+                        :href="route('admin.users.roles')"
+                        :current="request()->routeIs('admin.users.roles*')"
+                        wire:navigate
+                    >
+                        Roles
+                    </flux:navlist.item>
+
+                    @if ($totalAuthroRequest > 0)
+                        <flux:navlist.item
+                            icon="arrow-path-rounded-square"
+                            :href="route('admin.author.request')"
+                            badge="{{ $totalAuthroRequest }}"
+                            badge:color="orange"
+                            :current="request()->routeIs('admin.author.request')"
+                            wire:navigate
+                        >
+                            Author request
+                        </flux:navlist.item>
+                    @else
+                        <flux:navlist.item
+                            icon="arrow-path-rounded-square"
+                            :href="route('admin.author.request')"
+                            :current="request()->routeIs('admin.author.request')"
+                            wire:navigate
+                        >
+                            Author request
+                        </flux:navlist.item>
+                    @endif
+
+                </flux:navlist.group>
 
                 <flux:navlist.item
                     icon="tag"
@@ -76,27 +115,7 @@
                     Feeebaks
                 </flux:navlist.item>
 
-                @if ($totalAuthroRequest > 0)
-                    <flux:navlist.item
-                        icon="bookmark"
-                        :href="route('admin.author.request')"
-                        badge="{{ $totalAuthroRequest }}"
-                        badge:color="orange"
-                        :current="request()->routeIs('admin.author.request')"
-                        wire:navigate
-                    >
-                        Author request
-                    </flux:navlist.item>
-                @else
-                    <flux:navlist.item
-                        icon="bookmark"
-                        :href="route('admin.author.request')"
-                        :current="request()->routeIs('admin.author.request')"
-                        wire:navigate
-                    >
-                        Author request
-                    </flux:navlist.item>
-                @endif
+
             </flux:navlist.group>
         </flux:navlist>
 

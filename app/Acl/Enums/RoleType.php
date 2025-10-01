@@ -25,4 +25,14 @@ enum RoleType: string
             self::ADMIN => 'Admin is a user who administers the appp'
         };
     }
+
+    public static function has(string $value): bool
+    {
+        return self::tryFrom($value) !== null;
+    }
+
+    public static function notHas(string $value): bool
+    {
+        return ! self::has($value);
+    }
 }
